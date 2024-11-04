@@ -35,12 +35,12 @@ namespace baitaplon
                         // Mở form dựa trên quyền
                         if (role.Trim() == "admin")
                         {
-                            Form1 adminForm = new Form1(this); // Truyền tham chiếu đến LoginForm
+                            Form1 adminForm = new Form1(this);
                             adminForm.Show();
                         }
                         else
                         {
-                            Form2 userForm = new Form2(this); // Truyền tham chiếu đến LoginForm
+                            Form2 userForm = new Form2(this);
                             userForm.Show();
                         }
                         this.Hide(); // Ẩn LoginForm
@@ -56,7 +56,14 @@ namespace baitaplon
         private void label3_Click(object sender, EventArgs e)
         {
             ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm();
-            forgotPasswordForm.ShowDialog(); // Hoặc Show() nếu không cần hiển thị như modal
+            forgotPasswordForm.ShowDialog();
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            RegisterForm registerForm = new RegisterForm(this); // Chuyển tham chiếu đến LoginForm
+            registerForm.Show();
         }
     }
 }
