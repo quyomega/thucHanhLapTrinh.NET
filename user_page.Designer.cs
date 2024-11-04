@@ -1,6 +1,6 @@
 ﻿namespace baitaplon
 {
-    partial class Form2
+    partial class user_page
     {
         /// <summary>
         /// Required designer variable.

@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace baitaplon
 {
-    public partial class Form2 : Form
+    public partial class user_page : Form
     {
         private LoginForm loginForm; // Tham chiếu đến LoginForm
 
-        public Form2(LoginForm form)
+        public user_page(LoginForm form)
         {
             InitializeComponent();
             this.loginForm = form; // Gán tham chiếu

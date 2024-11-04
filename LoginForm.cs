@@ -45,17 +45,17 @@ namespace baitaplon
                     if (reader.Read())
                     {
                         string role = reader["role"].ToString();
-                        MessageBox.Show("Đăng nhập thành công! Quyền của bạn là: " + role);
+                        //MessageBox.Show("Đăng nhập thành công! Quyền của bạn là: " + role);
 
                         // Mở form dựa trên quyền
                         if (role.Trim() == "admin")
                         {
-                            Form1 adminForm = new Form1(this);
+                            admin_page adminForm = new admin_page(this);
                             adminForm.Show();
                         }
                         else
                         {
-                            Form2 userForm = new Form2(this);
+                            user_page userForm = new user_page(this);
                             userForm.Show();
                         }
                         this.Hide(); // Ẩn LoginForm
