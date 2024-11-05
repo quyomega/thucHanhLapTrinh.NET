@@ -58,6 +58,12 @@
     <Compile Include="admin_page.Designer.cs">
       <DependentUpon>admin_page.cs</DependentUpon>
     </Compile>
+    <Compile Include="PhieuXuatKhoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PhieuXuatKhoForm.Designer.cs">
+      <DependentUpon>PhieuXuatKhoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="user_page.cs">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -86,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="admin_page.resx">
       <DependentUpon>admin_page.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhieuXuatKhoForm.resx">
+      <DependentUpon>PhieuXuatKhoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="user_page.resx">
       <DependentUpon>user_page.cs</DependentUpon>

@@ -16,7 +16,7 @@ namespace baitaplon
     {
         private ketnoi kn = new ketnoi();
         private LoginForm loginForm; // Tham chiếu đến LoginForm
-
+        private string selectedBookId;
         public admin_page(LoginForm form)
         {
             InitializeComponent();
@@ -32,6 +32,7 @@ namespace baitaplon
             cmbLocation.SelectedIndexChanged += SearchCriteriaChanged;
             // Sự kiện Tick cho Timer tìm kiếm
             searchTimer.Tick += searchTimer_Tick;
+            dataGridViewBooks.SelectionChanged += dataGridViewBooks_SelectionChanged;
         }
 
         // Khi có thay đổi trong TextBox tìm kiếm
@@ -146,6 +147,28 @@ namespace baitaplon
         {
             searchTimer.Stop();
             searchTimer.Start();
+        }
+
+        private void btnPhieuXuatKho_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedBookId))
+            {
+                MessageBox.Show("Vui lòng chọn một sách từ danh sách.");
+                return;
+            }
+
+            // Truyền mã sách vào form phiếu xuất kho
+            PhieuXuatKhoForm phieuXuatKhoForm = new PhieuXuatKhoForm(selectedBookId);
+            phieuXuatKhoForm.ShowDialog();
+        }
+
+        private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewBooks.SelectedRows.Count > 0)
+            {
+                // Lấy mã sách từ cột "book_id" của dòng được chọn
+                selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
+            }
         }
     }
 

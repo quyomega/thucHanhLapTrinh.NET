@@ -31,7 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.btnPhieuXuatKho = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cmbLocation = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtPrice = new System.Windows.Forms.TextBox();
             this.txtPublisher = new System.Windows.Forms.TextBox();
             this.txtCategory = new System.Windows.Forms.TextBox();
@@ -47,8 +50,6 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchTimer = new System.Windows.Forms.Timer(this.components);
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmbLocation = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -72,6 +73,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.btnPhieuXuatKho);
             this.tabPage5.Controls.Add(this.panel1);
             this.tabPage5.Controls.Add(this.dataGridViewBooks);
             this.tabPage5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -82,6 +84,16 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Quản lý sách";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // btnPhieuXuatKho
+            // 
+            this.btnPhieuXuatKho.Location = new System.Drawing.Point(661, 391);
+            this.btnPhieuXuatKho.Name = "btnPhieuXuatKho";
+            this.btnPhieuXuatKho.Size = new System.Drawing.Size(165, 54);
+            this.btnPhieuXuatKho.TabIndex = 4;
+            this.btnPhieuXuatKho.Text = "Tạo phiếu xuất kho";
+            this.btnPhieuXuatKho.UseVisualStyleBackColor = true;
+            this.btnPhieuXuatKho.Click += new System.EventHandler(this.btnPhieuXuatKho_Click);
             // 
             // panel1
             // 
@@ -99,6 +111,27 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(529, 269);
             this.panel1.TabIndex = 3;
+            // 
+            // cmbLocation
+            // 
+            this.cmbLocation.FormattingEnabled = true;
+            this.cmbLocation.Items.AddRange(new object[] {
+            "Tất Cả",
+            "Tại Kệ",
+            "Tại Kho"});
+            this.cmbLocation.Location = new System.Drawing.Point(278, 223);
+            this.cmbLocation.Name = "cmbLocation";
+            this.cmbLocation.Size = new System.Drawing.Size(193, 28);
+            this.cmbLocation.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(37, 223);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(151, 20);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Tìm kiếm theo vị trí";
             // 
             // txtPrice
             // 
@@ -177,13 +210,14 @@
             this.dataGridViewBooks.RowTemplate.Height = 24;
             this.dataGridViewBooks.Size = new System.Drawing.Size(1216, 338);
             this.dataGridViewBooks.TabIndex = 0;
+            this.dataGridViewBooks.SelectionChanged += new System.EventHandler(this.dataGridViewBooks_SelectionChanged);
             // 
             // tabPage3
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1248, 692);
+            this.tabPage3.Size = new System.Drawing.Size(1248, 673);
             this.tabPage3.TabIndex = 6;
             this.tabPage3.Text = "Sách đã bán";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -193,7 +227,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1248, 692);
+            this.tabPage4.Size = new System.Drawing.Size(1248, 673);
             this.tabPage4.TabIndex = 7;
             this.tabPage4.Text = "Sách cần mua";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -203,7 +237,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 29);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1248, 692);
+            this.tabPage6.Size = new System.Drawing.Size(1248, 673);
             this.tabPage6.TabIndex = 8;
             this.tabPage6.Text = "Quản lý nhân viên";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -213,7 +247,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 29);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1248, 692);
+            this.tabPage7.Size = new System.Drawing.Size(1248, 673);
             this.tabPage7.TabIndex = 9;
             this.tabPage7.Text = "Quản lý thu chi";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -227,27 +261,6 @@
             // searchTimer
             // 
             this.searchTimer.Interval = 500;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(37, 223);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(151, 20);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Tìm kiếm theo vị trí";
-            // 
-            // cmbLocation
-            // 
-            this.cmbLocation.FormattingEnabled = true;
-            this.cmbLocation.Items.AddRange(new object[] {
-            "Tất Cả",
-            "Tại Kệ",
-            "Tại Kho"});
-            this.cmbLocation.Location = new System.Drawing.Point(278, 223);
-            this.cmbLocation.Name = "cmbLocation";
-            this.cmbLocation.Size = new System.Drawing.Size(193, 28);
-            this.cmbLocation.TabIndex = 7;
             // 
             // admin_page
             // 
@@ -290,6 +303,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbLocation;
+        private System.Windows.Forms.Button btnPhieuXuatKho;
     }
 }
 
