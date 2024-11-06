@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace baitaplon
@@ -16,8 +18,42 @@ namespace baitaplon
             this.loginForm = form; // Gán tham chiếu
             this.username = username;
             LoadUserInfo();
+            LoadBooks();
         }
+        private void LoadBooks()
+        {
+            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                DataTable booksTable = new DataTable();
+                adapter.Fill(booksTable);
 
+                // Đặt DataSource cho DataGridView
+                dataGridViewBooks.DataSource = booksTable;
+
+                // Đổi tên cột theo ý muốn
+                dataGridViewBooks.Columns["book_id"].HeaderText = "Mã Sách";
+                dataGridViewBooks.Columns["book_name"].HeaderText = "Tên Sách";
+                dataGridViewBooks.Columns["category"].HeaderText = "Thể Loại";
+                dataGridViewBooks.Columns["publishing"].HeaderText = "Nhà Xuất Bản";
+                dataGridViewBooks.Columns["price"].HeaderText = "Giá";
+                dataGridViewBooks.Columns["quantityShelf"].HeaderText = "SL Trên Kệ";
+                dataGridViewBooks.Columns["quantityStore"].HeaderText = "SL Trong Kho";
+
+                dataGridViewBooks.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewBooks.Font, FontStyle.Bold);
+
+                dataGridViewBooks.Columns["book_id"].Width = 99;
+                dataGridViewBooks.Columns["book_name"].Width = 140;
+                dataGridViewBooks.Columns["category"].Width = 120;
+                dataGridViewBooks.Columns["publishing"].Width = 150;
+                dataGridViewBooks.Columns["price"].Width = 90;
+                dataGridViewBooks.Columns["quantityShelf"].Width = 120;
+                dataGridViewBooks.Columns["quantityStore"].Width = 140;
+            }
+        }
         // Hàm tải thông tin người dùng từ cơ sở dữ liệu
         private void LoadUserInfo()
         {
@@ -112,5 +148,7 @@ namespace baitaplon
             loginForm.Show(); // Hiển thị lại form Login
             this.Close(); // Đóng form user_page
         }
+
+       
     }
 }
