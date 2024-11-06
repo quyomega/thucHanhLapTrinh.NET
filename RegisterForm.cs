@@ -81,7 +81,7 @@ namespace baitaplon
                 // Kiểm tra xem địa chỉ đã tồn tại chưa
                 if (IsAddressExists(conn, address))
                 {
-                    MessageBox.Show("Địa chỉ đã tồn tại!");
+                    MessageBox.Show("Địa chỉ đã tồn tại thật rồi!");
                     return;
                 }
 
