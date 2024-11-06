@@ -45,8 +45,6 @@ namespace baitaplon
                     if (reader.Read())
                     {
                         string role = reader["role"].ToString();
-                        //MessageBox.Show("Đăng nhập thành công! Quyền của bạn là: " + role);
-
                         // Mở form dựa trên quyền
                         if (role.Trim() == "admin")
                         {
@@ -55,7 +53,8 @@ namespace baitaplon
                         }
                         else
                         {
-                            user_page userForm = new user_page(this);
+                            // Gọi user_page với tham số form và username
+                            user_page userForm = new user_page(this, username);  // Truyền form và username vào constructor
                             userForm.Show();
                         }
                         this.Hide(); // Ẩn LoginForm
@@ -67,6 +66,8 @@ namespace baitaplon
                 }
             }
         }
+
+
 
         private void label3_Click(object sender, EventArgs e)
         {

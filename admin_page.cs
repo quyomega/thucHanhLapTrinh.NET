@@ -22,7 +22,7 @@ namespace baitaplon
             InitializeComponent();
             this.loginForm = form; // Gán tham chiếu
             LoadBooks();
-
+            LoadInvoices();
             // Sự kiện TextChanged cho TextBox tìm kiếm
             txtName.TextChanged += txtSearch_TextChanged;
             txtCategory.TextChanged += SearchCriteriaChanged;
@@ -77,16 +77,51 @@ namespace baitaplon
 
                 dataGridViewBooks.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewBooks.Font, FontStyle.Bold);
 
-                dataGridViewBooks.Columns["book_id"].Width = 100;          // Chiều rộng cột "Mã Sách"
-                dataGridViewBooks.Columns["book_name"].Width = 140;       // Chiều rộng cột "Tên Sách"
-                dataGridViewBooks.Columns["category"].Width = 120;        // Chiều rộng cột "Thể Loại"
-                dataGridViewBooks.Columns["publishing"].Width = 150;      // Chiều rộng cột "Nhà Xuất Bản"
-                dataGridViewBooks.Columns["price"].Width = 90;           // Chiều rộng cột "Giá"
-                dataGridViewBooks.Columns["quantityShelf"].Width = 120;   // Chiều rộng cột "SL Trên Kệ"
+                dataGridViewBooks.Columns["book_id"].Width = 99;         
+                dataGridViewBooks.Columns["book_name"].Width = 140;       
+                dataGridViewBooks.Columns["category"].Width = 120;        
+                dataGridViewBooks.Columns["publishing"].Width = 150;      
+                dataGridViewBooks.Columns["price"].Width = 90;          
+                dataGridViewBooks.Columns["quantityShelf"].Width = 120;   
                 dataGridViewBooks.Columns["quantityStore"].Width = 140;
             }
         }
+        private void LoadInvoices()
+        {
+            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT MaHoadon, TenKhachHang, MaSach, TenNhanVien, DonGia, SoLuong, TongGia, ThoiGianBan FROM Hoadon";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                DataTable HoadonTable = new DataTable();
+                adapter.Fill(HoadonTable);
 
+                // Đặt DataSource cho DataGridView của hóa đơn
+                dataGridViewInvoices.DataSource = HoadonTable;
+
+                // Đổi tên cột hiển thị
+                dataGridViewInvoices.Columns["MaHoadon"].HeaderText = "Mã HD";
+                dataGridViewInvoices.Columns["TenKhachHang"].HeaderText = "Khách Hàng";
+                dataGridViewInvoices.Columns["MaSach"].HeaderText = "Mã Sách";
+                dataGridViewInvoices.Columns["TenNhanVien"].HeaderText = "Nhân Viên";
+                dataGridViewInvoices.Columns["DonGia"].HeaderText = "Đơn Giá";
+                dataGridViewInvoices.Columns["SoLuong"].HeaderText = "Số Lượng";
+                dataGridViewInvoices.Columns["TongGia"].HeaderText = "Tổng Giá";
+                dataGridViewInvoices.Columns["ThoiGianBan"].HeaderText = "Thời Gian";
+
+                dataGridViewInvoices.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewInvoices.Font, FontStyle.Bold);
+
+                dataGridViewInvoices.Columns["MaHoadon"].Width = 70;
+                dataGridViewInvoices.Columns["TenKhachHang"].Width = 150;
+                dataGridViewInvoices.Columns["MaSach"].Width = 100;
+                dataGridViewInvoices.Columns["TenNhanVien"].Width = 130;
+                dataGridViewInvoices.Columns["DonGia"].Width = 90;
+                dataGridViewInvoices.Columns["SoLuong"].Width = 90;
+                dataGridViewInvoices.Columns["TongGia"].Width = 100;
+                dataGridViewInvoices.Columns["ThoiGianBan"].Width = 130;
+            }
+        }
 
         private void SearchBooks()
         {
@@ -171,5 +206,4 @@ namespace baitaplon
             }
         }
     }
-
 }

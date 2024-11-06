@@ -50,10 +50,13 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchTimer = new System.Windows.Forms.Timer(this.components);
+            this.dataGridViewInvoices = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInvoices)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -214,12 +217,14 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.dataGridViewInvoices);
+            this.tabPage3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(1248, 673);
             this.tabPage3.TabIndex = 6;
-            this.tabPage3.Text = "Sách đã bán";
+            this.tabPage3.Text = "Quản lý hóa đơn";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -262,6 +267,16 @@
             // 
             this.searchTimer.Interval = 500;
             // 
+            // dataGridViewInvoices
+            // 
+            this.dataGridViewInvoices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewInvoices.Location = new System.Drawing.Point(15, 17);
+            this.dataGridViewInvoices.Name = "dataGridViewInvoices";
+            this.dataGridViewInvoices.RowHeadersWidth = 51;
+            this.dataGridViewInvoices.RowTemplate.Height = 24;
+            this.dataGridViewInvoices.Size = new System.Drawing.Size(1219, 343);
+            this.dataGridViewInvoices.TabIndex = 0;
+            // 
             // admin_page
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -277,6 +292,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInvoices)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -304,6 +321,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbLocation;
         private System.Windows.Forms.Button btnPhieuXuatKho;
+        private System.Windows.Forms.DataGridView dataGridViewInvoices;
     }
 }
 
