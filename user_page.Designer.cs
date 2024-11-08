@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnLogout = new System.Windows.Forms.Button();
@@ -58,6 +59,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.dataGridViewBooks = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.searchTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -275,6 +277,7 @@
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(193, 27);
             this.txtPrice.TabIndex = 5;
+            this.txtPrice.TextChanged += new System.EventHandler(this.SearchCriteriaChanged);
             // 
             // txtPublisher
             // 
@@ -282,6 +285,7 @@
             this.txtPublisher.Name = "txtPublisher";
             this.txtPublisher.Size = new System.Drawing.Size(193, 27);
             this.txtPublisher.TabIndex = 5;
+            this.txtPublisher.TextChanged += new System.EventHandler(this.SearchCriteriaChanged);
             // 
             // txtCategory
             // 
@@ -289,6 +293,7 @@
             this.txtCategory.Name = "txtCategory";
             this.txtCategory.Size = new System.Drawing.Size(193, 27);
             this.txtCategory.TabIndex = 5;
+            this.txtCategory.TextChanged += new System.EventHandler(this.SearchCriteriaChanged);
             // 
             // label8
             // 
@@ -332,6 +337,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(193, 27);
             this.txtName.TabIndex = 1;
+            this.txtName.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // dataGridViewBooks
             // 
@@ -342,6 +348,7 @@
             this.dataGridViewBooks.RowTemplate.Height = 24;
             this.dataGridViewBooks.Size = new System.Drawing.Size(1216, 338);
             this.dataGridViewBooks.TabIndex = 5;
+            this.dataGridViewBooks.SelectionChanged += new System.EventHandler(this.dataGridViewBooks_SelectionChanged);
             // 
             // tabPage3
             // 
@@ -352,6 +359,10 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Phiếu xuất kho";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // searchTimer
+            // 
+            this.searchTimer.Interval = 500;
             // 
             // user_page
             // 
@@ -405,5 +416,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.DataGridView dataGridViewBooks;
+        private System.Windows.Forms.Timer searchTimer;
     }
 }

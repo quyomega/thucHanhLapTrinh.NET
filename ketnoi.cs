@@ -1,68 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System;
 
-namespace baitaplon
+public class ketnoi
 {
-    internal class ketnoi
+    private string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+
+    // Phương thức để thực thi câu lệnh SQL không trả về dữ liệu
+    public void ExecuteQuery(string query, SqlParameter[] parameters)
     {
-        private string kn = @"Data Source=(Localdb)\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
-        private SqlConnection sqlConnection = new SqlConnection();
-        public ketnoi()
+        using (SqlConnection conn = new SqlConnection(connectionString))
         {
-            try
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                sqlConnection.ConnectionString = kn;
-            }
-            catch (SqlException)
-            {
-                MessageBox.Show("Kết nối thất bại ");
-                Application.Exit();
+                // Thêm các tham số vào câu lệnh SQL
+                cmd.Parameters.AddRange(parameters);
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();  // Thực thi câu lệnh SQL
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
             }
         }
-        public int RunExecuteNonQuery(SqlCommand sqlCommand)
+    }
+
+    // Phương thức để lấy dữ liệu dưới dạng DataTable
+    public DataTable GetDataTable(string query, SqlParameter[] parameters = null)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
         {
-            int result = 0;
-            try
+            conn.Open();
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                sqlCommand.Connection = sqlConnection;
-                sqlConnection.Open();
-                result = sqlCommand.ExecuteNonQuery();
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                return dataTable;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Kết nối thất bại: " + ex.Message);
-            }
-            finally
-            {
-                sqlConnection.Close(); 
-            }
-            return result;
         }
-        public DataTable GetDataTable(string query)
+    }
+
+    // Phương thức để thực thi câu lệnh SQL và trả về một giá trị duy nhất
+    public object ExecuteScalar(string query, SqlParameter[] parameters = null)
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
         {
-            DataTable data = new DataTable();
-            try
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                sqlConnection.Open();
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); 
-                sqlDataAdapter.Fill(data);
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+
+                try
+                {
+                    conn.Open();
+                    return cmd.ExecuteScalar();  // Thực thi câu lệnh và trả về giá trị đầu tiên
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                    return null;
+                }
             }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Kết nối thất bại: " + ex.Message);
-            }
-            finally
-            {
-                sqlConnection.Close();
-            }
-            return data;
         }
     }
 }

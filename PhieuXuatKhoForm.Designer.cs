@@ -91,6 +91,7 @@
             // 
             this.txtMaPhieu.Location = new System.Drawing.Point(189, 33);
             this.txtMaPhieu.Name = "txtMaPhieu";
+            this.txtMaPhieu.ReadOnly = true;
             this.txtMaPhieu.Size = new System.Drawing.Size(200, 22);
             this.txtMaPhieu.TabIndex = 5;
             // 
@@ -98,6 +99,7 @@
             // 
             this.txtMaSach.Location = new System.Drawing.Point(189, 88);
             this.txtMaSach.Name = "txtMaSach";
+            this.txtMaSach.ReadOnly = true;
             this.txtMaSach.Size = new System.Drawing.Size(200, 22);
             this.txtMaSach.TabIndex = 6;
             // 

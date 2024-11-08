@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -19,6 +20,23 @@ namespace baitaplon
             this.username = username;
             LoadUserInfo();
             LoadBooks();
+            SearchBooks();
+             txtName.TextChanged += txtSearch_TextChanged;
+            txtCategory.TextChanged += SearchCriteriaChanged;
+            txtPublisher.TextChanged += SearchCriteriaChanged;
+            txtPrice.TextChanged += SearchCriteriaChanged;
+
+            cmbLocation.SelectedIndexChanged += SearchCriteriaChanged;
+            // Sự kiện Tick cho Timer tìm kiếm
+            searchTimer.Tick += searchTimer_Tick;
+            dataGridViewBooks.SelectionChanged += dataGridViewBooks_SelectionChanged;
+        }
+        private void searchTimer_Tick(object sender, EventArgs e)
+        {
+            // Dừng Timer để không thực hiện tìm kiếm nhiều lần
+            searchTimer.Stop();
+            // Gọi hàm tìm kiếm
+            SearchBooks();
         }
         private void LoadBooks()
         {
@@ -103,7 +121,11 @@ namespace baitaplon
         {
             LoadUserInfo();
         }
-
+        private void SearchCriteriaChanged(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            searchTimer.Start();
+        }
         // Sự kiện đóng form
         private void Form2_FormClosing_1(object sender, FormClosingEventArgs e)
         {
@@ -142,13 +164,69 @@ namespace baitaplon
                 }
             }
         }
+        private void SearchBooks()
+        {
+            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books WHERE 1=1";
 
+                // Thêm các điều kiện tìm kiếm nếu có
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                if (!string.IsNullOrEmpty(txtName.Text))
+                {
+                    query += " AND book_name LIKE @name";
+                    parameters.Add(new SqlParameter("@name", "%" + txtName.Text + "%"));
+                }
+                if (!string.IsNullOrEmpty(txtCategory.Text))
+                {
+                    query += " AND category LIKE @category";
+                    parameters.Add(new SqlParameter("@category", "%" + txtCategory.Text + "%"));
+                }
+                if (!string.IsNullOrEmpty(txtPublisher.Text))
+                {
+                    query += " AND publishing LIKE @publisher";
+                    parameters.Add(new SqlParameter("@publisher", "%" + txtPublisher.Text + "%"));
+                }
+                if (decimal.TryParse(txtPrice.Text, out decimal price))
+                {
+                    query += " AND price LIKE @price";
+                    parameters.Add(new SqlParameter("@price", price));
+                }
+
+                string selectedLocation = cmbLocation.SelectedItem?.ToString();
+                if (selectedLocation == "Tại Kệ")
+                {
+                    query += " AND quantityShelf > 0";
+                }
+                else if (selectedLocation == "Tại Kho")
+                {
+                    query += " AND quantityStore > 0";
+                }
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                adapter.SelectCommand.Parameters.AddRange(parameters.ToArray());
+
+                DataTable booksTable = new DataTable();
+                adapter.Fill(booksTable);
+                dataGridViewBooks.DataSource = booksTable;
+            }
+        }
         private void btnLogout_Click_1(object sender, EventArgs e)
         {
             loginForm.Show(); // Hiển thị lại form Login
             this.Close(); // Đóng form user_page
         }
 
-       
+        private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
