@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
@@ -10,6 +11,9 @@ namespace baitaplon
 {
     public partial class ForgotPasswordForm : Form
     {
+
+        private ketnoi kn = new ketnoi();
+
         public ForgotPasswordForm()
         {
             InitializeComponent();
@@ -30,34 +34,37 @@ namespace baitaplon
         private void btnSendEmail_Click(object sender, EventArgs e)
         {
             string email = txtEmail.Text.Trim(); // Lấy email và loại bỏ khoảng trắng
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string query = "SELECT username FROM users WHERE email=@Email";
+            SqlParameter[] parameters = new SqlParameter[]
             {
-                conn.Open();
-                string query = "SELECT username FROM users WHERE email=@Email";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                new SqlParameter("@Email", email)
+            };
+
+            try
+            {
+                DataTable dt = kn.GetDataTable(query, parameters);
+                if (dt.Rows.Count > 0)
                 {
-                    cmd.Parameters.AddWithValue("@Email", email);
+                    string username = dt.Rows[0]["username"].ToString();
 
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        string username = reader["username"].ToString();
-                        // Tạo mật khẩu mới
-                        string newPassword = GenerateRandomPassword();
-                        // Gửi email khôi phục mật khẩu
-                        SendRecoveryEmail(email, username, newPassword);
-                        MessageBox.Show("Một email khôi phục mật khẩu đã được gửi đến: " + email);
+                    // Tạo mật khẩu mới
+                    string newPassword = GenerateRandomPassword();
 
-                        // Cập nhật mật khẩu mới vào cơ sở dữ liệu (nếu cần)
-                        UpdatePasswordInDatabase(username, newPassword);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Email không tồn tại trong hệ thống!");
-                    }
+                    // Gửi email khôi phục mật khẩu
+                    SendRecoveryEmail(email, username, newPassword);
+                    MessageBox.Show("Một email khôi phục mật khẩu đã được gửi đến: " + email);
+
+                    // Cập nhật mật khẩu mới vào cơ sở dữ liệu
+                    UpdatePasswordInDatabase(username, newPassword);
                 }
+                else
+                {
+                    MessageBox.Show("Email không tồn tại trong hệ thống!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi gửi email khôi phục: " + ex.Message);
             }
         }
 
@@ -101,17 +108,20 @@ namespace baitaplon
 
         private void UpdatePasswordInDatabase(string username, string newPassword)
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string query = "UPDATE users SET password=@NewPassword WHERE username=@Username";
+            SqlParameter[] parameters = new SqlParameter[]
             {
-                conn.Open();
-                string query = "UPDATE users SET password=@NewPassword WHERE username=@Username";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@NewPassword", HashPassword(newPassword)); // Mã hóa mật khẩu trước khi lưu
-                    cmd.Parameters.AddWithValue("@Username", username);
-                    cmd.ExecuteNonQuery();
-                }
+                new SqlParameter("@NewPassword", HashPassword(newPassword)), // Mã hóa mật khẩu trước khi lưu
+                new SqlParameter("@Username", username)
+            };
+
+            try
+            {
+                kn.ExecuteQuery(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cập nhật mật khẩu: " + ex.Message);
             }
         }
 

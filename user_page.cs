@@ -9,15 +9,19 @@ namespace baitaplon
 {
     public partial class user_page : Form
     {
+        private ketnoi kn = new ketnoi();
         private LoginForm loginForm; // Tham chiếu đến LoginForm
         private string username;
+        private int userId;
 
         // Constructor
-        public user_page(LoginForm form, string username)
+        public user_page(LoginForm form, string username, int userId)
         {
             InitializeComponent();
             this.loginForm = form; // Gán tham chiếu
             this.username = username;
+            this.userId = userId;
+
             LoadUserInfo();
             LoadBooks();
             SearchBooks();
@@ -30,6 +34,7 @@ namespace baitaplon
             // Sự kiện Tick cho Timer tìm kiếm
             searchTimer.Tick += searchTimer_Tick;
             dataGridViewBooks.SelectionChanged += dataGridViewBooks_SelectionChanged;
+            
         }
         private void searchTimer_Tick(object sender, EventArgs e)
         {
@@ -40,16 +45,10 @@ namespace baitaplon
         }
         private void LoadBooks()
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books";
+            try
             {
-                conn.Open();
-                string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                DataTable booksTable = new DataTable();
-                adapter.Fill(booksTable);
-
-                // Đặt DataSource cho DataGridView
+                DataTable booksTable = kn.GetDataTable(query);
                 dataGridViewBooks.DataSource = booksTable;
 
                 // Đổi tên cột theo ý muốn
@@ -71,148 +70,148 @@ namespace baitaplon
                 dataGridViewBooks.Columns["quantityShelf"].Width = 120;
                 dataGridViewBooks.Columns["quantityStore"].Width = 140;
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải sách: " + ex.Message);
+            }
+
         }
         // Hàm tải thông tin người dùng từ cơ sở dữ liệu
         private void LoadUserInfo()
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
             string query = "SELECT username, email, phone, address, TenNhanVien FROM users WHERE username = @username";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            SqlParameter[] parameters = new SqlParameter[]
             {
+                new SqlParameter("@username", this.username)
+            };
+
                 try
                 {
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@username", this.username);
-
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    DataTable dt = kn.GetDataTable(query, parameters);
+                    if (dt.Rows.Count > 0)
                     {
-                        txtUsername.Text = reader["username"].ToString();
-                        txtEmail.Text = reader["email"].ToString();
-                        txtPhone.Text = reader["phone"].ToString();
-                        txtAddress.Text = reader["address"].ToString();
-                        txtTenNhanVien.Text = reader["TenNhanVien"].ToString();
-
-                        // Kiểm tra dữ liệu có được lấy đúng không
-                        //MessageBox.Show("Thông tin người dùng: " +
-                        //    "\nUsername: " + txtUsername.Text +
-                        //    "\nEmail: " + txtEmail.Text +
-                        //    "\nPhone: " + txtPhone.Text +
-                        //    "\nAddress: " + txtAddress.Text +
-                        //    "\nTenNhanVien: " + txtTenNhanVien.Text);
+                        DataRow row = dt.Rows[0];
+                        txtUsername.Text = row["username"].ToString();
+                        txtEmail.Text = row["email"].ToString();
+                        txtPhone.Text = row["phone"].ToString();
+                        txtAddress.Text = row["address"].ToString();
+                        txtTenNhanVien.Text = row["TenNhanVien"].ToString();
                     }
                     else
                     {
                         MessageBox.Show("Không tìm thấy thông tin người dùng.");
                     }
-                    reader.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Lỗi: " + ex.Message);
                 }
-            }
         }
+
+        private bool IsValidEmail(string email)
+        {
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return System.Text.RegularExpressions.Regex.IsMatch(email, emailPattern);
+        }
+
 
         // Sự kiện khi form user_page được tải
         private void user_page_Load(object sender, EventArgs e)
         {
             LoadUserInfo();
         }
+
         private void SearchCriteriaChanged(object sender, EventArgs e)
         {
             searchTimer.Stop();
             searchTimer.Start();
         }
+
         // Sự kiện đóng form
         private void Form2_FormClosing_1(object sender, FormClosingEventArgs e)
         {
             loginForm.Show();
         }
+
         private void btnUpdate_Click_1(object sender, EventArgs e)
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
-            string query = "UPDATE users SET email = @email, phone = @phone, address = @address, TenNhanVien = @TenNhanVien WHERE username = @username";
+            string email = txtEmail.Text;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // Kiểm tra tính hợp lệ của email
+            if (!IsValidEmail(email))
             {
-                try
-                {
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@username", this.username);
-                    cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                    cmd.Parameters.AddWithValue("@phone", txtPhone.Text);
-                    cmd.Parameters.AddWithValue("@address", txtAddress.Text);
-                    cmd.Parameters.AddWithValue("@TenNhanVien", txtTenNhanVien.Text);
+                MessageBox.Show("Địa chỉ email không hợp lệ!");
+                return;
+            }
 
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Cập nhật thông tin thành công!");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Không thể cập nhật thông tin. Vui lòng thử lại.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi cập nhật: " + ex.Message);
-                }
+            string query = "UPDATE users SET email = @email, phone = @phone, address = @address, TenNhanVien = @TenNhanVien WHERE username = @username";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@username", this.username),
+                new SqlParameter("@email", txtEmail.Text),
+                new SqlParameter("@phone", txtPhone.Text),
+                new SqlParameter("@address", txtAddress.Text),
+                new SqlParameter("@TenNhanVien", txtTenNhanVien.Text)
+            };
+
+            try
+            {
+                kn.ExecuteQuery(query, parameters);
+                MessageBox.Show("Cập nhật thông tin thành công!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cập nhật thông tin: " + ex.Message);
             }
         }
+
         private void SearchBooks()
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books WHERE 1=1";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            if (!string.IsNullOrEmpty(txtName.Text))
             {
-                conn.Open();
-                string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books WHERE 1=1";
+                query += " AND book_name LIKE @name";
+                parameters.Add(new SqlParameter("@name", "%" + txtName.Text + "%"));
+            }
+            if (!string.IsNullOrEmpty(txtCategory.Text))
+            {
+                query += " AND category LIKE @category";
+                parameters.Add(new SqlParameter("@category", "%" + txtCategory.Text + "%"));
+            }
+            if (!string.IsNullOrEmpty(txtPublisher.Text))
+            {
+                query += " AND publishing LIKE @publisher";
+                parameters.Add(new SqlParameter("@publisher", "%" + txtPublisher.Text + "%"));
+            }
+            if (decimal.TryParse(txtPrice.Text, out decimal price))
+            {
+                query += " AND price = @price";
+                parameters.Add(new SqlParameter("@price", price));
+            }
 
-                // Thêm các điều kiện tìm kiếm nếu có
-                List<SqlParameter> parameters = new List<SqlParameter>();
+            string selectedLocation = cmbLocation.SelectedItem?.ToString();
+            if (selectedLocation == "Tại Kệ")
+            {
+                query += " AND quantityShelf > 0";
+            }
+            else if (selectedLocation == "Tại Kho")
+            {
+                query += " AND quantityStore > 0";
+            }
 
-                if (!string.IsNullOrEmpty(txtName.Text))
-                {
-                    query += " AND book_name LIKE @name";
-                    parameters.Add(new SqlParameter("@name", "%" + txtName.Text + "%"));
-                }
-                if (!string.IsNullOrEmpty(txtCategory.Text))
-                {
-                    query += " AND category LIKE @category";
-                    parameters.Add(new SqlParameter("@category", "%" + txtCategory.Text + "%"));
-                }
-                if (!string.IsNullOrEmpty(txtPublisher.Text))
-                {
-                    query += " AND publishing LIKE @publisher";
-                    parameters.Add(new SqlParameter("@publisher", "%" + txtPublisher.Text + "%"));
-                }
-                if (decimal.TryParse(txtPrice.Text, out decimal price))
-                {
-                    query += " AND price LIKE @price";
-                    parameters.Add(new SqlParameter("@price", price));
-                }
-
-                string selectedLocation = cmbLocation.SelectedItem?.ToString();
-                if (selectedLocation == "Tại Kệ")
-                {
-                    query += " AND quantityShelf > 0";
-                }
-                else if (selectedLocation == "Tại Kho")
-                {
-                    query += " AND quantityStore > 0";
-                }
-                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                adapter.SelectCommand.Parameters.AddRange(parameters.ToArray());
-
-                DataTable booksTable = new DataTable();
-                adapter.Fill(booksTable);
+            try
+            {
+                DataTable booksTable = kn.GetDataTable(query, parameters.ToArray());
                 dataGridViewBooks.DataSource = booksTable;
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm sách: " + ex.Message);
+            }
         }
+
         private void btnLogout_Click_1(object sender, EventArgs e)
         {
             loginForm.Show(); // Hiển thị lại form Login
@@ -227,6 +226,12 @@ namespace baitaplon
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnDoiMK_Click(object sender, EventArgs e)
+        {
+            DoiMK doiMK = new DoiMK(this.userId); // Truyền `userId` từ `user_page` sang `DoiMK`
+            doiMK.ShowDialog();
         }
     }
 }

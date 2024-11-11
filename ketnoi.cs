@@ -5,7 +5,7 @@ using System;
 
 public class ketnoi
 {
-    private string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+    private string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
 
     // Phương thức để thực thi câu lệnh SQL không trả về dữ liệu
     public void ExecuteQuery(string query, SqlParameter[] parameters)
