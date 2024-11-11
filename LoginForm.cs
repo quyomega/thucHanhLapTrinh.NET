@@ -30,7 +30,7 @@ namespace baitaplon
         {
             string username = txtUsername.Text;
             string password = txtPassword.Text;
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {

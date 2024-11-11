@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace baitaplon
@@ -51,7 +52,14 @@ namespace baitaplon
                 return;
             }
 
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            if (!IsValidEmail(email))
+            {
+                MessageBox.Show("Email không hợp lệ! Vui lòng nhập đúng định dạng.");
+                return;
+            }
+
+
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -152,6 +160,13 @@ namespace baitaplon
                 int count = (int)cmd.ExecuteScalar();
                 return count > 0;
             }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            // Regex kiểm tra định dạng email
+            string pattern = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
+            return Regex.IsMatch(email, pattern);
         }
 
         private void btnBackToLogin_Click(object sender, EventArgs e)

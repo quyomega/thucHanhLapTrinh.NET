@@ -30,7 +30,7 @@ namespace baitaplon
         private void btnSendEmail_Click(object sender, EventArgs e)
         {
             string email = txtEmail.Text.Trim(); // Lấy email và loại bỏ khoảng trắng
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -101,7 +101,7 @@ namespace baitaplon
 
         private void UpdatePasswordInDatabase(string username, string newPassword)
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();

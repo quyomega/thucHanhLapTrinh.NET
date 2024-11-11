@@ -2,7 +2,9 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace baitaplon
 {
@@ -22,7 +24,7 @@ namespace baitaplon
         }
         private void LoadBooks()
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -57,7 +59,7 @@ namespace baitaplon
         // Hàm tải thông tin người dùng từ cơ sở dữ liệu
         private void LoadUserInfo()
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
             string query = "SELECT username, email, phone, address, TenNhanVien FROM users WHERE username = @username";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -71,8 +73,15 @@ namespace baitaplon
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
+                        string email = reader["email"].ToString();
+                        if (!IsValidEmail(email))
+                        {
+                            MessageBox.Show("Email trong hệ thống không hợp lệ!");
+                            return;
+                        }
+
                         txtUsername.Text = reader["username"].ToString();
-                        txtEmail.Text = reader["email"].ToString();
+                        txtEmail.Text = email;
                         txtPhone.Text = reader["phone"].ToString();
                         txtAddress.Text = reader["address"].ToString();
                         txtTenNhanVien.Text = reader["TenNhanVien"].ToString();
@@ -98,6 +107,14 @@ namespace baitaplon
             }
         }
 
+        private bool IsValidEmail(string email)
+        {
+            // Regex kiểm tra định dạng email
+            string pattern = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
+            return Regex.IsMatch(email, pattern);
+        }
+
+
         // Sự kiện khi form user_page được tải
         private void user_page_Load(object sender, EventArgs e)
         {
@@ -111,7 +128,14 @@ namespace baitaplon
         }
         private void btnUpdate_Click_1(object sender, EventArgs e)
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string email = txtEmail.Text;
+            if (!IsValidEmail(email))
+            {
+                MessageBox.Show("Email không hợp lệ! Vui lòng nhập đúng định dạng.");
+                return;
+            }
+
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
             string query = "UPDATE users SET email = @email, phone = @phone, address = @address, TenNhanVien = @TenNhanVien WHERE username = @username";
 
             using (SqlConnection conn = new SqlConnection(connectionString))

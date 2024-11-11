@@ -35,7 +35,7 @@ namespace baitaplon
         }
         private void LoadStaff()
         {
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -57,7 +57,7 @@ namespace baitaplon
         {
             int newMaPhieu = 0; // Giá trị mặc định nếu bảng trống
 
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();

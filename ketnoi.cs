@@ -11,7 +11,7 @@ namespace baitaplon
 {
     internal class ketnoi
     {
-        private string kn = @"Data Source=(Localdb)\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
+        private string kn = @"Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
         private SqlConnection sqlConnection = new SqlConnection();
         public ketnoi()
         {
