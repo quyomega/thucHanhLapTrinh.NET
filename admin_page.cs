@@ -293,6 +293,7 @@ namespace baitaplon
                 selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
 
                 DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
+
                 txtTenSach.Text = selectedRow.Cells["book_name"].Value.ToString();
                 txtTheLoai.Text = selectedRow.Cells["category"].Value.ToString();
                 txtNhaXuatBan.Text = selectedRow.Cells["publishing"].Value.ToString();
@@ -302,18 +303,32 @@ namespace baitaplon
 
             }
         }
+        private void dataGridViewInvoices_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewInvoices.SelectedCells.Count > 0)
+            {
+                int selectedRowIndex = dataGridViewInvoices.SelectedCells[0].RowIndex;
 
+                DataGridViewRow selectedRow = dataGridViewInvoices.Rows[selectedRowIndex];
+
+                ttMaHoaDon.Text = selectedRow.Cells["MaHoaDon"].Value.ToString();
+                ttTenKH.Text = selectedRow.Cells["TenKhachHang"].Value.ToString();
+                ttMaSach.Text = selectedRow.Cells["MaSach"].Value.ToString();
+                ttTenNV.Text = selectedRow.Cells["TenNhanVien"].Value.ToString();
+                ttDonGia.Text = selectedRow.Cells["DonGia"].Value.ToString();
+                ttSoLuong.Text = selectedRow.Cells["SoLuong"].Value.ToString();
+                dtpThoiGian.Text = selectedRow.Cells["ThoiGianBan"].Value.ToString();
+                ttTongGia.Text = selectedRow.Cells["TongGia"].Value.ToString();
+            }
+        }
         private void dataGridViewStaff_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridViewStaff.SelectedCells.Count > 0)
             {
-                // Lấy chỉ số của ô được chọn
                 int selectedRowIndex = dataGridViewStaff.SelectedCells[0].RowIndex;
 
-                // Lấy dòng tương ứng với ô đã chọn
                 DataGridViewRow selectedRow = dataGridViewStaff.Rows[selectedRowIndex];
 
-                // Gán giá trị từ các ô của dòng đã chọn vào các TextBox
                 txtMaNV.Text = selectedRow.Cells["user_id"].Value.ToString();
                 txtTenNV.Text = selectedRow.Cells["TenNhanVien"].Value.ToString();
                 txtEmailNV.Text = selectedRow.Cells["Email"].Value.ToString();
@@ -450,5 +465,7 @@ namespace baitaplon
             ThemSachForm themSachForm = new ThemSachForm();
             themSachForm.ShowDialog();
         }
+
+        
     }
 }
