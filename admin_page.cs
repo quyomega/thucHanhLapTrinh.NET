@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Windows.Forms;
-
+//test
 namespace baitaplon
 {
     public partial class admin_page : Form
