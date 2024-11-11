@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace baitaplon
@@ -189,7 +190,6 @@ namespace baitaplon
                 query += " AND price LIKE @price";
                 parameters.Add(new SqlParameter("@price", price));
             }
-
             string selectedLocation = cmbLocation.SelectedItem?.ToString();
             if (selectedLocation == "Tại Kệ")
                 query += " AND quantityShelf > 0";
@@ -199,6 +199,44 @@ namespace baitaplon
             DataTable booksTable = kn.GetDataTable(query, parameters.ToArray());
             dataGridViewBooks.DataSource = booksTable;
         }
+        private void FilterHoaDonData()
+        {
+            string query = "SELECT * MaHoaDon, TenKhachHang, MaSach, TenNhanVien, ThoiGianBan, TongGia FROM HoaDon WHERE 1=1";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            if (!string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
+            {
+                query += " AND MaHoaDon LIKE @MaHoaDon";
+            }
+            if (!string.IsNullOrWhiteSpace(txtTenKH.Text))
+            {
+                query += " AND TenKH LIKE @TenKH";
+            }
+            if (!string.IsNullOrWhiteSpace(txtMaSach.Text))
+            {
+                query += " AND MaSach LIKE @MaSach";
+            }
+            if (!string.IsNullOrWhiteSpace(txtTenNhanVien.Text))
+            {
+                query += " AND TenNhanVien LIKE @TenNhanVien";
+            }
+            if (!string.IsNullOrWhiteSpace(txtTongGia.Text))
+            {
+                query += " AND TongGia LIKE @TongGia";
+            }
+            if (dtpTuNgay.Value != DateTimePicker.MinimumDateTime)
+            {
+                query += " AND ThoiGianBan >= @TuNgay";
+            }
+
+            if (dtpDenNgay.Value != DateTimePicker.MinimumDateTime)
+            {
+                query += " AND ThoiGianBan <= @DenNgay";
+            }
+            DataTable HoadonTable = kn.GetDataTable(query, parameters.ToArray());
+            dataGridViewInvoices.DataSource = HoadonTable;
+        }
+
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
