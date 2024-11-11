@@ -64,6 +64,8 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.dtpDenNgay = new System.Windows.Forms.DateTimePicker();
+            this.dtpTuNgay = new System.Windows.Forms.DateTimePicker();
             this.txtTongGia = new System.Windows.Forms.TextBox();
             this.txtTenNhanVien = new System.Windows.Forms.TextBox();
             this.txtMaSach = new System.Windows.Forms.TextBox();
@@ -96,8 +98,6 @@
             this.dataGridViewDelivery = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchTimer = new System.Windows.Forms.Timer(this.components);
-            this.dtpTuNgay = new System.Windows.Forms.DateTimePicker();
-            this.dtpDenNgay = new System.Windows.Forms.DateTimePicker();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -119,12 +119,13 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.tabControl1.Location = new System.Drawing.Point(13, 12);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1256, 811);
+            this.tabControl1.Size = new System.Drawing.Size(1281, 847);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage5
@@ -140,7 +141,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1248, 778);
+            this.tabPage5.Size = new System.Drawing.Size(1273, 814);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Quản lý sách";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -505,6 +506,20 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Tìm kiếm hóa đơn";
             // 
+            // dtpDenNgay
+            // 
+            this.dtpDenNgay.Location = new System.Drawing.Point(337, 268);
+            this.dtpDenNgay.Name = "dtpDenNgay";
+            this.dtpDenNgay.Size = new System.Drawing.Size(114, 30);
+            this.dtpDenNgay.TabIndex = 6;
+            // 
+            // dtpTuNgay
+            // 
+            this.dtpTuNgay.Location = new System.Drawing.Point(137, 267);
+            this.dtpTuNgay.Name = "dtpTuNgay";
+            this.dtpTuNgay.Size = new System.Drawing.Size(102, 30);
+            this.dtpTuNgay.TabIndex = 5;
+            // 
             // txtTongGia
             // 
             this.txtTongGia.Location = new System.Drawing.Point(230, 318);
@@ -808,20 +823,6 @@
             // searchTimer
             // 
             this.searchTimer.Interval = 500;
-            // 
-            // dtpTuNgay
-            // 
-            this.dtpTuNgay.Location = new System.Drawing.Point(137, 267);
-            this.dtpTuNgay.Name = "dtpTuNgay";
-            this.dtpTuNgay.Size = new System.Drawing.Size(102, 30);
-            this.dtpTuNgay.TabIndex = 5;
-            // 
-            // dtpDenNgay
-            // 
-            this.dtpDenNgay.Location = new System.Drawing.Point(337, 268);
-            this.dtpDenNgay.Name = "dtpDenNgay";
-            this.dtpDenNgay.Size = new System.Drawing.Size(114, 30);
-            this.dtpDenNgay.TabIndex = 6;
             // 
             // admin_page
             // 
