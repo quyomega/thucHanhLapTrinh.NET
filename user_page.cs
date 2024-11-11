@@ -21,7 +21,7 @@ namespace baitaplon
             LoadUserInfo();
             LoadBooks();
             SearchBooks();
-             txtName.TextChanged += txtSearch_TextChanged;
+            txtName.TextChanged += txtSearch_TextChanged;
             txtCategory.TextChanged += SearchCriteriaChanged;
             txtPublisher.TextChanged += SearchCriteriaChanged;
             txtPrice.TextChanged += SearchCriteriaChanged;
@@ -96,12 +96,12 @@ namespace baitaplon
                         txtTenNhanVien.Text = reader["TenNhanVien"].ToString();
 
                         // Kiểm tra dữ liệu có được lấy đúng không
-                        MessageBox.Show("Thông tin người dùng: " +
-                            "\nUsername: " + txtUsername.Text +
-                            "\nEmail: " + txtEmail.Text +
-                            "\nPhone: " + txtPhone.Text +
-                            "\nAddress: " + txtAddress.Text +
-                            "\nTenNhanVien: " + txtTenNhanVien.Text);
+                        //MessageBox.Show("Thông tin người dùng: " +
+                        //    "\nUsername: " + txtUsername.Text +
+                        //    "\nEmail: " + txtEmail.Text +
+                        //    "\nPhone: " + txtPhone.Text +
+                        //    "\nAddress: " + txtAddress.Text +
+                        //    "\nTenNhanVien: " + txtTenNhanVien.Text);
                     }
                     else
                     {

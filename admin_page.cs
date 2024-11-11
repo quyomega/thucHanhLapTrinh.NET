@@ -105,7 +105,7 @@ namespace baitaplon
             dataGridViewBooks.Columns["publishing"].Width = 150;
             dataGridViewBooks.Columns["price"].Width = 90;
             dataGridViewBooks.Columns["quantityShelf"].Width = 120;
-            dataGridViewBooks.Columns["quantityStore"].Width = 140;
+            dataGridViewBooks.Columns["quantityStore"].Width = 123;
         }
 
         private void SetInvoiceColumnHeaders()
@@ -228,6 +228,15 @@ namespace baitaplon
             if (dataGridViewBooks.SelectedRows.Count > 0)
             {
                 selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
+
+                DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
+                txtTenSach.Text = selectedRow.Cells["book_name"].Value.ToString();
+                txtTheLoai.Text = selectedRow.Cells["category"].Value.ToString();
+                txtNhaXuatBan.Text = selectedRow.Cells["publishing"].Value.ToString();
+                txtGia.Text = selectedRow.Cells["price"].Value.ToString();
+                txtTaiKe.Text = selectedRow.Cells["quantityShelf"].Value.ToString();
+                txtTaiKho.Text = selectedRow.Cells["quantityStore"].Value.ToString();
+
             }
         }
 
@@ -330,6 +339,53 @@ namespace baitaplon
                 MessageBox.Show("Xóa nhân viên thành công!");
                 LoadStaffData();  // Tải lại dữ liệu sau khi xóa
             }
+        }
+
+        private void btnCapNhatThongTinSach_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra xem đã chọn sách hay chưa
+            if (string.IsNullOrEmpty(selectedBookId))
+            {
+                MessageBox.Show("Vui lòng chọn một sách để cập nhật.");
+                return;
+            }
+
+            // Lấy dữ liệu từ các TextBox
+            string bookName = txtTenSach.Text;
+            string category = txtTheLoai.Text;
+            string publishing = txtNhaXuatBan.Text;
+            string priceText = txtGia.Text;
+
+            // Kiểm tra dữ liệu đầu vào
+            if (string.IsNullOrEmpty(bookName) || string.IsNullOrEmpty(category) ||
+                string.IsNullOrEmpty(publishing) || string.IsNullOrEmpty(priceText) || !decimal.TryParse(priceText, out decimal price))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin và giá phải là số hợp lệ.");
+                return;
+            }
+
+            // Câu truy vấn cập nhật
+            string query = "UPDATE books SET book_name = @book_name, category = @category, publishing = @publishing, price = @price WHERE book_id = @book_id";
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@book_name", bookName),
+                new SqlParameter("@category", category),
+                new SqlParameter("@publishing", publishing),
+                new SqlParameter("@price", price),
+                new SqlParameter("@book_id", selectedBookId)
+            };
+
+            // Thực thi truy vấn
+            kn.ExecuteQuery(query, parameters.ToArray());
+            MessageBox.Show("Cập nhật thông tin sách thành công!");
+
+            // Tải lại dữ liệu sách để cập nhật giao diện
+            LoadBooks();
+        }
+        private void btnThemSach_Click_1(object sender, EventArgs e)
+        {
+            ThemSachForm themSachForm = new ThemSachForm();
+            themSachForm.ShowDialog();
         }
     }
 }

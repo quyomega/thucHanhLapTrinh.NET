@@ -76,4 +76,27 @@ public class ketnoi
             }
         }
     }
+
+    // Phương thức để thực thi câu lệnh SQL và trả về SqlDataReader
+    public SqlDataReader ExecuteReader(string query, SqlParameter[] parameters = null)
+    {
+        SqlConnection conn = new SqlConnection(connectionString);
+        SqlCommand cmd = new SqlCommand(query, conn);
+        if (parameters != null)
+        {
+            cmd.Parameters.AddRange(parameters);
+        }
+
+        try
+        {
+            conn.Open();
+            return cmd.ExecuteReader(CommandBehavior.CloseConnection);  // Trả về SqlDataReader và đóng kết nối khi đọc xong
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Lỗi: " + ex.Message);
+            conn.Close();  // Đảm bảo đóng kết nối trong trường hợp lỗi
+            return null;
+        }
+    }
 }
