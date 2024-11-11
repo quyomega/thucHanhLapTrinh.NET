@@ -11,13 +11,13 @@ namespace baitaplon
     public partial class admin_page : Form
     {
         private ketnoi kn = new ketnoi();
-        private LoginForm loginForm; // Tham chiếu đến LoginForm
+        private LoginForm loginForm; 
         private string selectedBookId;
 
         public admin_page(LoginForm form)
         {
             InitializeComponent();
-            this.loginForm = form; // Gán tham chiếu
+            this.loginForm = form;
             LoadBooks();
             LoadInvoices();
             LoadStaffData();
@@ -34,6 +34,15 @@ namespace baitaplon
             cmbLocation.SelectedIndexChanged += SearchCriteriaChanged;
             searchTimer.Tick += searchTimer_Tick;
             dataGridViewBooks.SelectionChanged += dataGridViewBooks_SelectionChanged;
+
+            txtMaHoaDon.TextChanged += InvoiceSearchCriteriaChanged;
+            txtTenKH.TextChanged += InvoiceSearchCriteriaChanged;
+            txtMaSach.TextChanged += InvoiceSearchCriteriaChanged;
+            txtTenNhanVien.TextChanged += InvoiceSearchCriteriaChanged;
+            txtTongGia.TextChanged += InvoiceSearchCriteriaChanged;
+            dtpTuNgay.ValueChanged += InvoiceSearchCriteriaChanged;
+            dtpDenNgay.ValueChanged += InvoiceSearchCriteriaChanged;
+            searchTimer2.Tick += searchTimer2_Tick;
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -41,13 +50,27 @@ namespace baitaplon
             searchTimer.Stop();
             searchTimer.Start();
         }
-
+        private void SearchCriteriaChanged(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            searchTimer.Start();
+        }
+        private void InvoiceSearchCriteriaChanged(object sender, EventArgs e)
+        {
+            searchTimer2.Stop();
+            searchTimer2.Start();
+        }
         private void searchTimer_Tick(object sender, EventArgs e)
         {
             searchTimer.Stop();
             SearchBooks();
         }
-
+       
+        private void searchTimer2_Tick(object sender, EventArgs e)
+        {
+            searchTimer2.Stop();
+            SearchInvoices();
+        }
         private void LoadBooks()
         {
             string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books";
@@ -199,54 +222,56 @@ namespace baitaplon
             DataTable booksTable = kn.GetDataTable(query, parameters.ToArray());
             dataGridViewBooks.DataSource = booksTable;
         }
-        private void FilterHoaDonData()
+        private void SearchInvoices()
         {
-            string query = "SELECT * MaHoaDon, TenKhachHang, MaSach, TenNhanVien, ThoiGianBan, TongGia FROM HoaDon WHERE 1=1";
-            List<SqlParameter> parameters = new List<SqlParameter>();
+            string query = "SELECT MaHoadon, TenKhachHang, MaSach, TenNhanVien, DonGia, SoLuong, TongGia, ThoiGianBan FROM HoaDon WHERE 1=1";
+            List<SqlParameter> parameters1 = new List<SqlParameter>();
 
             if (!string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
             {
-                query += " AND MaHoaDon LIKE @MaHoaDon";
+                query += " AND MaHoadon LIKE @MaHoaDon";
+                parameters1.Add(new SqlParameter("@MaHoaDon", "%" + txtMaHoaDon.Text + "%"));
             }
             if (!string.IsNullOrWhiteSpace(txtTenKH.Text))
             {
-                query += " AND TenKH LIKE @TenKH";
+                query += " AND TenKhachHang LIKE @TenKH";
+                parameters1.Add(new SqlParameter("@TenKH", "%" + txtTenKH.Text + "%"));
             }
             if (!string.IsNullOrWhiteSpace(txtMaSach.Text))
             {
                 query += " AND MaSach LIKE @MaSach";
+                parameters1.Add(new SqlParameter("@MaSach", "%" + txtMaSach.Text + "%"));
             }
             if (!string.IsNullOrWhiteSpace(txtTenNhanVien.Text))
             {
                 query += " AND TenNhanVien LIKE @TenNhanVien";
+                parameters1.Add(new SqlParameter("@TenNhanVien", "%" + txtTenNhanVien.Text + "%"));
             }
             if (!string.IsNullOrWhiteSpace(txtTongGia.Text))
             {
-                query += " AND TongGia LIKE @TongGia";
+                if (decimal.TryParse(txtTongGia.Text, out decimal tongGia))
+                {
+                    query += " AND TongGia = @TongGia";
+                    parameters1.Add(new SqlParameter("@TongGia", tongGia));
+                }
             }
             if (dtpTuNgay.Value != DateTimePicker.MinimumDateTime)
             {
                 query += " AND ThoiGianBan >= @TuNgay";
+                parameters1.Add(new SqlParameter("@TuNgay", dtpTuNgay.Value));
             }
-
             if (dtpDenNgay.Value != DateTimePicker.MinimumDateTime)
             {
                 query += " AND ThoiGianBan <= @DenNgay";
+                parameters1.Add(new SqlParameter("@DenNgay", dtpDenNgay.Value));
             }
-            DataTable HoadonTable = kn.GetDataTable(query, parameters.ToArray());
+
+            DataTable HoadonTable = kn.GetDataTable(query, parameters1.ToArray());
             dataGridViewInvoices.DataSource = HoadonTable;
         }
-
-
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
             loginForm.Show();
-        }
-
-        private void SearchCriteriaChanged(object sender, EventArgs e)
-        {
-            searchTimer.Stop();
-            searchTimer.Start();
         }
 
         private void btnPhieuXuatKho_Click(object sender, EventArgs e)

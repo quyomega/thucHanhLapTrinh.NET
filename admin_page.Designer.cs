@@ -98,6 +98,7 @@
             this.dataGridViewDelivery = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchTimer = new System.Windows.Forms.Timer(this.components);
+            this.searchTimer2 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -337,7 +338,7 @@
             "Tất Cả",
             "Tại Kệ",
             "Tại Kho"});
-            this.cmbLocation.Location = new System.Drawing.Point(292, 239);
+            this.cmbLocation.Location = new System.Drawing.Point(259, 239);
             this.cmbLocation.Name = "cmbLocation";
             this.cmbLocation.Size = new System.Drawing.Size(193, 26);
             this.cmbLocation.TabIndex = 7;
@@ -345,7 +346,7 @@
             // txtCategory
             // 
             this.txtCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtCategory.Location = new System.Drawing.Point(292, 87);
+            this.txtCategory.Location = new System.Drawing.Point(259, 87);
             this.txtCategory.Name = "txtCategory";
             this.txtCategory.Size = new System.Drawing.Size(193, 24);
             this.txtCategory.TabIndex = 5;
@@ -355,7 +356,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label5.Location = new System.Drawing.Point(51, 239);
+            this.label5.Location = new System.Drawing.Point(18, 239);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(160, 22);
             this.label5.TabIndex = 6;
@@ -364,7 +365,7 @@
             // txtName
             // 
             this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtName.Location = new System.Drawing.Point(292, 35);
+            this.txtName.Location = new System.Drawing.Point(259, 35);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(193, 24);
             this.txtName.TabIndex = 1;
@@ -373,7 +374,7 @@
             // txtPrice
             // 
             this.txtPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtPrice.Location = new System.Drawing.Point(292, 186);
+            this.txtPrice.Location = new System.Drawing.Point(259, 186);
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(193, 24);
             this.txtPrice.TabIndex = 5;
@@ -383,7 +384,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.Location = new System.Drawing.Point(51, 37);
+            this.label1.Location = new System.Drawing.Point(18, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 22);
             this.label1.TabIndex = 2;
@@ -392,7 +393,7 @@
             // txtPublisher
             // 
             this.txtPublisher.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtPublisher.Location = new System.Drawing.Point(292, 142);
+            this.txtPublisher.Location = new System.Drawing.Point(259, 142);
             this.txtPublisher.Name = "txtPublisher";
             this.txtPublisher.Size = new System.Drawing.Size(193, 24);
             this.txtPublisher.TabIndex = 5;
@@ -402,7 +403,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label2.Location = new System.Drawing.Point(51, 87);
+            this.label2.Location = new System.Drawing.Point(18, 87);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(185, 22);
             this.label2.TabIndex = 3;
@@ -412,7 +413,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label3.Location = new System.Drawing.Point(51, 144);
+            this.label3.Location = new System.Drawing.Point(18, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(164, 22);
             this.label3.TabIndex = 4;
@@ -422,7 +423,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label4.Location = new System.Drawing.Point(51, 193);
+            this.label4.Location = new System.Drawing.Point(18, 193);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(151, 22);
             this.label4.TabIndex = 4;
@@ -468,7 +469,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1248, 778);
+            this.tabPage3.Size = new System.Drawing.Size(1273, 814);
             this.tabPage3.TabIndex = 6;
             this.tabPage3.Text = "Quản lý hóa đơn";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -508,52 +509,65 @@
             // 
             // dtpDenNgay
             // 
-            this.dtpDenNgay.Location = new System.Drawing.Point(337, 268);
+            this.dtpDenNgay.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.dtpDenNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.dtpDenNgay.Location = new System.Drawing.Point(385, 268);
             this.dtpDenNgay.Name = "dtpDenNgay";
-            this.dtpDenNgay.Size = new System.Drawing.Size(114, 30);
+            this.dtpDenNgay.Size = new System.Drawing.Size(99, 24);
             this.dtpDenNgay.TabIndex = 6;
             // 
             // dtpTuNgay
             // 
-            this.dtpTuNgay.Location = new System.Drawing.Point(137, 267);
+            this.dtpTuNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.dtpTuNgay.Location = new System.Drawing.Point(230, 268);
             this.dtpTuNgay.Name = "dtpTuNgay";
-            this.dtpTuNgay.Size = new System.Drawing.Size(102, 30);
+            this.dtpTuNgay.Size = new System.Drawing.Size(102, 24);
             this.dtpTuNgay.TabIndex = 5;
             // 
             // txtTongGia
             // 
+            this.txtTongGia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.txtTongGia.Location = new System.Drawing.Point(230, 318);
             this.txtTongGia.Name = "txtTongGia";
-            this.txtTongGia.Size = new System.Drawing.Size(254, 30);
+            this.txtTongGia.Size = new System.Drawing.Size(254, 24);
             this.txtTongGia.TabIndex = 4;
+            this.txtTongGia.TextChanged += new System.EventHandler(this.InvoiceSearchCriteriaChanged);
             // 
             // txtTenNhanVien
             // 
+            this.txtTenNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.txtTenNhanVien.Location = new System.Drawing.Point(230, 204);
             this.txtTenNhanVien.Name = "txtTenNhanVien";
-            this.txtTenNhanVien.Size = new System.Drawing.Size(254, 30);
+            this.txtTenNhanVien.Size = new System.Drawing.Size(254, 24);
             this.txtTenNhanVien.TabIndex = 4;
+            this.txtTenNhanVien.TextChanged += new System.EventHandler(this.InvoiceSearchCriteriaChanged);
             // 
             // txtMaSach
             // 
+            this.txtMaSach.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.txtMaSach.Location = new System.Drawing.Point(230, 145);
             this.txtMaSach.Name = "txtMaSach";
-            this.txtMaSach.Size = new System.Drawing.Size(254, 30);
+            this.txtMaSach.Size = new System.Drawing.Size(254, 24);
             this.txtMaSach.TabIndex = 4;
+            this.txtMaSach.TextChanged += new System.EventHandler(this.InvoiceSearchCriteriaChanged);
             // 
             // txtTenKH
             // 
+            this.txtTenKH.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.txtTenKH.Location = new System.Drawing.Point(230, 85);
             this.txtTenKH.Name = "txtTenKH";
-            this.txtTenKH.Size = new System.Drawing.Size(254, 30);
+            this.txtTenKH.Size = new System.Drawing.Size(254, 24);
             this.txtTenKH.TabIndex = 4;
+            this.txtTenKH.TextChanged += new System.EventHandler(this.InvoiceSearchCriteriaChanged);
             // 
             // txtMaHoaDon
             // 
+            this.txtMaHoaDon.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.txtMaHoaDon.Location = new System.Drawing.Point(230, 36);
             this.txtMaHoaDon.Name = "txtMaHoaDon";
-            this.txtMaHoaDon.Size = new System.Drawing.Size(254, 30);
+            this.txtMaHoaDon.Size = new System.Drawing.Size(254, 24);
             this.txtMaHoaDon.TabIndex = 4;
+            this.txtMaHoaDon.TextChanged += new System.EventHandler(this.InvoiceSearchCriteriaChanged);
             // 
             // label23
             // 
@@ -636,7 +650,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 29);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1248, 778);
+            this.tabPage6.Size = new System.Drawing.Size(1273, 814);
             this.tabPage6.TabIndex = 8;
             this.tabPage6.Text = "Quản lý nhân sự";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -799,7 +813,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 29);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1248, 778);
+            this.tabPage7.Size = new System.Drawing.Size(1273, 814);
             this.tabPage7.TabIndex = 9;
             this.tabPage7.Text = "Quản lý phiếu xuất kho";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -823,6 +837,10 @@
             // searchTimer
             // 
             this.searchTimer.Interval = 500;
+            // 
+            // searchTimer2
+            // 
+            this.searchTimer2.Interval = 500;
             // 
             // admin_page
             // 
@@ -926,6 +944,7 @@
         private System.Windows.Forms.TextBox txtTongGia;
         private System.Windows.Forms.DateTimePicker dtpDenNgay;
         private System.Windows.Forms.DateTimePicker dtpTuNgay;
+        private System.Windows.Forms.Timer searchTimer2;
     }
 }
 
