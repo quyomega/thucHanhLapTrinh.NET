@@ -15,6 +15,7 @@ namespace baitaplon
     public partial class DoiMK : Form
     {
         private int userId;
+        private ketnoi kn = new ketnoi();
 
         public DoiMK(int userId)
         {
@@ -36,8 +37,7 @@ namespace baitaplon
             }
         }
 
-
-        private void but_XacNhan_Click(object sender, EventArgs e)
+        private void XacNhan_Click(object sender, EventArgs e)
         {
             // Kiểm tra tính hợp lệ của mật khẩu mới
             if (tb_mkMoi.Text != tb_nhaplaiMK.Text)
@@ -46,47 +46,38 @@ namespace baitaplon
                 return;
             }
 
-            string connectionString = "Data Source=DESKTOP-V71IBDD;Initial Catalog=baitaplon;Integrated Security=True";
+            // Băm mật khẩu cũ mà người dùng nhập vào
             string hashedOldPassword = HashPassword(tb_mkCu.Text);
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // Kiểm tra mật khẩu cũ trong cơ sở dữ liệu
+            string checkQuery = "SELECT COUNT(1) FROM dbo.users WHERE user_id = @userId AND LTRIM(RTRIM(password)) = @oldPassword";
+            SqlParameter[] checkParams = new SqlParameter[]
             {
-                try
+                new SqlParameter("@userId", this.userId),
+                new SqlParameter("@oldPassword", hashedOldPassword)
+            };
+
+            DataTable dt = kn.GetDataTable(checkQuery, checkParams);
+            if (dt.Rows.Count > 0 && Convert.ToInt32(dt.Rows[0][0]) == 1)
+            {
+                // Nếu mật khẩu cũ đúng, băm mật khẩu mới và cập nhật
+                string hashedNewPassword = HashPassword(tb_mkMoi.Text);
+                string updateQuery = "UPDATE dbo.users SET password = @newPassword WHERE user_id = @userId";
+                SqlParameter[] updateParams = new SqlParameter[]
                 {
-                    conn.Open();
+                    new SqlParameter("@userId", this.userId),
+                    new SqlParameter("@newPassword", hashedNewPassword.PadRight(100)) // Thêm khoảng trắng cho `nchar(100)`
+                };
 
-                    // Kiểm tra mật khẩu cũ của người dùng dựa trên `userId` và `hashedOldPassword`
-                    SqlCommand checkCmd = new SqlCommand("SELECT COUNT(1) FROM dbo.users WHERE user_id = @userId AND LTRIM(RTRIM(password)) = @oldPassword", conn);
-                    checkCmd.Parameters.AddWithValue("@userId", this.userId);
-                    checkCmd.Parameters.AddWithValue("@oldPassword", hashedOldPassword);
-
-                    int userExists = (int)checkCmd.ExecuteScalar();
-
-                    if (userExists == 1)
-                    {
-                        // Băm mật khẩu mới trước khi cập nhật
-                        string hashedNewPassword = HashPassword(tb_mkMoi.Text);
-
-                        // Cập nhật mật khẩu mới
-                        SqlCommand updateCmd = new SqlCommand("UPDATE dbo.users SET password = @newPassword WHERE user_id = @userId", conn);
-                        updateCmd.Parameters.AddWithValue("@userId", this.userId);
-                        updateCmd.Parameters.AddWithValue("@newPassword", hashedNewPassword.PadRight(100)); // Bổ sung khoảng trắng để phù hợp với kiểu `nchar(100)`
-
-                        updateCmd.ExecuteNonQuery();
-                        MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Mật khẩu cũ không đúng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                kn.ExecuteQuery(updateQuery, updateParams); // Thực thi truy vấn cập nhật
+                MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close(); // Đóng form đổi mật khẩu sau khi thành công
+            }
+            else
+            {
+                MessageBox.Show("Mật khẩu cũ không đúng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+    
     }
 }

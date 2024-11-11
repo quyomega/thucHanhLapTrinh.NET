@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,6 +9,9 @@ namespace baitaplon
 {
     public partial class LoginForm : Form
     {
+        public int UserId { get; private set; } // Biến lưu `user_id` của người dùng sau khi đăng nhập thành công
+        private ketnoi kn = new ketnoi();
+
         public LoginForm()
         {
             InitializeComponent();
@@ -30,40 +34,45 @@ namespace baitaplon
         {
             string username = txtUsername.Text;
             string password = txtPassword.Text;
-            string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string query = "SELECT user_id, role FROM users WHERE username=@username AND password=@password";
+            SqlParameter[] parameters = new SqlParameter[]
             {
-                conn.Open();
-                string query = "SELECT role FROM users WHERE username=@username AND password=@password";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@password", HashPassword(password));
+                new SqlParameter("@username", username),
+                new SqlParameter("@password", HashPassword(password))
+            };
 
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+            try
+            {
+                DataTable dt = kn.GetDataTable(query, parameters);
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
+                    UserId = (int)row["user_id"]; // Lấy `user_id` từ kết quả truy vấn
+                    string role = row["role"].ToString();
+
+                    // Mở form dựa trên quyền
+                    if (role.Trim() == "admin")
                     {
-                        string role = reader["role"].ToString();
-                        // Mở form dựa trên quyền
-                        if (role.Trim() == "admin")
-                        {
-                            admin_page adminForm = new admin_page(this);
-                            adminForm.Show();
-                        }
-                        else
-                        {
-                            // Gọi user_page với tham số form và username
-                            user_page userForm = new user_page(this, username);  // Truyền form và username vào constructor
-                            userForm.Show();
-                        }
-                        this.Hide(); // Ẩn LoginForm
+                        admin_page adminForm = new admin_page(this);
+                        adminForm.Show();
                     }
                     else
                     {
-                        MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!");
+                        // Gọi user_page với tham số form và username
+                        user_page userForm = new user_page(this, username, UserId);  // Truyền form và username vào constructor
+                        userForm.Show();
                     }
+                    this.Hide(); // Ẩn LoginForm
                 }
+                else
+                {
+                    MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi đăng nhập: " + ex.Message);
             }
         }
 
