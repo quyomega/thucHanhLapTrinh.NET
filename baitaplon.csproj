@@ -64,6 +64,12 @@
     <Compile Include="admin_page.Designer.cs">
       <DependentUpon>admin_page.cs</DependentUpon>
     </Compile>
+    <Compile Include="PhieuNhapKhoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PhieuNhapKhoForm.Designer.cs">
+      <DependentUpon>PhieuNhapKhoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PhieuXuatKhoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +114,9 @@
     <EmbeddedResource Include="admin_page.resx">
       <DependentUpon>admin_page.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhieuNhapKhoForm.resx">
+      <DependentUpon>PhieuNhapKhoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PhieuXuatKhoForm.resx">
       <DependentUpon>PhieuXuatKhoForm.cs</DependentUpon>

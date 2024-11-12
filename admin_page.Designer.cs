@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.btnPhieuNhapKho = new System.Windows.Forms.Button();
             this.btnThemSach = new System.Windows.Forms.Button();
             this.btnCapNhatThongTinSach = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -58,7 +59,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.btnPhieuXuatKho = new System.Windows.Forms.Button();
             this.dataGridViewBooks = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -148,11 +148,11 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.btnPhieuNhapKho);
             this.tabPage5.Controls.Add(this.btnThemSach);
             this.tabPage5.Controls.Add(this.btnCapNhatThongTinSach);
             this.tabPage5.Controls.Add(this.groupBox3);
             this.tabPage5.Controls.Add(this.groupBox2);
-            this.tabPage5.Controls.Add(this.button2);
             this.tabPage5.Controls.Add(this.btnPhieuXuatKho);
             this.tabPage5.Controls.Add(this.dataGridViewBooks);
             this.tabPage5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -163,6 +163,16 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Quản lý sách";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // btnPhieuNhapKho
+            // 
+            this.btnPhieuNhapKho.Location = new System.Drawing.Point(1068, 640);
+            this.btnPhieuNhapKho.Name = "btnPhieuNhapKho";
+            this.btnPhieuNhapKho.Size = new System.Drawing.Size(165, 55);
+            this.btnPhieuNhapKho.TabIndex = 9;
+            this.btnPhieuNhapKho.Text = "Tạo phiếu nhập kho";
+            this.btnPhieuNhapKho.UseVisualStyleBackColor = true;
+            this.btnPhieuNhapKho.Click += new System.EventHandler(this.btnPhieuNhapKho_Click);
             // 
             // btnThemSach
             // 
@@ -445,16 +455,6 @@
             this.label4.Size = new System.Drawing.Size(151, 22);
             this.label4.TabIndex = 4;
             this.label4.Text = "Tìm kiếm theo giá";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(1068, 625);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(165, 54);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Tạo phiếu nhập kho";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.btnPhieuXuatKho_Click);
             // 
             // btnPhieuXuatKho
             // 
@@ -1104,7 +1104,6 @@
         private System.Windows.Forms.TextBox txtTheLoai;
         private System.Windows.Forms.TextBox txtTenSach;
         private System.Windows.Forms.Button btnCapNhatThongTinSach;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
@@ -1143,6 +1142,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.DateTimePicker dtpThoiGian;
+        private System.Windows.Forms.Button btnPhieuNhapKho;
     }
 }
 

@@ -273,19 +273,6 @@ namespace baitaplon
         {
             loginForm.Show();
         }
-
-        private void btnPhieuXuatKho_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(selectedBookId))
-            {
-                MessageBox.Show("Vui lòng chọn một sách từ danh sách.");
-                return;
-            }
-
-            PhieuXuatKhoForm phieuXuatKhoForm = new PhieuXuatKhoForm(selectedBookId);
-            phieuXuatKhoForm.ShowDialog();
-        }
-
         private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridViewBooks.SelectedRows.Count > 0)
@@ -465,7 +452,27 @@ namespace baitaplon
             ThemSachForm themSachForm = new ThemSachForm();
             themSachForm.ShowDialog();
         }
+        private void btnPhieuXuatKho_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedBookId))
+            {
+                MessageBox.Show("Vui lòng chọn một sách từ danh sách.");
+                return;
+            }
 
-        
+            PhieuXuatKhoForm phieuXuatKhoForm = new PhieuXuatKhoForm(selectedBookId);
+            phieuXuatKhoForm.ShowDialog();
+        }
+        private void btnPhieuNhapKho_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedBookId))
+            {
+                MessageBox.Show("Vui lòng chọn một sách từ danh sách.");
+                return;
+            }
+
+            PhieuNhapKhoForm phieuNhapKhoForm = new PhieuNhapKhoForm(selectedBookId);
+            phieuNhapKhoForm.ShowDialog();
+        }
     }
 }
