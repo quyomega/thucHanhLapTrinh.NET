@@ -69,7 +69,6 @@ namespace baitaplon
             DateTime ngayXuat = dateTimePickerNgayXuat.Value;
             string nhanVienId = cmbNhanVien.SelectedValue.ToString();
 
-            // Kiểm tra số lượng có lớn hơn số lượng trong kho không
             string queryQuantity = "SELECT quantityShelf FROM books WHERE book_id = @book_id";
             SqlParameter paramBookId = new SqlParameter("@book_id", maSach);
             DataTable resultQuantity = kn.GetDataTable(queryQuantity, new SqlParameter[] { paramBookId });
@@ -78,11 +77,9 @@ namespace baitaplon
             {
                 int quantityShelf = Convert.ToInt32(resultQuantity.Rows[0]["quantityShelf"]);
 
-                // Nếu số lượng nhập vào lớn hơn số lượng trong kho
                 if (soLuong > quantityShelf)
                 {
                     MessageBox.Show("Số lượng xuất kho không được lớn hơn số lượng trong kho!");
-                    return; // Dừng lại nếu số lượng không hợp lệ
                 }
             }
             else
@@ -91,10 +88,8 @@ namespace baitaplon
                 return;
             }
 
-            // Đặt thoiGianThucHien là NULL khi chưa thực hiện
             object thoiGianThucHien = DBNull.Value;
 
-            // Giá trị mặc định của trangThai là "Chưa làm"
             string trangThai = "Chưa làm";
 
             string query = "INSERT INTO PhieuNhapKho (book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai) " +
@@ -105,9 +100,9 @@ namespace baitaplon
                 new SqlParameter("@book_id", maSach),
                 new SqlParameter("@user_id", nhanVienId),
                 new SqlParameter("@thoiGianTaoPhieu", DateTime.Now),
-                new SqlParameter("@thoiGianThucHien", thoiGianThucHien), // Gửi giá trị NULL
+                new SqlParameter("@thoiGianThucHien", thoiGianThucHien), 
                 new SqlParameter("@soLuong", soLuong),
-                new SqlParameter("@trangThai", trangThai) // Gửi giá trị trangThai là "Chưa làm"
+                new SqlParameter("@trangThai", trangThai) 
             };
 
             kn.ExecuteQuery(query, parameters.ToArray());
