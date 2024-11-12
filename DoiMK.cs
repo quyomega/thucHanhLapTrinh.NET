@@ -78,6 +78,52 @@ namespace baitaplon
                 MessageBox.Show("Mật khẩu cũ không đúng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-    
+
+        private void pc_an_Click(object sender, EventArgs e)
+        {
+            tb_mkCu.UseSystemPasswordChar = true;
+            pc_an.Visible = false;
+            pc_hienthi.Visible = true; 
+        }
+
+        private void pc_hienthi_Click(object sender, EventArgs e)
+        {
+            tb_mkCu.UseSystemPasswordChar = false;
+            pc_hienthi.Visible = false;
+            pc_an.Visible = true;
+        }
+
+        private void DoiMK_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pc_an2_Click(object sender, EventArgs e)
+        {
+            tb_mkMoi.UseSystemPasswordChar = true;
+            pc_an2.Visible = false;
+            pc_hienthi2.Visible = true;
+        }
+
+        private void pc_hienthi2_Click(object sender, EventArgs e)
+        {
+            tb_mkMoi.UseSystemPasswordChar = false;
+            pc_hienthi2.Visible = false;
+            pc_an2.Visible = true;
+        }
+
+        private void pc_an3_Click(object sender, EventArgs e)
+        {
+            tb_nhaplaiMK.UseSystemPasswordChar = true;
+            pc_an3.Visible = false;
+            pc_hienthi3.Visible = true;
+        }
+
+        private void pc_hienthi3_Click(object sender, EventArgs e)
+        {
+            tb_nhaplaiMK.UseSystemPasswordChar = false;
+            pc_hienthi3.Visible = false;
+            pc_an3.Visible = true;
+        }
     }
 }

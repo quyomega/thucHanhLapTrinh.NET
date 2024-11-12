@@ -90,5 +90,21 @@ namespace baitaplon
             RegisterForm registerForm = new RegisterForm(this); // Chuyển tham chiếu đến LoginForm
             registerForm.Show();
         }
+
+        private void pc_hienthi_Click(object sender, EventArgs e)
+        {
+            // Hiển thị mật khẩu và chuyển đổi hiển thị PictureBox
+            txtPassword.UseSystemPasswordChar = false;
+            pc_hienthi.Visible = false; // Ẩn pc_hienthi
+            pc_an.Visible = true; // Hiển thị pc_an
+        }
+
+        private void pc_an_Click(object sender, EventArgs e)
+        {
+            // Ẩn mật khẩu và chuyển đổi hiển thị PictureBox
+            txtPassword.UseSystemPasswordChar = true;
+            pc_an.Visible = false; // Ẩn pc_an
+            pc_hienthi.Visible = true; // Hiển thị pc_hienthi
+        }
     }
 }

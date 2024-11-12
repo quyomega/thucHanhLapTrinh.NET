@@ -178,5 +178,33 @@ namespace baitaplon
             _loginForm.Show(); 
             this.Close(); 
         }
+
+        private void pc_an_Click(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = true;
+            pc_an.Visible = false;
+            pc_hienthi.Visible = true;
+        }
+
+        private void pc_hienthi_Click(object sender, EventArgs e)
+        {
+            txtPassword.UseSystemPasswordChar = false;
+            pc_hienthi.Visible = false;
+            pc_an.Visible = true;
+        }
+
+        private void pc_hienthi1_Click(object sender, EventArgs e)
+        {
+            txtConfirmPassword.UseSystemPasswordChar = false;
+            pc_hienthi1.Visible = false;
+            pc_an1.Visible = true;
+        }
+
+        private void pc_an1_Click(object sender, EventArgs e)
+        {
+            txtConfirmPassword.UseSystemPasswordChar = true;
+            pc_an1.Visible = false;
+            pc_hienthi1.Visible = true;
+        }
     }
 }

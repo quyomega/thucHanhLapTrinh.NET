@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DoiMK));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -36,6 +37,18 @@
             this.tb_mkMoi = new System.Windows.Forms.TextBox();
             this.tb_nhaplaiMK = new System.Windows.Forms.TextBox();
             this.XacNhan = new System.Windows.Forms.Button();
+            this.pc_hienthi = new System.Windows.Forms.PictureBox();
+            this.pc_an = new System.Windows.Forms.PictureBox();
+            this.pc_hienthi2 = new System.Windows.Forms.PictureBox();
+            this.pc_an2 = new System.Windows.Forms.PictureBox();
+            this.pc_hienthi3 = new System.Windows.Forms.PictureBox();
+            this.pc_an3 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_hienthi)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_an)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_hienthi2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_an2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_hienthi3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_an3)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -112,11 +125,83 @@
             this.XacNhan.UseVisualStyleBackColor = true;
             this.XacNhan.Click += new System.EventHandler(this.XacNhan_Click);
             // 
+            // pc_hienthi
+            // 
+            this.pc_hienthi.Image = ((System.Drawing.Image)(resources.GetObject("pc_hienthi.Image")));
+            this.pc_hienthi.Location = new System.Drawing.Point(817, 148);
+            this.pc_hienthi.Name = "pc_hienthi";
+            this.pc_hienthi.Size = new System.Drawing.Size(40, 31);
+            this.pc_hienthi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pc_hienthi.TabIndex = 10;
+            this.pc_hienthi.TabStop = false;
+            this.pc_hienthi.Click += new System.EventHandler(this.pc_hienthi_Click);
+            // 
+            // pc_an
+            // 
+            this.pc_an.Image = ((System.Drawing.Image)(resources.GetObject("pc_an.Image")));
+            this.pc_an.Location = new System.Drawing.Point(819, 148);
+            this.pc_an.Name = "pc_an";
+            this.pc_an.Size = new System.Drawing.Size(42, 32);
+            this.pc_an.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pc_an.TabIndex = 9;
+            this.pc_an.TabStop = false;
+            this.pc_an.Click += new System.EventHandler(this.pc_an_Click);
+            // 
+            // pc_hienthi2
+            // 
+            this.pc_hienthi2.Image = ((System.Drawing.Image)(resources.GetObject("pc_hienthi2.Image")));
+            this.pc_hienthi2.Location = new System.Drawing.Point(817, 274);
+            this.pc_hienthi2.Name = "pc_hienthi2";
+            this.pc_hienthi2.Size = new System.Drawing.Size(40, 31);
+            this.pc_hienthi2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pc_hienthi2.TabIndex = 12;
+            this.pc_hienthi2.TabStop = false;
+            this.pc_hienthi2.Click += new System.EventHandler(this.pc_hienthi2_Click);
+            // 
+            // pc_an2
+            // 
+            this.pc_an2.Image = ((System.Drawing.Image)(resources.GetObject("pc_an2.Image")));
+            this.pc_an2.Location = new System.Drawing.Point(817, 273);
+            this.pc_an2.Name = "pc_an2";
+            this.pc_an2.Size = new System.Drawing.Size(42, 32);
+            this.pc_an2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pc_an2.TabIndex = 11;
+            this.pc_an2.TabStop = false;
+            this.pc_an2.Click += new System.EventHandler(this.pc_an2_Click);
+            // 
+            // pc_hienthi3
+            // 
+            this.pc_hienthi3.Image = ((System.Drawing.Image)(resources.GetObject("pc_hienthi3.Image")));
+            this.pc_hienthi3.Location = new System.Drawing.Point(817, 392);
+            this.pc_hienthi3.Name = "pc_hienthi3";
+            this.pc_hienthi3.Size = new System.Drawing.Size(40, 31);
+            this.pc_hienthi3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pc_hienthi3.TabIndex = 14;
+            this.pc_hienthi3.TabStop = false;
+            this.pc_hienthi3.Click += new System.EventHandler(this.pc_hienthi3_Click);
+            // 
+            // pc_an3
+            // 
+            this.pc_an3.Image = ((System.Drawing.Image)(resources.GetObject("pc_an3.Image")));
+            this.pc_an3.Location = new System.Drawing.Point(817, 392);
+            this.pc_an3.Name = "pc_an3";
+            this.pc_an3.Size = new System.Drawing.Size(42, 32);
+            this.pc_an3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pc_an3.TabIndex = 13;
+            this.pc_an3.TabStop = false;
+            this.pc_an3.Click += new System.EventHandler(this.pc_an3_Click);
+            // 
             // DoiMK
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1066, 634);
+            this.Controls.Add(this.pc_hienthi3);
+            this.Controls.Add(this.pc_an3);
+            this.Controls.Add(this.pc_hienthi2);
+            this.Controls.Add(this.pc_an2);
+            this.Controls.Add(this.pc_hienthi);
+            this.Controls.Add(this.pc_an);
             this.Controls.Add(this.XacNhan);
             this.Controls.Add(this.tb_nhaplaiMK);
             this.Controls.Add(this.tb_mkMoi);
@@ -127,6 +212,13 @@
             this.Controls.Add(this.label1);
             this.Name = "DoiMK";
             this.Text = "DoiMK";
+            this.Load += new System.EventHandler(this.DoiMK_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pc_hienthi)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_an)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_hienthi2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_an2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_hienthi3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pc_an3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,5 +234,11 @@
         private System.Windows.Forms.TextBox tb_mkMoi;
         private System.Windows.Forms.TextBox tb_nhaplaiMK;
         private System.Windows.Forms.Button XacNhan;
+        private System.Windows.Forms.PictureBox pc_hienthi;
+        private System.Windows.Forms.PictureBox pc_an;
+        private System.Windows.Forms.PictureBox pc_hienthi2;
+        private System.Windows.Forms.PictureBox pc_an2;
+        private System.Windows.Forms.PictureBox pc_hienthi3;
+        private System.Windows.Forms.PictureBox pc_an3;
     }
 }
