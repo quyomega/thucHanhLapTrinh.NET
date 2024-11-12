@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.btnPhieuNhapKho = new System.Windows.Forms.Button();
             this.btnThemSach = new System.Windows.Forms.Button();
             this.btnCapNhatThongTinSach = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -148,7 +147,6 @@
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.btnPhieuNhapKho);
             this.tabPage5.Controls.Add(this.btnThemSach);
             this.tabPage5.Controls.Add(this.btnCapNhatThongTinSach);
             this.tabPage5.Controls.Add(this.groupBox3);
@@ -164,19 +162,9 @@
             this.tabPage5.Text = "Quản lý sách";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // btnPhieuNhapKho
-            // 
-            this.btnPhieuNhapKho.Location = new System.Drawing.Point(1068, 640);
-            this.btnPhieuNhapKho.Name = "btnPhieuNhapKho";
-            this.btnPhieuNhapKho.Size = new System.Drawing.Size(165, 55);
-            this.btnPhieuNhapKho.TabIndex = 9;
-            this.btnPhieuNhapKho.Text = "Tạo phiếu nhập kho";
-            this.btnPhieuNhapKho.UseVisualStyleBackColor = true;
-            this.btnPhieuNhapKho.Click += new System.EventHandler(this.btnPhieuNhapKho_Click);
-            // 
             // btnThemSach
             // 
-            this.btnThemSach.Location = new System.Drawing.Point(1068, 509);
+            this.btnThemSach.Location = new System.Drawing.Point(1068, 560);
             this.btnThemSach.Name = "btnThemSach";
             this.btnThemSach.Size = new System.Drawing.Size(165, 50);
             this.btnThemSach.TabIndex = 8;
@@ -462,7 +450,7 @@
             this.btnPhieuXuatKho.Name = "btnPhieuXuatKho";
             this.btnPhieuXuatKho.Size = new System.Drawing.Size(165, 54);
             this.btnPhieuXuatKho.TabIndex = 4;
-            this.btnPhieuXuatKho.Text = "Tạo phiếu xuất kho";
+            this.btnPhieuXuatKho.Text = "Tạo phiếu xuất, nhập kho";
             this.btnPhieuXuatKho.UseVisualStyleBackColor = true;
             this.btnPhieuXuatKho.Click += new System.EventHandler(this.btnPhieuXuatKho_Click);
             // 
@@ -995,17 +983,17 @@
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage7.Size = new System.Drawing.Size(1273, 814);
             this.tabPage7.TabIndex = 9;
-            this.tabPage7.Text = "Quản lý phiếu xuất kho";
+            this.tabPage7.Text = "Quản lý phiếu xuất, nhập kho";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
             // dataGridViewDelivery
             // 
             this.dataGridViewDelivery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewDelivery.Location = new System.Drawing.Point(15, 16);
+            this.dataGridViewDelivery.Location = new System.Drawing.Point(17, 16);
             this.dataGridViewDelivery.Name = "dataGridViewDelivery";
             this.dataGridViewDelivery.RowHeadersWidth = 51;
             this.dataGridViewDelivery.RowTemplate.Height = 24;
-            this.dataGridViewDelivery.Size = new System.Drawing.Size(1215, 348);
+            this.dataGridViewDelivery.Size = new System.Drawing.Size(1237, 355);
             this.dataGridViewDelivery.TabIndex = 0;
             // 
             // contextMenuStrip1
@@ -1142,7 +1130,6 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.DateTimePicker dtpThoiGian;
-        private System.Windows.Forms.Button btnPhieuNhapKho;
     }
 }
 

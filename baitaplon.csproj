@@ -64,17 +64,11 @@
     <Compile Include="admin_page.Designer.cs">
       <DependentUpon>admin_page.cs</DependentUpon>
     </Compile>
-    <Compile Include="PhieuNhapKhoForm.cs">
+    <Compile Include="PhieuXuatNhapKhoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PhieuNhapKhoForm.Designer.cs">
-      <DependentUpon>PhieuNhapKhoForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PhieuXuatKhoForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PhieuXuatKhoForm.Designer.cs">
-      <DependentUpon>PhieuXuatKhoForm.cs</DependentUpon>
+    <Compile Include="PhieuXuatNhapKhoForm.Designer.cs">
+      <DependentUpon>PhieuXuatNhapKhoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ThemSachForm.cs">
       <SubType>Form</SubType>
@@ -115,11 +109,8 @@
       <DependentUpon>admin_page.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PhieuNhapKhoForm.resx">
-      <DependentUpon>PhieuNhapKhoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PhieuXuatKhoForm.resx">
-      <DependentUpon>PhieuXuatKhoForm.cs</DependentUpon>
+    <EmbeddedResource Include="PhieuXuatNhapKhoForm.resx">
+      <DependentUpon>PhieuXuatNhapKhoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThemSachForm.resx">
       <DependentUpon>ThemSachForm.cs</DependentUpon>

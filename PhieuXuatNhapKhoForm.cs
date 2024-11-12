@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace baitaplon
 {
-    public partial class PhieuNhapKhoForm : Form
+    public partial class PhieuXuatNhapKhoForm : Form
     {
         private ketnoi kn = new ketnoi();
         private string selectedBookId;
         private string selectedUserId;
 
-        public PhieuNhapKhoForm(string bookId)
+        public PhieuXuatNhapKhoForm(string bookId)
         {
             InitializeComponent();
             this.selectedBookId = bookId;
@@ -35,6 +30,15 @@ namespace baitaplon
             cmbNhanVien.DataSource = staffTable;
             cmbNhanVien.DisplayMember = "TenNhanVien";
             cmbNhanVien.ValueMember = "user_id";
+        }
+        private void LoadHinhThucData()
+        {
+            // Thêm các giá trị vào ComboBox
+            cmbHinhThuc.Items.Add("Xuất kho");
+            cmbHinhThuc.Items.Add("Nhập kho");
+
+            // Chọn giá trị mặc định nếu có
+            cmbHinhThuc.SelectedIndex = 0; // Chọn "Bán" làm mặc định
         }
 
         private void SetDateTimePickerReadOnly()
@@ -57,30 +61,27 @@ namespace baitaplon
                 txtMaPhieu.Text = result.Rows[0][0].ToString();
             }
         }
-        private void PhieuXuatKhoForm_Load(object sender, EventArgs e)
-        {
-        }
 
-        private void btnLuuPhieu_Click_1(object sender, EventArgs e)
+        private void btnLuuPhieu_Click(object sender, EventArgs e)
         {
             string maPhieu = txtMaPhieu.Text;
             string maSach = selectedBookId;
             int soLuong = int.Parse(txtSoLuong.Text);
             DateTime ngayXuat = dateTimePickerNgayXuat.Value;
             string nhanVienId = cmbNhanVien.SelectedValue.ToString();
+            string hinhThuc = cmbHinhThuc.SelectedItem.ToString();  
 
-            string queryQuantity = "SELECT quantityShelf FROM books WHERE book_id = @book_id";
+            int quantityShelf = 0;
+            int quantityStore = 0;
+
+            string queryQuantity = "SELECT quantityShelf, quantityStore FROM books WHERE book_id = @book_id";
             SqlParameter paramBookId = new SqlParameter("@book_id", maSach);
             DataTable resultQuantity = kn.GetDataTable(queryQuantity, new SqlParameter[] { paramBookId });
 
             if (resultQuantity.Rows.Count > 0)
             {
-                int quantityShelf = Convert.ToInt32(resultQuantity.Rows[0]["quantityShelf"]);
-
-                if (soLuong > quantityShelf)
-                {
-                    MessageBox.Show("Số lượng xuất kho không được lớn hơn số lượng trong kho!");
-                }
+                quantityShelf = Convert.ToInt32(resultQuantity.Rows[0]["quantityShelf"]);
+                quantityStore = Convert.ToInt32(resultQuantity.Rows[0]["quantityStore"]);
             }
             else
             {
@@ -88,26 +89,55 @@ namespace baitaplon
                 return;
             }
 
+            if (hinhThuc == "Nhập kho")
+            {
+                if (soLuong > quantityShelf)
+                {
+                    MessageBox.Show("Số lượng nhập kho không được lớn hơn số lượng trong kho bày!");
+                    return;
+                }
+            }
+            else if (hinhThuc == "Xuất kho")
+            {
+                if (soLuong > quantityStore)
+                {
+                    MessageBox.Show("Số lượng xuất kho không được lớn hơn số lượng trong kho!");
+                    return;
+                }
+            }
+
             object thoiGianThucHien = DBNull.Value;
 
             string trangThai = "Chưa làm";
 
-            string query = "INSERT INTO PhieuNhapKho (book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai) " +
-                           "VALUES (@book_id, @user_id, @thoiGianTaoPhieu, @thoiGianThucHien, @soLuong, @trangThai)";
+            string query = "INSERT INTO PhieuXuatKho (book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, hinhThuc, trangThai) " +
+                           "VALUES (@book_id, @user_id, @thoiGianTaoPhieu, @thoiGianThucHien, @soLuong, @hinhThuc, @trangThai)";
 
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@book_id", maSach),
                 new SqlParameter("@user_id", nhanVienId),
                 new SqlParameter("@thoiGianTaoPhieu", DateTime.Now),
-                new SqlParameter("@thoiGianThucHien", thoiGianThucHien), 
+                new SqlParameter("@thoiGianThucHien", thoiGianThucHien),
                 new SqlParameter("@soLuong", soLuong),
-                new SqlParameter("@trangThai", trangThai) 
+                new SqlParameter("@hinhThuc", hinhThuc),
+                new SqlParameter("@trangThai", trangThai)  
             };
-
             kn.ExecuteQuery(query, parameters.ToArray());
-            MessageBox.Show("Phiếu xuất kho đã được tạo thành công!");
+            if(hinhThuc == "Nhập kho")
+            {
+                MessageBox.Show("Phiếu nhập kho đã được tạo thành công!");
+
+            }
+            else if (hinhThuc == "Xuất kho")
+            {
+                MessageBox.Show("Phiếu xuất kho đã được tạo thành công!");
+
+            }
             this.Close();
+        }
+        private void PhieuXuatKhoForm_Load(object sender, EventArgs e)
+        {
         }
     }
 }

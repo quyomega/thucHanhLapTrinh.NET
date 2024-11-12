@@ -1,6 +1,6 @@
 ﻿namespace baitaplon
 {
-    partial class PhieuXuatKhoForm
+    partial class PhieuXuatNhapKhoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -39,6 +39,8 @@
             this.dateTimePickerNgayXuat = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbNhanVien = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cmbHinhThuc = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -79,7 +81,7 @@
             // 
             // btnLuuPhieu
             // 
-            this.btnLuuPhieu.Location = new System.Drawing.Point(276, 329);
+            this.btnLuuPhieu.Location = new System.Drawing.Point(276, 374);
             this.btnLuuPhieu.Name = "btnLuuPhieu";
             this.btnLuuPhieu.Size = new System.Drawing.Size(113, 36);
             this.btnLuuPhieu.TabIndex = 4;
@@ -135,12 +137,34 @@
             this.cmbNhanVien.Size = new System.Drawing.Size(200, 24);
             this.cmbNhanVien.TabIndex = 10;
             // 
-            // PhieuXuatKhoForm
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(41, 333);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(61, 16);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Hình thức";
+            // 
+            // cmbHinhThuc
+            // 
+            this.cmbHinhThuc.FormattingEnabled = true;
+            this.cmbHinhThuc.Items.AddRange(new object[] {
+            "Xuất kho",
+            "Nhập kho"});
+            this.cmbHinhThuc.Location = new System.Drawing.Point(189, 333);
+            this.cmbHinhThuc.Name = "cmbHinhThuc";
+            this.cmbHinhThuc.Size = new System.Drawing.Size(200, 24);
+            this.cmbHinhThuc.TabIndex = 11;
+            // 
+            // PhieuXuatNhapKhoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 391);
+            this.ClientSize = new System.Drawing.Size(425, 463);
+            this.Controls.Add(this.cmbHinhThuc);
             this.Controls.Add(this.cmbNhanVien);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.dateTimePickerNgayXuat);
             this.Controls.Add(this.txtSoLuong);
@@ -151,9 +175,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "PhieuXuatKhoForm";
+            this.Name = "PhieuXuatNhapKhoForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PhieuXuatKho";
+            this.Text = "PhieuXuatNhapKho";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,5 +196,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerNgayXuat;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbNhanVien;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cmbHinhThuc;
     }
 }

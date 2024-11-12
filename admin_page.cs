@@ -99,16 +99,9 @@ namespace baitaplon
         }
         private void LoadDeliveryData()
         {
-            // Truy vấn dữ liệu từ bảng PhieuXuatKho
-            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai FROM PhieuXuatKho";
-
-            // Lấy dữ liệu từ database
+            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai, hinhThuc FROM PhieuXuatKho";
             DataTable deliveryTable = kn.GetDataTable(query);
-
-            // Đưa dữ liệu vào DataGridView
             dataGridViewDelivery.DataSource = deliveryTable;
-
-            // Thiết lập tiêu đề cột
             SetDeliveryColumnHeaders();
         }
 
@@ -178,6 +171,8 @@ namespace baitaplon
             dataGridViewDelivery.Columns["thoiGianThucHien"].HeaderText = "Thời Gian Thực Hiện";
             dataGridViewDelivery.Columns["soLuong"].HeaderText = "Số Lượng";
             dataGridViewDelivery.Columns["trangThai"].HeaderText = "Trạng Thái";
+            dataGridViewDelivery.Columns["hinhThuc"].HeaderText = "Hình Thức";
+
 
             dataGridViewDelivery.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewDelivery.Font, FontStyle.Bold);
             dataGridViewDelivery.Columns["maPhieu"].Width = 80;
@@ -185,8 +180,10 @@ namespace baitaplon
             dataGridViewDelivery.Columns["user_id"].Width = 100;
             dataGridViewDelivery.Columns["thoiGianTaoPhieu"].Width = 170;
             dataGridViewDelivery.Columns["thoiGianThucHien"].Width = 170;
-            dataGridViewDelivery.Columns["soLuong"].Width = 120;
-            dataGridViewDelivery.Columns["trangThai"].Width = 117;
+            dataGridViewDelivery.Columns["soLuong"].Width = 78;
+            dataGridViewDelivery.Columns["trangThai"].Width = 80;
+            dataGridViewDelivery.Columns["hinhThuc"].Width = 80;
+
         }
         private void SearchBooks()
         {
@@ -408,28 +405,22 @@ namespace baitaplon
 
         private void btnCapNhatThongTinSach_Click(object sender, EventArgs e)
         {
-            // Kiểm tra xem đã chọn sách hay chưa
             if (string.IsNullOrEmpty(selectedBookId))
             {
                 MessageBox.Show("Vui lòng chọn một sách để cập nhật.");
                 return;
             }
 
-            // Lấy dữ liệu từ các TextBox
             string bookName = txtTenSach.Text;
             string category = txtTheLoai.Text;
             string publishing = txtNhaXuatBan.Text;
             string priceText = txtGia.Text;
-
-            // Kiểm tra dữ liệu đầu vào
             if (string.IsNullOrEmpty(bookName) || string.IsNullOrEmpty(category) ||
                 string.IsNullOrEmpty(publishing) || string.IsNullOrEmpty(priceText) || !decimal.TryParse(priceText, out decimal price))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin và giá phải là số hợp lệ.");
                 return;
             }
-
-            // Câu truy vấn cập nhật
             string query = "UPDATE books SET book_name = @book_name, category = @category, publishing = @publishing, price = @price WHERE book_id = @book_id";
             List<SqlParameter> parameters = new List<SqlParameter>
             {
@@ -439,12 +430,8 @@ namespace baitaplon
                 new SqlParameter("@price", price),
                 new SqlParameter("@book_id", selectedBookId)
             };
-
-            // Thực thi truy vấn
             kn.ExecuteQuery(query, parameters.ToArray());
             MessageBox.Show("Cập nhật thông tin sách thành công!");
-
-            // Tải lại dữ liệu sách để cập nhật giao diện
             LoadBooks();
         }
         private void btnThemSach_Click_1(object sender, EventArgs e)
@@ -460,19 +447,8 @@ namespace baitaplon
                 return;
             }
 
-            PhieuXuatKhoForm phieuXuatKhoForm = new PhieuXuatKhoForm(selectedBookId);
+            PhieuXuatNhapKhoForm phieuXuatKhoForm = new PhieuXuatNhapKhoForm(selectedBookId);
             phieuXuatKhoForm.ShowDialog();
-        }
-        private void btnPhieuNhapKho_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(selectedBookId))
-            {
-                MessageBox.Show("Vui lòng chọn một sách từ danh sách.");
-                return;
-            }
-
-            PhieuNhapKhoForm phieuNhapKhoForm = new PhieuNhapKhoForm(selectedBookId);
-            phieuNhapKhoForm.ShowDialog();
         }
     }
 }
