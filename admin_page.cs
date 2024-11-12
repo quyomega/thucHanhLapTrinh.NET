@@ -151,7 +151,7 @@ namespace baitaplon
             dataGridViewInvoices.Columns["DonGia"].Width = 90;
             dataGridViewInvoices.Columns["SoLuong"].Width = 90;
             dataGridViewInvoices.Columns["TongGia"].Width = 100;
-            dataGridViewInvoices.Columns["ThoiGianBan"].Width = 130;
+            dataGridViewInvoices.Columns["ThoiGianBan"].Width = 114;
         }
 
         private void SetStaffColumnHeaders()
