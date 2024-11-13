@@ -43,6 +43,14 @@ namespace baitaplon
             dtpTuNgay.ValueChanged += InvoiceSearchCriteriaChanged;
             dtpDenNgay.ValueChanged += InvoiceSearchCriteriaChanged;
             searchTimer2.Tick += searchTimer2_Tick;
+
+            tkMaNV.TextChanged += StaffSearchCriteriaChanged;
+            tkTenNV.TextChanged += StaffSearchCriteriaChanged;
+            tkEmailNV.TextChanged += StaffSearchCriteriaChanged;
+            tkSDTNV.TextChanged += StaffSearchCriteriaChanged;
+            tkDiaChiNV.TextChanged += StaffSearchCriteriaChanged;
+            searchTimer3.Tick += searchTimer3_Tick;
+
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -60,6 +68,11 @@ namespace baitaplon
             searchTimer2.Stop();
             searchTimer2.Start();
         }
+        private void StaffSearchCriteriaChanged(object sender, EventArgs e)
+        {
+            searchTimer3.Stop();
+            searchTimer3.Start();
+        }
         private void searchTimer_Tick(object sender, EventArgs e)
         {
             searchTimer.Stop();
@@ -70,6 +83,11 @@ namespace baitaplon
         {
             searchTimer2.Stop();
             SearchInvoices();
+        }
+        private void searchTimer3_Tick(object sender, EventArgs e)
+        {
+            searchTimer3.Stop();
+            SearchStaff();
         }
         private void LoadBooks()
         {
@@ -99,16 +117,9 @@ namespace baitaplon
         }
         private void LoadDeliveryData()
         {
-            // Truy vấn dữ liệu từ bảng PhieuXuatKho
-            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai FROM PhieuXuatKho";
-
-            // Lấy dữ liệu từ database
+            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai, hinhThuc FROM PhieuXuatKho";
             DataTable deliveryTable = kn.GetDataTable(query);
-
-            // Đưa dữ liệu vào DataGridView
             dataGridViewDelivery.DataSource = deliveryTable;
-
-            // Thiết lập tiêu đề cột
             SetDeliveryColumnHeaders();
         }
 
@@ -151,7 +162,7 @@ namespace baitaplon
             dataGridViewInvoices.Columns["DonGia"].Width = 90;
             dataGridViewInvoices.Columns["SoLuong"].Width = 90;
             dataGridViewInvoices.Columns["TongGia"].Width = 100;
-            dataGridViewInvoices.Columns["ThoiGianBan"].Width = 130;
+            dataGridViewInvoices.Columns["ThoiGianBan"].Width = 114;
         }
 
         private void SetStaffColumnHeaders()
@@ -178,6 +189,8 @@ namespace baitaplon
             dataGridViewDelivery.Columns["thoiGianThucHien"].HeaderText = "Thời Gian Thực Hiện";
             dataGridViewDelivery.Columns["soLuong"].HeaderText = "Số Lượng";
             dataGridViewDelivery.Columns["trangThai"].HeaderText = "Trạng Thái";
+            dataGridViewDelivery.Columns["hinhThuc"].HeaderText = "Hình Thức";
+
 
             dataGridViewDelivery.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewDelivery.Font, FontStyle.Bold);
             dataGridViewDelivery.Columns["maPhieu"].Width = 80;
@@ -185,8 +198,10 @@ namespace baitaplon
             dataGridViewDelivery.Columns["user_id"].Width = 100;
             dataGridViewDelivery.Columns["thoiGianTaoPhieu"].Width = 170;
             dataGridViewDelivery.Columns["thoiGianThucHien"].Width = 170;
-            dataGridViewDelivery.Columns["soLuong"].Width = 120;
-            dataGridViewDelivery.Columns["trangThai"].Width = 117;
+            dataGridViewDelivery.Columns["soLuong"].Width = 78;
+            dataGridViewDelivery.Columns["trangThai"].Width = 80;
+            dataGridViewDelivery.Columns["hinhThuc"].Width = 80;
+
         }
         private void SearchBooks()
         {
@@ -269,30 +284,55 @@ namespace baitaplon
             DataTable HoadonTable = kn.GetDataTable(query, parameters1.ToArray());
             dataGridViewInvoices.DataSource = HoadonTable;
         }
+        private void SearchStaff()
+        {
+            string query = "SELECT user_id, TenNhanVien, Email, phone, address FROM users WHERE 1=1";
+            List<SqlParameter> parameters2 = new List<SqlParameter>();
+
+            if (!string.IsNullOrWhiteSpace(tkMaNV.Text))
+            {
+                query += " AND user_id LIKE @user_id";
+                parameters2.Add(new SqlParameter("@user_id", "%" + tkMaNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(txtTenKH.Text))
+            {
+                query += " AND TenNhanVien LIKE @TenNhanVien";
+                parameters2.Add(new SqlParameter("@TenNhanVien", "%" + tkTenNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(tkEmailNV.Text))
+            {
+                query += " AND Email LIKE @Email";
+                parameters2.Add(new SqlParameter("@Email", "%" + tkEmailNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(tkSDTNV.Text))
+            {
+                query += " AND Phone LIKE @phone";
+                parameters2.Add(new SqlParameter("@phone", "%" + tkSDTNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(tkDiaChiNV.Text))
+            {
+                query += " AND Address LIKE @address";
+                parameters2.Add(new SqlParameter("@address", "%" + tkDiaChiNV.Text + "%"));
+            }
+
+            DataTable NhanVienTable = kn.GetDataTable(query, parameters2.ToArray());
+            dataGridViewStaff.DataSource = NhanVienTable;
+        }
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
             loginForm.Show();
         }
-
-        private void btnPhieuXuatKho_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(selectedBookId))
-            {
-                MessageBox.Show("Vui lòng chọn một sách từ danh sách.");
-                return;
-            }
-
-            PhieuXuatKhoForm phieuXuatKhoForm = new PhieuXuatKhoForm(selectedBookId);
-            phieuXuatKhoForm.ShowDialog();
-        }
-
         private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridViewBooks.SelectedRows.Count > 0)
             {
-                selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
+                //selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
 
-                DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
+                //DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
+
+                int selectedRowIndex = dataGridViewBooks.SelectedCells[0].RowIndex;
+
+                DataGridViewRow selectedRow = dataGridViewBooks.Rows[selectedRowIndex];
 
                 txtTenSach.Text = selectedRow.Cells["book_name"].Value.ToString();
                 txtTheLoai.Text = selectedRow.Cells["category"].Value.ToString();
@@ -421,28 +461,22 @@ namespace baitaplon
 
         private void btnCapNhatThongTinSach_Click(object sender, EventArgs e)
         {
-            // Kiểm tra xem đã chọn sách hay chưa
             if (string.IsNullOrEmpty(selectedBookId))
             {
                 MessageBox.Show("Vui lòng chọn một sách để cập nhật.");
                 return;
             }
 
-            // Lấy dữ liệu từ các TextBox
             string bookName = txtTenSach.Text;
             string category = txtTheLoai.Text;
             string publishing = txtNhaXuatBan.Text;
             string priceText = txtGia.Text;
-
-            // Kiểm tra dữ liệu đầu vào
             if (string.IsNullOrEmpty(bookName) || string.IsNullOrEmpty(category) ||
                 string.IsNullOrEmpty(publishing) || string.IsNullOrEmpty(priceText) || !decimal.TryParse(priceText, out decimal price))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin và giá phải là số hợp lệ.");
                 return;
             }
-
-            // Câu truy vấn cập nhật
             string query = "UPDATE books SET book_name = @book_name, category = @category, publishing = @publishing, price = @price WHERE book_id = @book_id";
             List<SqlParameter> parameters = new List<SqlParameter>
             {
@@ -452,12 +486,8 @@ namespace baitaplon
                 new SqlParameter("@price", price),
                 new SqlParameter("@book_id", selectedBookId)
             };
-
-            // Thực thi truy vấn
             kn.ExecuteQuery(query, parameters.ToArray());
             MessageBox.Show("Cập nhật thông tin sách thành công!");
-
-            // Tải lại dữ liệu sách để cập nhật giao diện
             LoadBooks();
         }
         private void btnThemSach_Click_1(object sender, EventArgs e)
@@ -465,7 +495,16 @@ namespace baitaplon
             ThemSachForm themSachForm = new ThemSachForm();
             themSachForm.ShowDialog();
         }
+        private void btnPhieuXuatKho_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedBookId))
+            {
+                MessageBox.Show("Vui lòng chọn một sách từ danh sách.");
+                return;
+            }
 
-        
+            PhieuXuatNhapKhoForm phieuXuatKhoForm = new PhieuXuatNhapKhoForm(selectedBookId);
+            phieuXuatKhoForm.ShowDialog();
+        }
     }
 }
