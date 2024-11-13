@@ -22,16 +22,15 @@ namespace baitaplon
         {
             InitializeComponent();
             this.username = username;
-            tenNhanVien = LayTenNhanVien(username); // Lấy tên nhân viên từ tài khoản đăng nhập
-            txtTenNhanVien.Text = tenNhanVien; // Gán vào TextBox và không cho chỉnh sửa
+            tenNhanVien = LayTenNhanVien(username); 
+            txtTenNhanVien.Text = tenNhanVien;
             txtTenNhanVien.ReadOnly = true;
 
-            LoadBookNames(); // Gọi hàm tải tên sách vào ComboBox
+            LoadBookNames(); 
             cbTenSach.SelectedIndexChanged += cbTenSach_SelectedIndexChanged;
             txtSoLuong.TextChanged += txtSoLuong_TextChanged;
         }
 
-        // Tải danh sách tên sách vào ComboBox
         private void LoadBookNames()
         {
             string query = "SELECT book_name FROM Books";
@@ -43,13 +42,10 @@ namespace baitaplon
             }
         }
 
-        // Khi thay đổi số lượng, tự động tính tổng giá
         private void txtSoLuong_TextChanged(object sender, EventArgs e)
         {
             CalculateTotalPrice();
         }
-
-        // Hàm tính tổng giá
         private void CalculateTotalPrice()
         {
             if (int.TryParse(txtSoLuong.Text, out int soLuong) && int.TryParse(txtDonGia.Text, out int donGia))
@@ -59,7 +55,7 @@ namespace baitaplon
             }
             else
             {
-                txtTongGia1.Text = string.Empty; // Nếu không hợp lệ, để trống
+                txtTongGia1.Text = string.Empty;
             }
         }
 
@@ -103,29 +99,53 @@ namespace baitaplon
                 return;
             }
 
+            int maSach = LayMaSachTheoTen(tenSach);
+
+            int quantityShelf = LaySoLuongSachTrongKho(maSach);
+
+            if (soLuong > quantityShelf)
+            {
+                MessageBox.Show($"Số lượng sách bạn nhập vượt quá số lượng có sẵn trong kho. Số lượng trong kho: {quantityShelf}");
+                return;
+            }
+
             int tongGia = soLuong * donGia;
 
-            // Thêm hàng vào DataGridView
             dgvHoaDon.Rows.Add(tenSach, soLuong, donGia, tongGia);
 
-            // Hiển thị tổng giá của sản phẩm hiện tại vào ô txtTongGia1
             txtTongGia1.Text = tongGia.ToString();
 
-            // Cập nhật tổng giá vào ô txtTongGia
             UpdateTotalPrice();
 
-            // Clear các ô nhập liệu
             cbTenSach.SelectedIndex = -1;
             txtSoLuong.Clear();
             txtDonGia.Clear();
         }
+
+        private int LaySoLuongSachTrongKho(int maSach)
+        {
+            string query = "SELECT quantityShelf FROM Books WHERE book_id = @MaSach";
+            SqlParameter[] parameters = { new SqlParameter("@MaSach", maSach) };
+
+            object result = ketNoi.ExecuteScalar(query, parameters);
+            if (result != null)
+            {
+                return Convert.ToInt32(result);
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy sách trong kho.");
+                return 0;
+            }
+        }
+
 
         private void UpdateTotalPrice()
         {
             int totalPrice = 0;
             foreach (DataGridViewRow row in dgvHoaDon.Rows)
             {
-                if (row.IsNewRow) continue; // Bỏ qua hàng mới trống
+                if (row.IsNewRow) continue; 
                 totalPrice += Convert.ToInt32(row.Cells["TongGia"].Value);
             }
             txtTongGia.Text = totalPrice.ToString();
@@ -176,18 +196,16 @@ namespace baitaplon
                     string tenSach = row.Cells["TenSach"].Value.ToString();
                     int soLuong = Convert.ToInt32(row.Cells["SoLuong"].Value);
                     int donGia = Convert.ToInt32(row.Cells["DonGia"].Value);
-                    int tongGia = Convert.ToInt32(row.Cells["TongGia"].Value);
 
                     int maSach = LayMaSachTheoTen(tenSach);
 
-                    string queryChiTiet = "INSERT INTO ChiTietHoaDon (MaHoaDon, MaSach, SoLuong, DonGia, TongGia) VALUES (@MaHoaDon, @MaSach, @SoLuong, @DonGia, @TongGia)";
+                    string queryChiTiet = "INSERT INTO ChiTietHoaDon (MaHoaDon, MaSach, SoLuong, DonGia) VALUES (@MaHoaDon, @MaSach, @SoLuong, @DonGia)";
                     SqlParameter[] parametersChiTiet = {
                         new SqlParameter("@MaHoaDon", maHoaDon),
                         new SqlParameter("@MaSach", maSach),
                         new SqlParameter("@SoLuong", soLuong),
-                        new SqlParameter("@DonGia", donGia),
-                        new SqlParameter("@TongGia", tongGia)
-                    };
+                        new SqlParameter("@DonGia", donGia)
+                   };
 
                     ketNoi.ExecuteQuery(queryChiTiet, parametersChiTiet);
 
@@ -199,7 +217,6 @@ namespace baitaplon
                     ketNoi.ExecuteQuery(queryUpdateBook, parametersUpdateBook);
                 }
 
-                ketNoi.ExecuteQuery("COMMIT TRANSACTION", null);
                 MessageBox.Show("Hóa đơn đã được xác nhận và lưu thành công!");
 
                 dgvHoaDon.Rows.Clear();
@@ -212,6 +229,7 @@ namespace baitaplon
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
+
 
         private int LayMaSachTheoTen(string tenSach)
         {
@@ -231,10 +249,9 @@ namespace baitaplon
 
         private void cbTenSach_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Kiểm tra nếu chưa có mục nào được chọn trong ComboBox
             if (cbTenSach.SelectedItem == null)
             {
-                txtDonGia.Text = string.Empty; // Xóa nội dung trong txtDonGia
+                txtDonGia.Text = string.Empty; 
                 return;
             }
 

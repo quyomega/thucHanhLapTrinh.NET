@@ -67,8 +67,8 @@ namespace baitaplon
                 dataGridViewBooks.Columns["category"].Width = 120;
                 dataGridViewBooks.Columns["publishing"].Width = 150;
                 dataGridViewBooks.Columns["price"].Width = 90;
-                dataGridViewBooks.Columns["quantityShelf"].Width = 120;
-                dataGridViewBooks.Columns["quantityStore"].Width = 140;
+                dataGridViewBooks.Columns["quantityShelf"].Width = 132;
+                dataGridViewBooks.Columns["quantityStore"].Width = 132;
             }
             catch (Exception ex)
             {
@@ -76,7 +76,6 @@ namespace baitaplon
             }
 
         }
-        // Hàm tải thông tin người dùng từ cơ sở dữ liệu
         private void LoadUserInfo()
         {
             string query = "SELECT username, email, phone, address, TenNhanVien FROM users WHERE username = @username";
@@ -115,7 +114,6 @@ namespace baitaplon
         }
 
 
-        // Sự kiện khi form user_page được tải
         private void user_page_Load(object sender, EventArgs e)
         {
             LoadUserInfo();
@@ -135,28 +133,36 @@ namespace baitaplon
 
         private void btnUpdate_Click_1(object sender, EventArgs e)
         {
-            string email = txtEmail.Text;
-
-            // Kiểm tra tính hợp lệ của email
-            if (!IsValidEmail(email))
+            string email = txtEmail.Text.Trim();
+            string phone = txtPhone.Text.Trim();
+            string queryCheck = "SELECT COUNT(*) FROM users WHERE (email = @Email OR phone = @Phone) AND username != @Username";
+            SqlParameter[] checkParams = new SqlParameter[]
             {
-                MessageBox.Show("Địa chỉ email không hợp lệ!");
-                return;
-            }
-
-            string query = "UPDATE users SET email = @email, phone = @phone, address = @address, TenNhanVien = @TenNhanVien WHERE username = @username";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@username", this.username),
-                new SqlParameter("@email", txtEmail.Text),
-                new SqlParameter("@phone", txtPhone.Text),
-                new SqlParameter("@address", txtAddress.Text),
-                new SqlParameter("@TenNhanVien", txtTenNhanVien.Text)
+                new SqlParameter("@Email", email),
+                new SqlParameter("@Phone", phone),
+                new SqlParameter("@Username", this.username)
             };
 
             try
             {
-                kn.ExecuteQuery(query, parameters);
+                int count = (int)kn.ExecuteScalar(queryCheck, checkParams);
+                if (count > 0)
+                {
+                    MessageBox.Show("Email hoặc số điện thoại đã tồn tại trong hệ thống. Vui lòng sử dụng email và số điện thoại khác.");
+                    return;
+                }
+
+                string queryUpdate = "UPDATE users SET email = @Email, phone = @Phone, address = @Address, TenNhanVien = @TenNhanVien WHERE username = @Username";
+                SqlParameter[] updateParams = new SqlParameter[]
+                {
+                    new SqlParameter("@Username", this.username),
+                    new SqlParameter("@Email", email),
+                    new SqlParameter("@Phone", phone),
+                    new SqlParameter("@Address", txtAddress.Text),
+                    new SqlParameter("@TenNhanVien", txtTenNhanVien.Text)
+                };
+
+                kn.ExecuteQuery(queryUpdate, updateParams);
                 MessageBox.Show("Cập nhật thông tin thành công!");
             }
             catch (Exception ex)
@@ -214,8 +220,8 @@ namespace baitaplon
 
         private void btnLogout_Click_1(object sender, EventArgs e)
         {
-            loginForm.Show(); // Hiển thị lại form Login
-            this.Close(); // Đóng form user_page
+            loginForm.Show(); 
+            this.Close(); 
         }
 
         private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
@@ -230,13 +236,13 @@ namespace baitaplon
 
         private void btnDoiMK_Click(object sender, EventArgs e)
         {
-            ChangePassword doiMK = new ChangePassword(this.userId); // Truyền `userId` từ `user_page` sang `DoiMK`
+            ChangePassword doiMK = new ChangePassword(this.userId); 
             doiMK.ShowDialog();
         }
 
         private void btnTaoHoaDon_Click(object sender, EventArgs e)
         {
-            string currentUsername = this.username; // Sử dụng `username` đã lưu từ quá trình đăng nhập
+            string currentUsername = this.username;
             CreateInvoice taoHoaDonForm = new CreateInvoice(currentUsername);
             taoHoaDonForm.Show();
         }
