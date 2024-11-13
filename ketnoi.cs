@@ -14,8 +14,11 @@ public class ketnoi
         {
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                // Thêm các tham số vào câu lệnh SQL
-                cmd.Parameters.AddRange(parameters);
+                // Thêm các tham số vào câu lệnh SQL nếu có
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
 
                 try
                 {
