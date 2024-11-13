@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Windows.Forms;
-//test2
 namespace baitaplon
 {
     public partial class AdminPage : Form
@@ -37,7 +36,6 @@ namespace baitaplon
 
             txtMaHoaDon.TextChanged += InvoiceSearchCriteriaChanged;
             txtTenKH.TextChanged += InvoiceSearchCriteriaChanged;
-            txtMaSach.TextChanged += InvoiceSearchCriteriaChanged;
             txtTenNhanVien.TextChanged += InvoiceSearchCriteriaChanged;
             txtTongGia.TextChanged += InvoiceSearchCriteriaChanged;
             dtpTuNgay.ValueChanged += InvoiceSearchCriteriaChanged;
@@ -118,7 +116,7 @@ namespace baitaplon
 
         private void LoadInvoices()
         {
-            string query = "SELECT MaHoadon, TenKhachHang, MaSach, TenNhanVien, DonGia, SoLuong, TongGia, ThoiGianBan FROM Hoadon";
+            string query = "SELECT MaHoaDon, TenKhachHang, TenNhanVien, TongGia, ThoiGianBan FROM HoaDon";
             DataTable HoadonTable = kn.GetDataTable(query);
 
             dataGridViewInvoices.DataSource = HoadonTable;
@@ -163,31 +161,25 @@ namespace baitaplon
 
         private void SetInvoiceColumnHeaders()
         {
-            dataGridViewInvoices.Columns["MaHoadon"].HeaderText = "Mã HD";
+            dataGridViewInvoices.Columns["MaHoaDon"].HeaderText = "Mã HD";
             dataGridViewInvoices.Columns["TenKhachHang"].HeaderText = "Khách Hàng";
-            dataGridViewInvoices.Columns["MaSach"].HeaderText = "Mã Sách";
             dataGridViewInvoices.Columns["TenNhanVien"].HeaderText = "Nhân Viên";
-            dataGridViewInvoices.Columns["DonGia"].HeaderText = "Đơn Giá";
-            dataGridViewInvoices.Columns["SoLuong"].HeaderText = "Số Lượng";
             dataGridViewInvoices.Columns["TongGia"].HeaderText = "Tổng Giá";
             dataGridViewInvoices.Columns["ThoiGianBan"].HeaderText = "Thời Gian";
             dataGridViewInvoices.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewInvoices.Font, FontStyle.Bold);
             dataGridViewInvoices.Columns["ThoiGianBan"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
-            dataGridViewInvoices.Columns["MaHoadon"].Width = 70;
-            dataGridViewInvoices.Columns["TenKhachHang"].Width = 150;
-            dataGridViewInvoices.Columns["MaSach"].Width = 100;
-            dataGridViewInvoices.Columns["TenNhanVien"].Width = 130;
-            dataGridViewInvoices.Columns["DonGia"].Width = 90;
-            dataGridViewInvoices.Columns["SoLuong"].Width = 90;
-            dataGridViewInvoices.Columns["TongGia"].Width = 100;
-            dataGridViewInvoices.Columns["ThoiGianBan"].Width = 114;
+            dataGridViewInvoices.Columns["MaHoadon"].Width = 100;
+            dataGridViewInvoices.Columns["TenKhachHang"].Width = 220;
+            dataGridViewInvoices.Columns["TenNhanVien"].Width = 220;
+            dataGridViewInvoices.Columns["TongGia"].Width = 157;
+            dataGridViewInvoices.Columns["ThoiGianBan"].Width = 146;
         }
 
         private void SetStaffColumnHeaders()
         {
             dataGridViewStaff.Columns["user_id"].HeaderText = "Mã Nhân Viên";
-            dataGridViewStaff.Columns["TenNhanVien"].HeaderText = "Tên Nhân Viên";
+            dataGridViewStaff.Columns["TenNhanVien"].HeaderText = "Tên Nhân Sự";
             dataGridViewStaff.Columns["Email"].HeaderText = "Email";
             dataGridViewStaff.Columns["Phone"].HeaderText = "Số Điện Thoại";
             dataGridViewStaff.Columns["Address"].HeaderText = "Địa Chỉ";
@@ -261,12 +253,12 @@ namespace baitaplon
         }
         private void SearchInvoices()
         {
-            string query = "SELECT MaHoadon, TenKhachHang, MaSach, TenNhanVien, DonGia, SoLuong, TongGia, ThoiGianBan FROM HoaDon WHERE 1=1";
+            string query = "SELECT MaHoaDon, TenKhachHang, TenNhanVien, TongGia, ThoiGianBan FROM HoaDon WHERE 1=1";
             List<SqlParameter> parameters1 = new List<SqlParameter>();
 
             if (!string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
             {
-                query += " AND MaHoadon LIKE @MaHoaDon";
+                query += " AND MaHoaDon LIKE @MaHoaDon";
                 parameters1.Add(new SqlParameter("@MaHoaDon", "%" + txtMaHoaDon.Text + "%"));
             }
             if (!string.IsNullOrWhiteSpace(txtTenKH.Text))
@@ -274,11 +266,7 @@ namespace baitaplon
                 query += " AND TenKhachHang LIKE @TenKH";
                 parameters1.Add(new SqlParameter("@TenKH", "%" + txtTenKH.Text + "%"));
             }
-            if (!string.IsNullOrWhiteSpace(txtMaSach.Text))
-            {
-                query += " AND MaSach LIKE @MaSach";
-                parameters1.Add(new SqlParameter("@MaSach", "%" + txtMaSach.Text + "%"));
-            }
+            
             if (!string.IsNullOrWhiteSpace(txtTenNhanVien.Text))
             {
                 query += " AND TenNhanVien LIKE @TenNhanVien";
@@ -286,11 +274,8 @@ namespace baitaplon
             }
             if (!string.IsNullOrWhiteSpace(txtTongGia.Text))
             {
-                if (decimal.TryParse(txtTongGia.Text, out decimal tongGia))
-                {
-                    query += " AND TongGia = @TongGia";
-                    parameters1.Add(new SqlParameter("@TongGia", tongGia));
-                }
+                query += " AND TongGia LIKE @TongGia";
+                parameters1.Add(new SqlParameter("@TongGia", "%" + txtTongGia.Text + "%"));
             }
             if (dtpTuNgay.Value != DateTimePicker.MinimumDateTime)
             {
@@ -432,10 +417,7 @@ namespace baitaplon
 
                 ttMaHoaDon.Text = selectedRow.Cells["MaHoaDon"].Value.ToString();
                 ttTenKH.Text = selectedRow.Cells["TenKhachHang"].Value.ToString();
-                ttMaSach.Text = selectedRow.Cells["MaSach"].Value.ToString();
                 ttTenNV.Text = selectedRow.Cells["TenNhanVien"].Value.ToString();
-                ttDonGia.Text = selectedRow.Cells["DonGia"].Value.ToString();
-                ttSoLuong.Text = selectedRow.Cells["SoLuong"].Value.ToString();
                 dtpThoiGian.Text = selectedRow.Cells["ThoiGianBan"].Value.ToString();
                 ttTongGia.Text = selectedRow.Cells["TongGia"].Value.ToString();
             }
