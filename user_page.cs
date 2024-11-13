@@ -233,5 +233,12 @@ namespace baitaplon
             DoiMK doiMK = new DoiMK(this.userId); // Truyền `userId` từ `user_page` sang `DoiMK`
             doiMK.ShowDialog();
         }
+
+        private void btnTaoHoaDon_Click(object sender, EventArgs e)
+        {
+            string currentUsername = this.username; // Sử dụng `username` đã lưu từ quá trình đăng nhập
+            TaoHoaDon taoHoaDonForm = new TaoHoaDon(currentUsername);
+            taoHoaDonForm.Show();
+        }
     }
 }

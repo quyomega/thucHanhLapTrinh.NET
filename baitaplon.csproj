@@ -70,6 +70,12 @@
     <Compile Include="PhieuXuatKhoForm.Designer.cs">
       <DependentUpon>PhieuXuatKhoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaoHoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaoHoaDon.Designer.cs">
+      <DependentUpon>TaoHoaDon.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThemSachForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PhieuXuatKhoForm.resx">
       <DependentUpon>PhieuXuatKhoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaoHoaDon.resx">
+      <DependentUpon>TaoHoaDon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThemSachForm.resx">
       <DependentUpon>ThemSachForm.cs</DependentUpon>

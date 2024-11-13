@@ -9,7 +9,8 @@ namespace baitaplon
 {
     public partial class LoginForm : Form
     {
-        public int UserId { get; private set; } // Biến lưu `user_id` của người dùng sau khi đăng nhập thành công
+        public int userId { get; private set; }
+        public string username { get; private set; }
         private ketnoi kn = new ketnoi();
 
         public LoginForm()
@@ -32,7 +33,7 @@ namespace baitaplon
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text;
+            username = txtUsername.Text;
             string password = txtPassword.Text;
 
             string query = "SELECT user_id, role FROM users WHERE username=@username AND password=@password";
@@ -48,7 +49,7 @@ namespace baitaplon
                 if (dt.Rows.Count > 0)
                 {
                     DataRow row = dt.Rows[0];
-                    UserId = (int)row["user_id"]; // Lấy `user_id` từ kết quả truy vấn
+                    userId = (int)row["user_id"]; // Lấy `user_id` từ kết quả truy vấn
                     string role = row["role"].ToString();
 
                     // Mở form dựa trên quyền
@@ -60,7 +61,7 @@ namespace baitaplon
                     else
                     {
                         // Gọi user_page với tham số form và username
-                        user_page userForm = new user_page(this, username, UserId);  // Truyền form và username vào constructor
+                        user_page userForm = new user_page(this, username, userId);  // Truyền form và username vào constructor
                         userForm.Show();
                     }
                     this.Hide(); // Ẩn LoginForm

@@ -60,8 +60,14 @@ namespace baitaplon
             DataTable dt = kn.GetDataTable(checkQuery, checkParams);
             if (dt.Rows.Count > 0 && Convert.ToInt32(dt.Rows[0][0]) == 1)
             {
-                // Nếu mật khẩu cũ đúng, băm mật khẩu mới và cập nhật
                 string hashedNewPassword = HashPassword(tb_mkMoi.Text);
+                // Kiểm tra nếu mật khẩu mới giống mật khẩu cũ
+                if (hashedNewPassword == hashedOldPassword)
+                {
+                    MessageBox.Show("Mật khẩu mới không được giống mật khẩu cũ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 string updateQuery = "UPDATE dbo.users SET password = @newPassword WHERE user_id = @userId";
                 SqlParameter[] updateParams = new SqlParameter[]
                 {
