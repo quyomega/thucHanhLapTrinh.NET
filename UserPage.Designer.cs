@@ -1,6 +1,6 @@
 ﻿namespace baitaplon
 {
-    partial class StaffPage
+    partial class UserPage
     {
         /// <summary>
         /// Required designer variable.

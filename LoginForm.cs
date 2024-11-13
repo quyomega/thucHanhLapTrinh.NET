@@ -61,7 +61,7 @@ namespace baitaplon
                     else
                     {
                         // Gọi user_page với tham số form và username
-                        StaffPage userForm = new StaffPage(this, username, userId);  // Truyền form và username vào constructor
+                        UserPage userForm = new UserPage(this, username, userId);  // Truyền form và username vào constructor
                         userForm.Show();
                     }
                     this.Hide(); // Ẩn LoginForm
