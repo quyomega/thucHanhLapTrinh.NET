@@ -3,7 +3,7 @@ using System.Data;
 using System.Windows.Forms;
 using System;
 
-public class ketnoi
+public class Connect
 {
     private string connectionString = "Data Source=(Localdb)\\mssqlLocaldb;Initial Catalog=baitaplon;Integrated Security=True";
 

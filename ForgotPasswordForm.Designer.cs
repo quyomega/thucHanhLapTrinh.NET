@@ -36,9 +36,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label1.Location = new System.Drawing.Point(42, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(158, 16);
+            this.label1.Size = new System.Drawing.Size(223, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Hãy nhập email của bạn :";
             // 
@@ -51,9 +52,10 @@
             // 
             // btnSendEmail
             // 
-            this.btnSendEmail.Location = new System.Drawing.Point(535, 80);
+            this.btnSendEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnSendEmail.Location = new System.Drawing.Point(485, 63);
             this.btnSendEmail.Name = "btnSendEmail";
-            this.btnSendEmail.Size = new System.Drawing.Size(75, 23);
+            this.btnSendEmail.Size = new System.Drawing.Size(102, 57);
             this.btnSendEmail.TabIndex = 2;
             this.btnSendEmail.Text = "Gửi";
             this.btnSendEmail.UseVisualStyleBackColor = true;
@@ -68,6 +70,7 @@
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.label1);
             this.Name = "ForgotPasswordForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ForgotPasswordForm";
             this.ResumeLayout(false);
             this.PerformLayout();

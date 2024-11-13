@@ -1,6 +1,6 @@
 ﻿namespace baitaplon
 {
-    partial class TaoHoaDon
+    partial class CreateInvoice
     {
         /// <summary>
         /// Required designer variable.

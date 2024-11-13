@@ -11,7 +11,7 @@ namespace baitaplon
     {
         public int userId { get; private set; }
         public string username { get; private set; }
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
 
         public LoginForm()
         {
@@ -55,13 +55,13 @@ namespace baitaplon
                     // Mở form dựa trên quyền
                     if (role.Trim() == "admin")
                     {
-                        admin_page adminForm = new admin_page(this);
+                        AdminPage adminForm = new AdminPage(this);
                         adminForm.Show();
                     }
                     else
                     {
                         // Gọi user_page với tham số form và username
-                        user_page userForm = new user_page(this, username, userId);  // Truyền form và username vào constructor
+                        UserPage userForm = new UserPage(this, username, userId);  // Truyền form và username vào constructor
                         userForm.Show();
                     }
                     this.Hide(); // Ẩn LoginForm

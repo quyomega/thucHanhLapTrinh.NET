@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace baitaplon
 {
-    public partial class DoiMK : Form
+    public partial class ChangePassword : Form
     {
         private int userId;
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
 
-        public DoiMK(int userId)
+        public ChangePassword(int userId)
         {
             InitializeComponent();
             this.userId = userId;

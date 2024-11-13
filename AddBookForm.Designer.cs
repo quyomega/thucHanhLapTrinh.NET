@@ -1,6 +1,6 @@
 ﻿namespace baitaplon
 {
-    partial class ThemSachForm
+    partial class AddBookForm
     {
         /// <summary>
         /// Required designer variable.

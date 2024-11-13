@@ -1,6 +1,6 @@
 ﻿namespace baitaplon
 {
-    partial class PhieuXuatNhapKhoForm
+    partial class DeliveryForm
     {
         /// <summary>
         /// Required designer variable.

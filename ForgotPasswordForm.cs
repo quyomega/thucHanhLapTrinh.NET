@@ -11,8 +11,7 @@ namespace baitaplon
 {
     public partial class ForgotPasswordForm : Form
     {
-
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
 
         public ForgotPasswordForm()
         {
@@ -33,29 +32,30 @@ namespace baitaplon
         }
         private void btnSendEmail_Click(object sender, EventArgs e)
         {
-            string email = txtEmail.Text.Trim(); // Lấy email và loại bỏ khoảng trắng
+            string email = txtEmail.Text.Trim();
             string query = "SELECT username FROM users WHERE email=@Email";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@Email", email)
-            };
+            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Email", email) };
 
             try
             {
                 DataTable dt = kn.GetDataTable(query, parameters);
                 if (dt.Rows.Count > 0)
                 {
-                    string username = dt.Rows[0]["username"].ToString();
+                    if (IsAccountLocked(email))
+                    {
+                        MessageBox.Show("Tài khoản này đã bị khóa do quá nhiều lần yêu cầu khôi phục mật khẩu. Vui lòng thử lại sau 24 giờ.");
+                        return;
+                    }
 
-                    // Tạo mật khẩu mới
+                    string username = dt.Rows[0]["username"].ToString();
                     string newPassword = GenerateRandomPassword();
 
-                    // Gửi email khôi phục mật khẩu
                     SendRecoveryEmail(email, username, newPassword);
                     MessageBox.Show("Một email khôi phục mật khẩu đã được gửi đến: " + email);
 
-                    // Cập nhật mật khẩu mới vào cơ sở dữ liệu
                     UpdatePasswordInDatabase(username, newPassword);
+
+                    UpdateRecoveryRequestCount(email);
                 }
                 else
                 {
@@ -67,7 +67,39 @@ namespace baitaplon
                 MessageBox.Show("Lỗi khi gửi email khôi phục: " + ex.Message);
             }
         }
+        private bool IsAccountLocked(string email)
+        {
+            string query = "SELECT request_count, last_request_time FROM PasswordRecoveryRequests WHERE email=@Email";
+            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Email", email) };
+            DataTable dt = kn.GetDataTable(query, parameters);
 
+            if (dt.Rows.Count > 0)
+            {
+                int requestCount = Convert.ToInt32(dt.Rows[0]["request_count"]);
+                DateTime lastRequestTime = Convert.ToDateTime(dt.Rows[0]["last_request_time"]);
+
+                if (requestCount >= 5 && (DateTime.Now - lastRequestTime).TotalHours < 24)
+                {
+                    return true; 
+                }
+            }
+
+            return false; 
+        }
+        private void UpdateRecoveryRequestCount(string email)
+        {
+            string query = "IF EXISTS (SELECT 1 FROM PasswordRecoveryRequests WHERE email=@Email) " +
+                           "UPDATE PasswordRecoveryRequests SET request_count = request_count + 1, last_request_time = @LastRequestTime WHERE email=@Email " +
+                           "ELSE " +
+                           "INSERT INTO PasswordRecoveryRequests (email, request_count, last_request_time) VALUES (@Email, 1, @LastRequestTime)";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@Email", email),
+        new SqlParameter("@LastRequestTime", DateTime.Now)
+            };
+
+            kn.ExecuteQuery(query, parameters);
+        }
         private string GenerateRandomPassword(int length = 10)
         {
             const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()";
@@ -79,17 +111,15 @@ namespace baitaplon
             }
             return new string(chars);
         }
-
         private void SendRecoveryEmail(string email, string username, string newPassword)
         {
-            string fromEmail = "hanglam1209@gmail.com"; // Thay thế bằng email của bạn
-            string password = "qlou tusy pfxo adhr"; // Thay thế bằng mật khẩu của bạn
+            string fromEmail = "hanglam1209@gmail.com"; 
+            string password = "qlou tusy pfxo adhr"; 
             string displayName = "Nhóm 9 - DHTI15A14";
             string subject = "Khôi phục mật khẩu";
             string body = $"Chào {username},\n\nBạn đã yêu cầu khôi phục mật khẩu. Mật khẩu mới của bạn là: {newPassword}\n\n" +
                           "Vui lòng thay đổi mật khẩu này ngay sau khi đăng nhập.\n\n" +
                           "Cảm ơn bạn!";
-
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress(fromEmail, displayName);
@@ -100,18 +130,17 @@ namespace baitaplon
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
                     smtp.Credentials = new NetworkCredential(fromEmail, password);
-                    smtp.EnableSsl = true; // Bật SSL
+                    smtp.EnableSsl = true; 
                     smtp.Send(mail);
                 }
             }
         }
-
         private void UpdatePasswordInDatabase(string username, string newPassword)
         {
             string query = "UPDATE users SET password=@NewPassword WHERE username=@Username";
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@NewPassword", HashPassword(newPassword)), // Mã hóa mật khẩu trước khi lưu
+                new SqlParameter("@NewPassword", HashPassword(newPassword)), 
                 new SqlParameter("@Username", username)
             };
 

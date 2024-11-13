@@ -7,15 +7,15 @@ using System.Windows.Forms;
 
 namespace baitaplon
 {
-    public partial class user_page : Form
+    public partial class UserPage : Form
     {
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
         private LoginForm loginForm; // Tham chiếu đến LoginForm
         private string username;
         private int userId;
 
         // Constructor
-        public user_page(LoginForm form, string username, int userId)
+        public UserPage(LoginForm form, string username, int userId)
         {
             InitializeComponent();
             this.loginForm = form; // Gán tham chiếu
@@ -230,14 +230,14 @@ namespace baitaplon
 
         private void btnDoiMK_Click(object sender, EventArgs e)
         {
-            DoiMK doiMK = new DoiMK(this.userId); // Truyền `userId` từ `user_page` sang `DoiMK`
+            ChangePassword doiMK = new ChangePassword(this.userId); // Truyền `userId` từ `user_page` sang `DoiMK`
             doiMK.ShowDialog();
         }
 
         private void btnTaoHoaDon_Click(object sender, EventArgs e)
         {
             string currentUsername = this.username; // Sử dụng `username` đã lưu từ quá trình đăng nhập
-            TaoHoaDon taoHoaDonForm = new TaoHoaDon(currentUsername);
+            CreateInvoice taoHoaDonForm = new CreateInvoice(currentUsername);
             taoHoaDonForm.Show();
         }
     }

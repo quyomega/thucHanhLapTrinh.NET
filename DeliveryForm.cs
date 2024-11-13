@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace baitaplon
 {
-    public partial class PhieuXuatNhapKhoForm : Form
+    public partial class DeliveryForm : Form
     {
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
         private string selectedBookId;
         private string selectedUserId;
 
-        public PhieuXuatNhapKhoForm(string bookId)
+        public DeliveryForm(string bookId)
         {
             InitializeComponent();
             this.selectedBookId = bookId;

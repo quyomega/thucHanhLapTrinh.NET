@@ -12,13 +12,13 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace baitaplon
 {
-    public partial class TaoHoaDon : Form
+    public partial class CreateInvoice : Form
     {
-        private ketnoi ketNoi = new ketnoi();
+        private Connect ketNoi = new Connect();
         private string tenNhanVien;
         private string username;
 
-        public TaoHoaDon(string username)
+        public CreateInvoice(string username)
         {
             InitializeComponent();
             this.username = username;

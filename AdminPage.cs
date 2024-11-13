@@ -8,13 +8,13 @@ using System.Windows.Forms;
 //test2
 namespace baitaplon
 {
-    public partial class admin_page : Form
+    public partial class AdminPage : Form
     {
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
         private LoginForm loginForm; 
         private string selectedBookId;
 
-        public admin_page(LoginForm form)
+        public AdminPage(LoginForm form)
         {
             InitializeComponent();
             this.loginForm = form;
@@ -611,7 +611,7 @@ namespace baitaplon
         }
         private void btnThemSach_Click_1(object sender, EventArgs e)
         {
-            ThemSachForm themSachForm = new ThemSachForm();
+            AddBookForm themSachForm = new AddBookForm();
             themSachForm.ShowDialog();
         }
         private void btnPhieuXuatKho_Click(object sender, EventArgs e)
@@ -622,7 +622,7 @@ namespace baitaplon
                 return;
             }
 
-            PhieuXuatNhapKhoForm phieuXuatKhoForm = new PhieuXuatNhapKhoForm(selectedBookId);
+            DeliveryForm phieuXuatKhoForm = new DeliveryForm(selectedBookId);
             phieuXuatKhoForm.ShowDialog();
         }
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)

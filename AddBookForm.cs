@@ -5,11 +5,11 @@ using System.Windows.Forms;
 
 namespace baitaplon
 {
-    public partial class ThemSachForm : Form
+    public partial class AddBookForm : Form
     {
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
 
-        public ThemSachForm()
+        public AddBookForm()
         {
             InitializeComponent();
         }

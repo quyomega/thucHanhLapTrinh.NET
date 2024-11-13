@@ -10,7 +10,7 @@ namespace baitaplon
     public partial class RegisterForm : Form
     {
         private LoginForm _loginForm; // Tham chiếu đến LoginForm
-        private ketnoi kn = new ketnoi();
+        private Connect kn = new Connect();
 
         public RegisterForm(LoginForm loginForm) // Nhận tham chiếu từ LoginForm
         {

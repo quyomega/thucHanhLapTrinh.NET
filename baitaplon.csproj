@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoiMK.cs">
+    <Compile Include="ChangePassword.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DoiMK.Designer.cs">
-      <DependentUpon>DoiMK.cs</DependentUpon>
+    <Compile Include="ChangePassword.Designer.cs">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
     </Compile>
     <Compile Include="ForgotPasswordForm.cs">
       <SubType>Form</SubType>
@@ -59,39 +59,39 @@
     <Compile Include="ForgotPasswordForm.Designer.cs">
       <DependentUpon>ForgotPasswordForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="admin_page.cs">
+    <Compile Include="AdminPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="admin_page.Designer.cs">
-      <DependentUpon>admin_page.cs</DependentUpon>
+    <Compile Include="AdminPage.Designer.cs">
+      <DependentUpon>AdminPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="PhieuXuatNhapKhoForm.cs">
+    <Compile Include="DeliveryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PhieuXuatNhapKhoForm.Designer.cs">
-      <DependentUpon>PhieuXuatNhapKhoForm.cs</DependentUpon>
+    <Compile Include="DeliveryForm.Designer.cs">
+      <DependentUpon>DeliveryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaoHoaDon.cs">
+    <Compile Include="CreateInvoice.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TaoHoaDon.Designer.cs">
-      <DependentUpon>TaoHoaDon.cs</DependentUpon>
+    <Compile Include="CreateInvoice.Designer.cs">
+      <DependentUpon>CreateInvoice.cs</DependentUpon>
     </Compile>
-    <Compile Include="ThemSachForm.cs">
+    <Compile Include="AddBookForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ThemSachForm.Designer.cs">
-      <DependentUpon>ThemSachForm.cs</DependentUpon>
+    <Compile Include="AddBookForm.Designer.cs">
+      <DependentUpon>AddBookForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="user_page.cs">
+    <Compile Include="UserPage.cs">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="user_page.Designer.cs">
-      <DependentUpon>user_page.cs</DependentUpon>
+    <Compile Include="UserPage.Designer.cs">
+      <DependentUpon>UserPage.cs</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="ketnoi.cs" />
+    <Compile Include="Connect.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,27 +106,27 @@
     <Compile Include="RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DoiMK.resx">
-      <DependentUpon>DoiMK.cs</DependentUpon>
+    <EmbeddedResource Include="ChangePassword.resx">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ForgotPasswordForm.resx">
       <DependentUpon>ForgotPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="admin_page.resx">
-      <DependentUpon>admin_page.cs</DependentUpon>
+    <EmbeddedResource Include="AdminPage.resx">
+      <DependentUpon>AdminPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PhieuXuatNhapKhoForm.resx">
-      <DependentUpon>PhieuXuatNhapKhoForm.cs</DependentUpon>
+    <EmbeddedResource Include="DeliveryForm.resx">
+      <DependentUpon>DeliveryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TaoHoaDon.resx">
-      <DependentUpon>TaoHoaDon.cs</DependentUpon>
+    <EmbeddedResource Include="CreateInvoice.resx">
+      <DependentUpon>CreateInvoice.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ThemSachForm.resx">
-      <DependentUpon>ThemSachForm.cs</DependentUpon>
+    <EmbeddedResource Include="AddBookForm.resx">
+      <DependentUpon>AddBookForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="user_page.resx">
-      <DependentUpon>user_page.cs</DependentUpon>
+    <EmbeddedResource Include="UserPage.resx">
+      <DependentUpon>UserPage.cs</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
