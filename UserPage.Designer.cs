@@ -46,7 +46,6 @@
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnTaoHoaDon = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.cmbLocation = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtPrice = new System.Windows.Forms.TextBox();
@@ -65,15 +64,16 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.searchTimer = new System.Windows.Forms.Timer(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -88,7 +88,7 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1274, 675);
+            this.tabControl1.Size = new System.Drawing.Size(1274, 727);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -239,20 +239,20 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.btnTaoHoaDon);
-            this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Controls.Add(this.dataGridViewBooks);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage2.Size = new System.Drawing.Size(1266, 642);
+            this.tabPage2.Size = new System.Drawing.Size(1266, 694);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Danh sách sản phẩm";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // btnTaoHoaDon
             // 
-            this.btnTaoHoaDon.Location = new System.Drawing.Point(799, 461);
+            this.btnTaoHoaDon.Location = new System.Drawing.Point(1065, 364);
             this.btnTaoHoaDon.Name = "btnTaoHoaDon";
             this.btnTaoHoaDon.Size = new System.Drawing.Size(165, 54);
             this.btnTaoHoaDon.TabIndex = 7;
@@ -260,31 +260,15 @@
             this.btnTaoHoaDon.UseVisualStyleBackColor = true;
             this.btnTaoHoaDon.Click += new System.EventHandler(this.btnTaoHoaDon_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.cmbLocation);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.txtPrice);
-            this.panel1.Controls.Add(this.txtPublisher);
-            this.panel1.Controls.Add(this.txtCategory);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.txtName);
-            this.panel1.Location = new System.Drawing.Point(32, 400);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(529, 269);
-            this.panel1.TabIndex = 6;
-            // 
             // cmbLocation
             // 
+            this.cmbLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.cmbLocation.FormattingEnabled = true;
             this.cmbLocation.Items.AddRange(new object[] {
             "Tất Cả",
             "Tại Kệ",
             "Tại Kho"});
-            this.cmbLocation.Location = new System.Drawing.Point(278, 223);
+            this.cmbLocation.Location = new System.Drawing.Point(309, 252);
             this.cmbLocation.Name = "cmbLocation";
             this.cmbLocation.Size = new System.Drawing.Size(193, 28);
             this.cmbLocation.TabIndex = 7;
@@ -292,15 +276,17 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(37, 223);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label7.Location = new System.Drawing.Point(45, 260);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(171, 20);
+            this.label7.Size = new System.Drawing.Size(151, 20);
             this.label7.TabIndex = 6;
             this.label7.Text = "Tìm kiếm theo vị trí";
             // 
             // txtPrice
             // 
-            this.txtPrice.Location = new System.Drawing.Point(278, 170);
+            this.txtPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.txtPrice.Location = new System.Drawing.Point(309, 199);
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(193, 27);
             this.txtPrice.TabIndex = 5;
@@ -308,7 +294,8 @@
             // 
             // txtPublisher
             // 
-            this.txtPublisher.Location = new System.Drawing.Point(278, 122);
+            this.txtPublisher.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.txtPublisher.Location = new System.Drawing.Point(309, 151);
             this.txtPublisher.Name = "txtPublisher";
             this.txtPublisher.Size = new System.Drawing.Size(193, 27);
             this.txtPublisher.TabIndex = 5;
@@ -316,7 +303,8 @@
             // 
             // txtCategory
             // 
-            this.txtCategory.Location = new System.Drawing.Point(278, 71);
+            this.txtCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.txtCategory.Location = new System.Drawing.Point(309, 100);
             this.txtCategory.Name = "txtCategory";
             this.txtCategory.Size = new System.Drawing.Size(193, 27);
             this.txtCategory.TabIndex = 5;
@@ -325,42 +313,47 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(37, 177);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label8.Location = new System.Drawing.Point(45, 206);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(158, 20);
+            this.label8.Size = new System.Drawing.Size(141, 20);
             this.label8.TabIndex = 4;
             this.label8.Text = "Tìm kiếm theo giá";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(37, 129);
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label9.Location = new System.Drawing.Point(45, 158);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(171, 20);
+            this.label9.Size = new System.Drawing.Size(154, 20);
             this.label9.TabIndex = 4;
             this.label9.Text = "Tìm kiếm theo NXB";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(37, 78);
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label10.Location = new System.Drawing.Point(45, 107);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(195, 20);
+            this.label10.Size = new System.Drawing.Size(173, 20);
             this.label10.TabIndex = 3;
             this.label10.Text = "Tìm kiếm theo thể loại";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(37, 21);
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label11.Location = new System.Drawing.Point(45, 50);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(159, 20);
+            this.label11.Size = new System.Drawing.Size(142, 20);
             this.label11.TabIndex = 2;
             this.label11.Text = "Tìm kiếm theo tên";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(278, 14);
+            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.txtName.Location = new System.Drawing.Point(309, 43);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(193, 27);
             this.txtName.TabIndex = 1;
@@ -450,11 +443,30 @@
             // 
             this.searchTimer.Interval = 500;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.cmbLocation);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.txtPrice);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.txtPublisher);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.txtCategory);
+            this.groupBox1.Controls.Add(this.txtName);
+            this.groupBox1.Location = new System.Drawing.Point(14, 364);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(548, 307);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Tìm kiếm sản phẩm";
+            // 
             // UserPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1274, 675);
+            this.ClientSize = new System.Drawing.Size(1274, 727);
             this.Controls.Add(this.tabControl1);
             this.Name = "UserPage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -464,13 +476,13 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -493,7 +505,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnTaoHoaDon;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox cmbLocation;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtPrice;
@@ -513,5 +524,6 @@
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

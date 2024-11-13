@@ -408,9 +408,10 @@ namespace baitaplon
         {
             if (dataGridViewBooks.SelectedRows.Count > 0)
             {
-                int selectedRowIndex = dataGridViewBooks.SelectedCells[0].RowIndex;
 
-                DataGridViewRow selectedRow = dataGridViewBooks.Rows[selectedRowIndex];
+                selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
+
+                DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
 
                 txtTenSach.Text = selectedRow.Cells["book_name"].Value.ToString();
                 txtTheLoai.Text = selectedRow.Cells["category"].Value.ToString();
