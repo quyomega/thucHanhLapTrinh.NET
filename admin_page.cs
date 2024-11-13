@@ -51,6 +51,15 @@ namespace baitaplon
             tkDiaChiNV.TextChanged += StaffSearchCriteriaChanged;
             searchTimer3.Tick += searchTimer3_Tick;
 
+            tkpMaPhieu.TextChanged += DeliverySearchCriteriaChanged;
+            tkpMaSach.TextChanged += DeliverySearchCriteriaChanged;
+            tkpMaNV.TextChanged += DeliverySearchCriteriaChanged;
+            tkpSoLuong.TextChanged += DeliverySearchCriteriaChanged;
+            cmbTrangThai.SelectedIndexChanged += DeliverySearchCriteriaChanged;
+            cmbHinhThuc.SelectedIndexChanged += DeliverySearchCriteriaChanged;
+            dtpTuNgay1.ValueChanged += DeliverySearchCriteriaChanged;
+            dtpDenNgay1.ValueChanged += DeliverySearchCriteriaChanged;
+            searchTimer4.Tick += searchTimer4_Tick;
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -73,6 +82,11 @@ namespace baitaplon
             searchTimer3.Stop();
             searchTimer3.Start();
         }
+        private void DeliverySearchCriteriaChanged(object sender, EventArgs e)
+        {
+            searchTimer4.Stop();
+            searchTimer4.Start();
+        }
         private void searchTimer_Tick(object sender, EventArgs e)
         {
             searchTimer.Stop();
@@ -88,6 +102,10 @@ namespace baitaplon
         {
             searchTimer3.Stop();
             SearchStaff();
+        }private void searchTimer4_Tick(object sender, EventArgs e)
+        {
+            searchTimer4.Stop();
+            SearchDelivery();
         }
         private void LoadBooks()
         {
@@ -122,7 +140,7 @@ namespace baitaplon
             dataGridViewDelivery.DataSource = deliveryTable;
             SetDeliveryColumnHeaders();
         }
-
+//căn chỉnh dgv
         private void SetBookColumnHeaders()
         {
             dataGridViewBooks.Columns["book_id"].HeaderText = "Mã Sách";
@@ -154,7 +172,8 @@ namespace baitaplon
             dataGridViewInvoices.Columns["TongGia"].HeaderText = "Tổng Giá";
             dataGridViewInvoices.Columns["ThoiGianBan"].HeaderText = "Thời Gian";
             dataGridViewInvoices.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewInvoices.Font, FontStyle.Bold);
-            
+            dataGridViewInvoices.Columns["ThoiGianBan"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
             dataGridViewInvoices.Columns["MaHoadon"].Width = 70;
             dataGridViewInvoices.Columns["TenKhachHang"].Width = 150;
             dataGridViewInvoices.Columns["MaSach"].Width = 100;
@@ -193,6 +212,8 @@ namespace baitaplon
 
 
             dataGridViewDelivery.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridViewDelivery.Font, FontStyle.Bold);
+            dataGridViewDelivery.Columns["thoiGianTaoPhieu"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dataGridViewDelivery.Columns["thoiGianThucHien"].DefaultCellStyle.Format = "dd/MM/yyyy";
             dataGridViewDelivery.Columns["maPhieu"].Width = 80;
             dataGridViewDelivery.Columns["book_id"].Width = 100;
             dataGridViewDelivery.Columns["user_id"].Width = 100;
@@ -203,6 +224,7 @@ namespace baitaplon
             dataGridViewDelivery.Columns["hinhThuc"].Width = 80;
 
         }
+//tìm kiếm
         private void SearchBooks()
         {
             string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books WHERE 1=1";
@@ -294,7 +316,7 @@ namespace baitaplon
                 query += " AND user_id LIKE @user_id";
                 parameters2.Add(new SqlParameter("@user_id", "%" + tkMaNV.Text + "%"));
             }
-            if (!string.IsNullOrWhiteSpace(txtTenKH.Text))
+            if (!string.IsNullOrWhiteSpace(tkTenNV.Text))
             {
                 query += " AND TenNhanVien LIKE @TenNhanVien";
                 parameters2.Add(new SqlParameter("@TenNhanVien", "%" + tkTenNV.Text + "%"));
@@ -318,18 +340,74 @@ namespace baitaplon
             DataTable NhanVienTable = kn.GetDataTable(query, parameters2.ToArray());
             dataGridViewStaff.DataSource = NhanVienTable;
         }
-        private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
+        private void SearchDelivery()
         {
-            loginForm.Show();
+            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai, hinhThuc FROM PhieuXuatKho WHERE 1=1";
+            List<SqlParameter> parameters3 = new List<SqlParameter>();
+
+            if (!string.IsNullOrEmpty(tkpMaPhieu.Text))
+            {
+                query += " AND maPhieu LIKE @maPhieu";
+                parameters3.Add(new SqlParameter("@maPhieu", "%" + tkpMaPhieu.Text + "%"));
+            }
+            if (!string.IsNullOrEmpty(tkpMaSach.Text))
+            {
+                query += " AND book_id LIKE @book_id";
+                parameters3.Add(new SqlParameter("@book_id", "%" + tkpMaSach.Text + "%"));
+            }
+            if (!string.IsNullOrEmpty(tkpMaNV.Text))
+            {
+                query += " AND user_id LIKE @user_id";
+                parameters3.Add(new SqlParameter("@user_id", "%" + tkpMaNV.Text + "%"));
+            }
+            if (!string.IsNullOrEmpty(tkpSoLuong.Text))
+            {
+                query += " AND soLuong LIKE @soLuong";
+                parameters3.Add(new SqlParameter("@soLuong", "%" + tkpSoLuong.Text + "%"));
+            }
+
+            string selectedStatus = cmbTrangThai.SelectedItem?.ToString();
+            if (selectedStatus == "Đã làm")
+            {
+                query += " AND trangThai = @trangThai";
+                parameters3.Add(new SqlParameter("@trangThai", "Đã làm"));
+            }
+            else if (selectedStatus == "Chưa làm")
+            {
+                query += " AND trangThai = @trangThai";
+                parameters3.Add(new SqlParameter("@trangThai", "Chưa làm"));
+            }
+
+            string selectedshape = cmbHinhThuc.SelectedItem?.ToString();
+            if (selectedshape == "Xuất kho")
+            {
+                query += " AND hinhThuc = @hinhThuc";
+                parameters3.Add(new SqlParameter("@hinhThuc", "Xuất kho"));
+            }
+            else if (selectedshape == "Nhập kho")
+            {
+                query += " AND hinhThuc = @hinhThuc";
+                parameters3.Add(new SqlParameter("@hinhThuc", "Nhập kho"));
+            }
+
+            if (dtpTuNgay1.Value != DateTimePicker.MinimumDateTime)
+            {
+                query += " AND thoiGianTaoPhieu >= @TuNgay1";
+                parameters3.Add(new SqlParameter("@TuNgay1", dtpTuNgay1.Value));
+            }
+            if (dtpDenNgay1.Value != DateTimePicker.MinimumDateTime)
+            {
+                query += " AND thoiGianTaoPhieu<= @DenNgay1";
+                parameters3.Add(new SqlParameter("@DenNgay1", dtpDenNgay1.Value));
+            }
+            DataTable deliveryTable = kn.GetDataTable(query, parameters3.ToArray());
+            dataGridViewDelivery.DataSource = deliveryTable;
         }
+//các trỏ trang    
         private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridViewBooks.SelectedRows.Count > 0)
             {
-                //selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
-
-                //DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
-
                 int selectedRowIndex = dataGridViewBooks.SelectedCells[0].RowIndex;
 
                 DataGridViewRow selectedRow = dataGridViewBooks.Rows[selectedRowIndex];
@@ -376,7 +454,25 @@ namespace baitaplon
                 txtDiaChiNV.Text = selectedRow.Cells["Address"].Value.ToString();
             }
         }
+        private void dataGridViewDelivery_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewDelivery.SelectedCells.Count > 0)
+            {
+                int selectedRowIndex = dataGridViewDelivery.SelectedCells[0].RowIndex;
 
+                DataGridViewRow selectedRow = dataGridViewDelivery.Rows[selectedRowIndex];
+
+                txpMaPhieu.Text = selectedRow.Cells["maPhieu"].Value.ToString();
+                txpMaSach.Text = selectedRow.Cells["book_id"].Value.ToString();
+                txpMaNhanVien.Text = selectedRow.Cells["user_id"].Value.ToString();
+                dtpThoiGianTao.Text = selectedRow.Cells["thoiGianTaoPhieu"].Value.ToString();
+                dtpThoiGianThucHien.Text = selectedRow.Cells["thoiGianThucHien"].Value.ToString();
+                txpSoLuong.Text = selectedRow.Cells["soLuong"].Value.ToString();
+                txpTrangThai.Text = selectedRow.Cells["trangThai"].Value.ToString();
+                txpHinhThuc.Text = selectedRow.Cells["hinhThuc"].Value.ToString();
+            }
+        }
+//các nút
         private void btnThemNV_Click(object sender, EventArgs e)
         {
                 string maNV = txtMaNV.Text;
@@ -413,26 +509,36 @@ namespace baitaplon
                 return;
             }
 
-            string maNV = txtMaNV.Text;
-            string tenNV = txtTenNV.Text;
-            string email = txtEmailNV.Text;
-            string phone = txtSDTNV.Text;
-            string address = txtDiaChiNV.Text;
+            // Hiển thị hộp thoại xác nhận sửa
+            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn cập nhật thông tin nhân viên này?", "Xác nhận cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                string maNV = txtMaNV.Text;
+                string tenNV = txtTenNV.Text;
+                string email = txtEmailNV.Text;
+                string phone = txtSDTNV.Text;
+                string address = txtDiaChiNV.Text;
 
-            string query = "UPDATE users SET TenNhanVien = @TenNhanVien, Email = @Email, Phone = @Phone, Address = @Address WHERE user_id = @user_id";
-            List<SqlParameter> parameters = new List<SqlParameter>
-                {
-                    new SqlParameter("@user_id", maNV),
-                    new SqlParameter("@TenNhanVien", tenNV),
-                    new SqlParameter("@Email", email),
-                    new SqlParameter("@Phone", phone),
-                    new SqlParameter("@Address", address)
-                };
+                string query = "UPDATE users SET TenNhanVien = @TenNhanVien, Email = @Email, Phone = @Phone, Address = @Address WHERE user_id = @user_id";
+                List<SqlParameter> parameters = new List<SqlParameter>
+        {
+            new SqlParameter("@user_id", maNV),
+            new SqlParameter("@TenNhanVien", tenNV),
+            new SqlParameter("@Email", email),
+            new SqlParameter("@Phone", phone),
+            new SqlParameter("@Address", address)
+        };
 
-            kn.ExecuteQuery(query, parameters.ToArray());
-            MessageBox.Show("Cập nhật nhân viên thành công!");
-            LoadStaffData();
+                kn.ExecuteQuery(query, parameters.ToArray());
+                MessageBox.Show("Cập nhật nhân viên thành công!");
+                LoadStaffData();
+            }
+            else
+            {
+                MessageBox.Show("Cập nhật đã bị hủy.");
+            }
         }
+
 
         private void btnXoaNV_Click(object sender, EventArgs e)
         {
@@ -444,20 +550,33 @@ namespace baitaplon
 
             string maNV = txtMaNV.Text;
 
+            // Hiển thị hộp thoại xác nhận để nhập mã nhân viên
+            string confirmMaNV = Microsoft.VisualBasic.Interaction.InputBox(
+                "Vui lòng nhập mã nhân viên để xác nhận xóa:", "Xác Nhận Xóa", "");
+
+            // Kiểm tra nếu mã xác nhận khác mã nhân viên đang muốn xóa
+            if (confirmMaNV != maNV)
+            {
+                MessageBox.Show("Mã nhân viên xác nhận không đúng. Xóa không thành công.");
+                return;
+            }
+
+            // Hiển thị hộp thoại xác nhận xóa
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa nhân viên này?", "Xóa Nhân Viên", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 string query = "DELETE FROM users WHERE user_id = @user_id";
                 List<SqlParameter> parameters = new List<SqlParameter>
-        {
-            new SqlParameter("@user_id", maNV)
-        };
+                {
+                    new SqlParameter("@user_id", maNV)
+                };
 
                 kn.ExecuteQuery(query, parameters.ToArray());
                 MessageBox.Show("Xóa nhân viên thành công!");
-                LoadStaffData();  // Tải lại dữ liệu sau khi xóa
+                LoadStaffData();
             }
         }
+
 
         private void btnCapNhatThongTinSach_Click(object sender, EventArgs e)
         {
@@ -506,5 +625,11 @@ namespace baitaplon
             PhieuXuatNhapKhoForm phieuXuatKhoForm = new PhieuXuatNhapKhoForm(selectedBookId);
             phieuXuatKhoForm.ShowDialog();
         }
+        private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            loginForm.Show();
+        }
+
+       
     }
 }
