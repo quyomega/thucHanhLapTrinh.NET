@@ -43,6 +43,14 @@ namespace baitaplon
             dtpTuNgay.ValueChanged += InvoiceSearchCriteriaChanged;
             dtpDenNgay.ValueChanged += InvoiceSearchCriteriaChanged;
             searchTimer2.Tick += searchTimer2_Tick;
+
+            tkMaNV.TextChanged += StaffSearchCriteriaChanged;
+            tkTenNV.TextChanged += StaffSearchCriteriaChanged;
+            tkEmailNV.TextChanged += StaffSearchCriteriaChanged;
+            tkSDTNV.TextChanged += StaffSearchCriteriaChanged;
+            tkDiaChiNV.TextChanged += StaffSearchCriteriaChanged;
+            searchTimer3.Tick += searchTimer3_Tick;
+
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -60,6 +68,11 @@ namespace baitaplon
             searchTimer2.Stop();
             searchTimer2.Start();
         }
+        private void StaffSearchCriteriaChanged(object sender, EventArgs e)
+        {
+            searchTimer3.Stop();
+            searchTimer3.Start();
+        }
         private void searchTimer_Tick(object sender, EventArgs e)
         {
             searchTimer.Stop();
@@ -70,6 +83,11 @@ namespace baitaplon
         {
             searchTimer2.Stop();
             SearchInvoices();
+        }
+        private void searchTimer3_Tick(object sender, EventArgs e)
+        {
+            searchTimer3.Stop();
+            SearchStaff();
         }
         private void LoadBooks()
         {
@@ -266,6 +284,40 @@ namespace baitaplon
             DataTable HoadonTable = kn.GetDataTable(query, parameters1.ToArray());
             dataGridViewInvoices.DataSource = HoadonTable;
         }
+        private void SearchStaff()
+        {
+            string query = "SELECT user_id, TenNhanVien, Email, phone, address FROM users WHERE 1=1";
+            List<SqlParameter> parameters2 = new List<SqlParameter>();
+
+            if (!string.IsNullOrWhiteSpace(tkMaNV.Text))
+            {
+                query += " AND user_id LIKE @user_id";
+                parameters2.Add(new SqlParameter("@user_id", "%" + tkMaNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(txtTenKH.Text))
+            {
+                query += " AND TenNhanVien LIKE @TenNhanVien";
+                parameters2.Add(new SqlParameter("@TenNhanVien", "%" + tkTenNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(tkEmailNV.Text))
+            {
+                query += " AND Email LIKE @Email";
+                parameters2.Add(new SqlParameter("@Email", "%" + tkEmailNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(tkSDTNV.Text))
+            {
+                query += " AND Phone LIKE @phone";
+                parameters2.Add(new SqlParameter("@phone", "%" + tkSDTNV.Text + "%"));
+            }
+            if (!string.IsNullOrWhiteSpace(tkDiaChiNV.Text))
+            {
+                query += " AND Address LIKE @address";
+                parameters2.Add(new SqlParameter("@address", "%" + tkDiaChiNV.Text + "%"));
+            }
+
+            DataTable NhanVienTable = kn.GetDataTable(query, parameters2.ToArray());
+            dataGridViewStaff.DataSource = NhanVienTable;
+        }
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
             loginForm.Show();
@@ -274,9 +326,13 @@ namespace baitaplon
         {
             if (dataGridViewBooks.SelectedRows.Count > 0)
             {
-                selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
+                //selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
 
-                DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
+                //DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
+
+                int selectedRowIndex = dataGridViewBooks.SelectedCells[0].RowIndex;
+
+                DataGridViewRow selectedRow = dataGridViewBooks.Rows[selectedRowIndex];
 
                 txtTenSach.Text = selectedRow.Cells["book_name"].Value.ToString();
                 txtTheLoai.Text = selectedRow.Cells["category"].Value.ToString();
