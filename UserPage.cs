@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace baitaplon
@@ -25,7 +26,14 @@ namespace baitaplon
             LoadUserInfo();
             LoadBooks();
             SearchBooks();
-            txtName.TextChanged += txtSearch_TextChanged;
+
+            LoadNhapKhoData();  // Tải dữ liệu vào dgvNhapKho
+            LoadXuatKhoData();  // Tải dữ liệu vào dgvXuatKho
+
+            LoadNhapKhoData_DaLam(); 
+            LoadXuatKhoData_DaLam();
+
+            txtName.TextChanged += SearchCriteriaChanged;
             txtCategory.TextChanged += SearchCriteriaChanged;
             txtPublisher.TextChanged += SearchCriteriaChanged;
             txtPrice.TextChanged += SearchCriteriaChanged;
@@ -33,8 +41,8 @@ namespace baitaplon
             cmbLocation.SelectedIndexChanged += SearchCriteriaChanged;
             // Sự kiện Tick cho Timer tìm kiếm
             searchTimer.Tick += searchTimer_Tick;
-            dataGridViewBooks.SelectionChanged += dataGridViewBooks_SelectionChanged;
-            
+            searchTimer.Interval = 500;
+
         }
         private void searchTimer_Tick(object sender, EventArgs e)
         {
@@ -224,16 +232,6 @@ namespace baitaplon
             this.Close(); 
         }
 
-        private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnDoiMK_Click(object sender, EventArgs e)
         {
             ChangePassword doiMK = new ChangePassword(this.userId); 
@@ -246,5 +244,342 @@ namespace baitaplon
             CreateInvoice taoHoaDonForm = new CreateInvoice(currentUsername);
             taoHoaDonForm.Show();
         }
+
+        //Việc Cần làm
+        private void LoadNhapKhoData()
+        {
+            DataTable allData = kn.GetDataTable("SELECT * FROM PhieuXuatKho");
+
+            // Loại bỏ khoảng trắng ở đầu và cuối cho các cột cần thiết
+            foreach (DataRow row in allData.Rows)
+            {
+                row["trangThai"] = row["trangThai"].ToString().Trim();
+                row["hinhThuc"] = row["hinhThuc"].ToString().Trim();
+            }
+
+            // Lọc dữ liệu cho Nhập Kho theo user_id của người dùng hiện tại
+            var nhapKhoRows = allData.AsEnumerable()
+                .Where(r => r.Field<string>("trangThai") == "Chưa làm"
+                            && r.Field<string>("hinhThuc") == "Nhập kho"
+                            && r.Field<int>("user_id") == this.userId);
+
+            DataTable nhapKhoTable;
+
+            if (nhapKhoRows.Any())
+            {
+                nhapKhoTable = nhapKhoRows.CopyToDataTable();
+            }
+            else
+            {
+                // Tạo bảng trống với cùng cấu trúc nếu không có dữ liệu
+                nhapKhoTable = allData.Clone(); // Clone để lấy cấu trúc cột mà không có dữ liệu
+            }
+
+            dgvNhapKho.DataSource = nhapKhoTable;
+        }
+
+        private void btnNhapKho_Click(object sender, EventArgs e)
+        {
+            if (dgvNhapKho.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvNhapKho.SelectedRows)
+                {
+                    int maPhieu = Convert.ToInt32(row.Cells["maPhieu"].Value);
+                    int bookId = Convert.ToInt32(row.Cells["book_id"].Value);
+                    int soLuong = Convert.ToInt32(row.Cells["soLuong"].Value);
+
+                    string updatePhieuQuery = "UPDATE PhieuXuatKho SET trangThai = 'Đã làm', thoiGianThucHien = GETDATE() WHERE maPhieu = @maPhieu";
+                    SqlParameter[] phieuParams = new SqlParameter[]
+                    {
+                        new SqlParameter("@maPhieu", maPhieu)
+                    };
+                    kn.ExecuteQuery(updatePhieuQuery, phieuParams);
+
+                    string updateBooksQuery = "UPDATE books SET quantityStore = quantityStore + @soLuong WHERE book_id = @bookId";
+                    SqlParameter[] booksParams = new SqlParameter[]
+                    {
+                        new SqlParameter("@soLuong", soLuong),
+                        new SqlParameter("@bookId", bookId)
+                    };
+                    kn.ExecuteQuery(updateBooksQuery, booksParams);
+                }
+                LoadNhapKhoData(); // Tải lại dữ liệu để cập nhật trên dgvNhapKho
+                MessageBox.Show("Bạn thực hiện nhập kho thành công.");
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn phiếu nhập kho để thực hiện.");
+            }
+        }
+
+        private void LoadXuatKhoData()
+        {
+            DataTable allData = kn.GetDataTable("SELECT * FROM PhieuXuatKho");
+
+            // Loại bỏ khoảng trắng ở đầu và cuối cho các cột cần thiết
+            foreach (DataRow row in allData.Rows)
+            {
+                row["trangThai"] = row["trangThai"].ToString().Trim();
+                row["hinhThuc"] = row["hinhThuc"].ToString().Trim();
+            }
+
+            // Lọc dữ liệu cho Xuất Kho theo user_id của người dùng hiện tại
+            var xuatKhoRows = allData.AsEnumerable()
+                .Where(r => r.Field<string>("trangThai") == "Chưa làm"
+                            && r.Field<string>("hinhThuc") == "Xuất kho"
+                            && r.Field<int>("user_id") == this.userId);
+
+            DataTable xuatKhoTable;
+
+            if (xuatKhoRows.Any())
+            {
+                xuatKhoTable = xuatKhoRows.CopyToDataTable();
+            }
+            else
+            {
+                // Tạo bảng trống với cùng cấu trúc nếu không có dữ liệu
+                xuatKhoTable = allData.Clone(); // Clone để lấy cấu trúc cột mà không có dữ liệu
+            }
+
+            dgvXuatKho.DataSource = xuatKhoTable;
+        }
+
+
+        private void btnXuatKho_Click(object sender, EventArgs e)
+        {
+            if (dgvXuatKho.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvXuatKho.SelectedRows)
+                {
+                    int maPhieu = Convert.ToInt32(row.Cells["maPhieu"].Value);
+                    int bookId = Convert.ToInt32(row.Cells["book_id"].Value);
+                    int soLuong = Convert.ToInt32(row.Cells["soLuong"].Value);
+
+                    string updatePhieuQuery = "UPDATE PhieuXuatKho SET trangThai = 'Đã làm', thoiGianThucHien = GETDATE() WHERE maPhieu = @maPhieu";
+                    SqlParameter[] phieuParams = new SqlParameter[]
+                    {
+                        new SqlParameter("@maPhieu", maPhieu)
+                    };
+                    kn.ExecuteQuery(updatePhieuQuery, phieuParams);
+
+                    string updateBooksQuery = "UPDATE books SET quantityShelf = quantityShelf + @soLuong, quantityStore = quantityStore - @soLuong WHERE book_id = @bookId";
+                    SqlParameter[] booksParams = new SqlParameter[]
+                    {
+                        new SqlParameter("@soLuong", soLuong),
+                        new SqlParameter("@bookId", bookId)
+                    };
+                    kn.ExecuteQuery(updateBooksQuery, booksParams);
+                }
+                LoadXuatKhoData(); // Tải lại dữ liệu để cập nhật trên dgvXuatKho
+                MessageBox.Show("Bạn thực hiện xuất kho thành công.");
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn phiếu xuất kho để thực hiện.");
+            }
+        }
+
+        //Việc Đã làm
+        //Nhập Kho
+        private void LoadNhapKhoData_DaLam()
+        {
+            try
+            {
+                DataTable allData = kn.GetDataTable("SELECT * FROM PhieuXuatKho");
+
+                // Loại bỏ khoảng trắng ở đầu và cuối cho các cột cần thiết
+                foreach (DataRow row in allData.Rows)
+                {
+                    row["trangThai"] = row["trangThai"].ToString().Trim();
+                    row["hinhThuc"] = row["hinhThuc"].ToString().Trim();
+                }
+
+                // Lọc dữ liệu cho Nhập Kho (Đã làm) theo user_id của người dùng hiện tại
+                var nhapKhoRows = allData.AsEnumerable()
+                    .Where(r => r.Field<string>("trangThai") == "Đã làm"
+                                && r.Field<string>("hinhThuc") == "Nhập kho"
+                                && r.Field<int>("user_id") == this.userId);
+
+                DataTable nhapKhoTable;
+
+                if (nhapKhoRows.Any())
+                {
+                    nhapKhoTable = nhapKhoRows.CopyToDataTable();
+                }
+                else
+                {
+                    nhapKhoTable = allData.Clone();
+                }
+
+                dgvNhapKho2.DataSource = nhapKhoTable;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải dữ liệu Nhập Kho (Đã làm): " + ex.Message);
+            }
+        }
+
+
+        private void txtmaPhieu_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void txtmaSach_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void txtmaNV_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void dtimeTaoPhieu_ValueChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void dtimThucHien_ValueChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void txtSoLuong_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        //Xuất Kho
+        private void LoadXuatKhoData_DaLam()
+        {
+            try
+            {
+                DataTable allData = kn.GetDataTable("SELECT * FROM PhieuXuatKho");
+
+                // Loại bỏ khoảng trắng ở đầu và cuối cho các cột cần thiết
+                foreach (DataRow row in allData.Rows)
+                {
+                    row["trangThai"] = row["trangThai"].ToString().Trim();
+                    row["hinhThuc"] = row["hinhThuc"].ToString().Trim();
+                }
+
+                // Lọc dữ liệu cho Xuất Kho (Đã làm) theo user_id của người dùng hiện tại
+                var xuatKhoRows = allData.AsEnumerable()
+                    .Where(r => r.Field<string>("trangThai") == "Đã làm"
+                                && r.Field<string>("hinhThuc") == "Xuất kho"
+                                && r.Field<int>("user_id") == this.userId);
+
+                DataTable xuatKhoTable;
+
+                if (xuatKhoRows.Any())
+                {
+                    xuatKhoTable = xuatKhoRows.CopyToDataTable();
+                }
+                else
+                {
+                    xuatKhoTable = allData.Clone();
+                }
+
+                dgvXuatKho2.DataSource = xuatKhoTable;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải dữ liệu Xuất Kho (Đã làm): " + ex.Message);
+            }
+        }
+
+
+        private void txtmaPhieu2_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void txtmaSach2_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void txtMaNV2_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void dtimeTaoPhieu2_ValueChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void dtimeThucHien2_ValueChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void txtSoLuong2_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompletedTasks();
+        }
+
+        private void SearchCompletedTasks()
+        {
+            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai, hinhThuc FROM PhieuXuatKho WHERE trangThai = 'Đã làm'";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            if (!string.IsNullOrEmpty(txtmaPhieu2.Text))
+            {
+                query += " AND maPhieu = @maPhieu";
+                parameters.Add(new SqlParameter("@maPhieu", txtmaPhieu2.Text));
+            }
+            if (!string.IsNullOrEmpty(txtmaSach2.Text))
+            {
+                query += " AND book_id = @bookId";
+                parameters.Add(new SqlParameter("@bookId", txtmaSach2.Text));
+            }
+            if (!string.IsNullOrEmpty(txtMaNV2.Text))
+            {
+                query += " AND user_id = @userId";
+                parameters.Add(new SqlParameter("@userId", txtMaNV2.Text));
+            }
+            if (dtimeTaoPhieu2.Value != DateTime.MinValue)
+            {
+                query += " AND CONVERT(date, thoiGianTaoPhieu) = @thoiGianTaoPhieu";
+                parameters.Add(new SqlParameter("@thoiGianTaoPhieu", dtimeTaoPhieu2.Value.Date));
+            }
+            if (dtimeThucHien2.Value != DateTime.MinValue)
+            {
+                query += " AND CONVERT(date, thoiGianThucHien) = @thoiGianThucHien";
+                parameters.Add(new SqlParameter("@thoiGianThucHien", dtimeThucHien2.Value.Date));
+            }
+            if (!string.IsNullOrEmpty(txtSoLuong2.Text))
+            {
+                query += " AND soLuong = @soLuong";
+                parameters.Add(new SqlParameter("@soLuong", txtSoLuong2.Text));
+            }
+
+            try
+            {
+                DataTable resultTable = kn.GetDataTable(query, parameters.ToArray());
+
+                // Kiểm tra và gán dữ liệu nếu có kết quả
+                if (resultTable.Rows.Count > 0)
+                {
+                    var nhapKhoRows = resultTable.AsEnumerable().Where(r => r.Field<string>("hinhThuc") == "Nhập kho");
+                    dgvNhapKho2.DataSource = nhapKhoRows.Any() ? nhapKhoRows.CopyToDataTable() : null;
+
+                    var xuatKhoRows = resultTable.AsEnumerable().Where(r => r.Field<string>("hinhThuc") == "Xuất kho");
+                    dgvXuatKho2.DataSource = xuatKhoRows.Any() ? xuatKhoRows.CopyToDataTable() : null;
+                }
+                else
+                {
+                    dgvNhapKho2.DataSource = null;
+                    dgvXuatKho2.DataSource = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message);
+            }
+        }
+
     }
 }
