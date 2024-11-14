@@ -314,98 +314,121 @@ namespace baitaplon
                 int soLuong = int.Parse(ttSoLuong.Text);
                 string hinhThuc = ttHinhThuc.Text;
 
-                if (hinhThuc == "Xuất kho")
+                // Kiểm tra trạng thái của phiếu trong cơ sở dữ liệu
+                string checkTrangThaiQuery = "SELECT trangThai FROM PhieuXuatKho WHERE maPhieu = @maPhieu";
+                SqlParameter[] checkTrangThaiParams = { new SqlParameter("@maPhieu", maPhieu) };
+                DataTable resultTrangThai = kn.GetDataTable(checkTrangThaiQuery, checkTrangThaiParams);
+
+                if (resultTrangThai.Rows.Count > 0)
                 {
-                    try
+                    string trangThai = resultTrangThai.Rows[0]["trangThai"].ToString();
+
+                    if (trangThai != "Chưa làm")
                     {
-                        string selectQuery = "SELECT quantityStore, quantityShelf FROM books WHERE book_id = @book_id";
-                        SqlParameter[] selectParams = { new SqlParameter("@book_id", maSach) };
+                        // Nếu trạng thái không phải "Chưa làm", hiển thị thông báo và thoát
+                        MessageBox.Show("Phiếu này đã được thực hiện!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                        DataTable bookData = kn.GetDataTable(selectQuery, selectParams);
-
-                        if (bookData.Rows.Count > 0)
+                    // Nếu trạng thái là "Chưa làm", tiếp tục thực hiện thao tác
+                    if (hinhThuc == "Xuất kho")
+                    {
+                        try
                         {
-                            int quantityStore = Convert.ToInt32(bookData.Rows[0]["quantityStore"]);
-                            int quantityShelf = Convert.ToInt32(bookData.Rows[0]["quantityShelf"]);
+                            string selectQuery = "SELECT quantityStore, quantityShelf FROM books WHERE book_id = @book_id";
+                            SqlParameter[] selectParams = { new SqlParameter("@book_id", maSach) };
 
-                            if (quantityStore >= soLuong)
+                            DataTable bookData = kn.GetDataTable(selectQuery, selectParams);
+
+                            if (bookData.Rows.Count > 0)
                             {
-                                int newQuantityStore = quantityStore - soLuong;
-                                int newQuantityShelf = quantityShelf + soLuong;
+                                int quantityStore = Convert.ToInt32(bookData.Rows[0]["quantityStore"]);
+                                int quantityShelf = Convert.ToInt32(bookData.Rows[0]["quantityShelf"]);
 
-                                string updateBooksQuery = "UPDATE books SET quantityStore = @quantityStore, quantityShelf = @quantityShelf WHERE book_id = @book_id";
-                                SqlParameter[] updateBooksParams = {
-                                    new SqlParameter("@quantityStore", newQuantityStore),
-                                    new SqlParameter("@quantityShelf", newQuantityShelf),
-                                    new SqlParameter("@book_id", maSach)
-                                };
-                                kn.ExecuteQuery(updateBooksQuery, updateBooksParams);
+                                if (quantityStore >= soLuong)
+                                {
+                                    int newQuantityStore = quantityStore - soLuong;
+                                    int newQuantityShelf = quantityShelf + soLuong;
 
-                                string updatePhieuQuery = "UPDATE PhieuXuatKho SET trangThai = 'Đã làm' WHERE maPhieu = @maPhieu";
-                                SqlParameter[] updatePhieuParams = { new SqlParameter("@maPhieu", maPhieu) };
-                                kn.ExecuteQuery(updatePhieuQuery, updatePhieuParams);
+                                    string updateBooksQuery = "UPDATE books SET quantityStore = @quantityStore, quantityShelf = @quantityShelf WHERE book_id = @book_id";
+                                    SqlParameter[] updateBooksParams = {
+                                new SqlParameter("@quantityStore", newQuantityStore),
+                                new SqlParameter("@quantityShelf", newQuantityShelf),
+                                new SqlParameter("@book_id", maSach)
+                            };
+                                    kn.ExecuteQuery(updateBooksQuery, updateBooksParams);
 
-                                MessageBox.Show("Thao tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    string updatePhieuQuery = "UPDATE PhieuXuatKho SET trangThai = 'Đã làm' WHERE maPhieu = @maPhieu";
+                                    SqlParameter[] updatePhieuParams = { new SqlParameter("@maPhieu", maPhieu) };
+                                    kn.ExecuteQuery(updatePhieuQuery, updatePhieuParams);
 
-                                LoadToDoList();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Số lượng trong kho không đủ để xuất!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Thao tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    LoadToDoList();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Số lượng trong kho không đủ để xuất!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
-                    catch (Exception ex)
+                    else // Thực hiện nhập kho
                     {
-                        MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        try
+                        {
+                            string selectQuery = "SELECT quantityStore, quantityShelf FROM books WHERE book_id = @book_id";
+                            SqlParameter[] selectParams = { new SqlParameter("@book_id", maSach) };
+
+                            DataTable bookData = kn.GetDataTable(selectQuery, selectParams);
+
+                            if (bookData.Rows.Count > 0)
+                            {
+                                int quantityStore = Convert.ToInt32(bookData.Rows[0]["quantityStore"]);
+                                int quantityShelf = Convert.ToInt32(bookData.Rows[0]["quantityShelf"]);
+
+                                if (quantityStore >= soLuong)
+                                {
+                                    int newQuantityStore = quantityStore + soLuong;
+                                    int newQuantityShelf = quantityShelf - soLuong;
+
+                                    string updateBooksQuery = "UPDATE books SET quantityStore = @quantityStore, quantityShelf = @quantityShelf WHERE book_id = @book_id";
+                                    SqlParameter[] updateBooksParams = {
+                                new SqlParameter("@quantityStore", newQuantityStore),
+                                new SqlParameter("@quantityShelf", newQuantityShelf),
+                                new SqlParameter("@book_id", maSach)
+                            };
+                                    kn.ExecuteQuery(updateBooksQuery, updateBooksParams);
+
+                                    SqlParameter[] updatePhieuParams = { new SqlParameter("@maPhieu", maPhieu) };
+
+                                    MessageBox.Show("Thao tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    LoadToDoList();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Đã vượt quá số lượng trên kệ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
                 else
                 {
-                    try
-                    {
-                        string selectQuery = "SELECT quantityStore, quantityShelf FROM books WHERE book_id = @book_id";
-                        SqlParameter[] selectParams = { new SqlParameter("@book_id", maSach) };
-
-                        DataTable bookData = kn.GetDataTable(selectQuery, selectParams);
-
-                        if (bookData.Rows.Count > 0)
-                        {
-                            int quantityStore = Convert.ToInt32(bookData.Rows[0]["quantityStore"]);
-                            int quantityShelf = Convert.ToInt32(bookData.Rows[0]["quantityShelf"]);
-
-                            if (quantityStore >= soLuong)
-                            {
-                                int newQuantityStore = quantityStore + soLuong;
-                                int newQuantityShelf = quantityShelf - soLuong;
-
-                                string updateBooksQuery = "UPDATE books SET quantityStore = @quantityStore, quantityShelf = @quantityShelf WHERE book_id = @book_id";
-                                SqlParameter[] updateBooksParams = {
-                                    new SqlParameter("@quantityStore", newQuantityStore),
-                                    new SqlParameter("@quantityShelf", newQuantityShelf),
-                                    new SqlParameter("@book_id", maSach)
-                                };
-                                kn.ExecuteQuery(updateBooksQuery, updateBooksParams);
-
-                                SqlParameter[] updatePhieuParams = { new SqlParameter("@maPhieu", maPhieu) };
-
-                                MessageBox.Show("Thao tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                LoadToDoList();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Đã vượt quá số lượng trên kệ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show("Không tìm thấy phiếu này!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
+
         private void btnLogout_Click_1(object sender, EventArgs e)
         {
             loginForm.Show();
