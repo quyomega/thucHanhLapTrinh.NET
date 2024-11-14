@@ -59,7 +59,7 @@
             this.btnTaoHoaDon = new System.Windows.Forms.Button();
             this.dataGridViewBooks = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.dgvViecCanLam = new System.Windows.Forms.DataGridView();
+            this.dgvToDoList = new System.Windows.Forms.DataGridView();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.searchTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -82,7 +82,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvViecCanLam)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvToDoList)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -405,7 +405,8 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.dgvViecCanLam);
+            this.tabPage3.Controls.Add(this.dgvToDoList);
+            this.tabPage3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -414,15 +415,15 @@
             this.tabPage3.Text = "Việc cần làm";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // dgvViecCanLam
+            // dgvToDoList
             // 
-            this.dgvViecCanLam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvViecCanLam.Location = new System.Drawing.Point(23, 18);
-            this.dgvViecCanLam.Name = "dgvViecCanLam";
-            this.dgvViecCanLam.RowHeadersWidth = 51;
-            this.dgvViecCanLam.RowTemplate.Height = 24;
-            this.dgvViecCanLam.Size = new System.Drawing.Size(1150, 289);
-            this.dgvViecCanLam.TabIndex = 0;
+            this.dgvToDoList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvToDoList.Location = new System.Drawing.Point(23, 18);
+            this.dgvToDoList.Name = "dgvToDoList";
+            this.dgvToDoList.RowHeadersWidth = 51;
+            this.dgvToDoList.RowTemplate.Height = 24;
+            this.dgvToDoList.Size = new System.Drawing.Size(1150, 289);
+            this.dgvToDoList.TabIndex = 0;
             // 
             // tabPage6
             // 
@@ -598,7 +599,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBooks)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvViecCanLam)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvToDoList)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -639,7 +640,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.DataGridView dgvViecCanLam;
+        private System.Windows.Forms.DataGridView dgvToDoList;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox slTaiKho;

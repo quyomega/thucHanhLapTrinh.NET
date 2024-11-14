@@ -22,6 +22,7 @@ namespace baitaplon
             this.userId = userId;
             LoadUserInfo();
             LoadBooks();
+            LoadToDoList();
             SearchBooks();
             SetupEventHandlers();
         }
@@ -84,10 +85,23 @@ namespace baitaplon
             dataGridViewBooks.DataSource = booksTable;
 
             SetBookColumnHeaders();
-            
-
         }
-//căn chỉnh dgv
+        private void LoadToDoList()
+        {
+            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai, hinhThuc FROM PhieuXuatKho WHERE user_id = @userId";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@userId", this.userId)
+            };
+
+            DataTable todolistTable = kn.GetDataTable(query, parameters);
+            dgvToDoList.DataSource = todolistTable;
+
+            ToDoListColumnHeaders();
+        }
+
+        //căn chỉnh dgv
         private void SetBookColumnHeaders()
         {
             dataGridViewBooks.Columns["book_id"].HeaderText = "Mã Sách";
@@ -111,8 +125,31 @@ namespace baitaplon
             dataGridViewBooks.Columns["quantityShelf"].Width = 130;
             dataGridViewBooks.Columns["quantityStore"].Width = 140;
         }
-            
-//Hàm tìm kiếm
+        private void ToDoListColumnHeaders()
+        {
+            dgvToDoList.Columns["maPhieu"].HeaderText = "Mã Phiếu";
+            dgvToDoList.Columns["book_id"].HeaderText = "Mã Sách";
+            dgvToDoList.Columns["user_id"].Visible = false;
+            dgvToDoList.Columns["thoiGianTaoPhieu"].HeaderText = "Lúc Tạo Phiếu";
+            dgvToDoList.Columns["thoiGianThucHien"].Visible = false;
+            dgvToDoList.Columns["soLuong"].HeaderText = "Số Lượng";
+            dgvToDoList.Columns["trangThai"].Visible = false;
+            dgvToDoList.Columns["hinhThuc"].HeaderText = "Hình Thức";
+
+            dgvToDoList.ColumnHeadersDefaultCellStyle.Font = new Font(dgvToDoList.Font, FontStyle.Bold);
+            dgvToDoList.RowHeadersVisible = false;
+            dgvToDoList.AllowUserToResizeColumns = false;
+            dgvToDoList.AllowUserToResizeRows = false;
+
+            dgvToDoList.Columns["maPhieu"].Width = 171;
+            dgvToDoList.Columns["book_id"].Width = 171;
+            dgvToDoList.Columns["thoiGianTaoPhieu"].Width = 171;
+            dgvToDoList.Columns["soLuong"].Width = 171;
+            dgvToDoList.Columns["hinhThuc"].Width = 171;
+
+        }
+
+        //Hàm tìm kiếm
         private void SearchBooks()
         {
             string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books WHERE 1=1";
