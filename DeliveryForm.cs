@@ -33,12 +33,9 @@ namespace baitaplon
         }
         private void LoadHinhThucData()
         {
-            // Thêm các giá trị vào ComboBox
             cmbHinhThuc.Items.Add("Xuất kho");
             cmbHinhThuc.Items.Add("Nhập kho");
-
-            // Chọn giá trị mặc định nếu có
-            cmbHinhThuc.SelectedIndex = 0; // Chọn "Bán" làm mặc định
+            cmbHinhThuc.SelectedIndex = 0; 
         }
 
         private void SetDateTimePickerReadOnly()
@@ -108,11 +105,9 @@ namespace baitaplon
 
             object thoiGianThucHien = DBNull.Value;
 
-            string trangThai = "Chưa làm";
-
             string query = "INSERT INTO PhieuXuatKho (book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, hinhThuc, trangThai) " +
                            "VALUES (@book_id, @user_id, @thoiGianTaoPhieu, @thoiGianThucHien, @soLuong, @hinhThuc, @trangThai)";
-
+            
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@book_id", maSach),
@@ -121,7 +116,8 @@ namespace baitaplon
                 new SqlParameter("@thoiGianThucHien", thoiGianThucHien),
                 new SqlParameter("@soLuong", soLuong),
                 new SqlParameter("@hinhThuc", hinhThuc),
-                new SqlParameter("@trangThai", trangThai)  
+                new SqlParameter("@trangThai", "Chưa làm")
+
             };
             kn.ExecuteQuery(query, parameters.ToArray());
             if(hinhThuc == "Nhập kho")
@@ -134,6 +130,7 @@ namespace baitaplon
                 MessageBox.Show("Phiếu xuất kho đã được tạo thành công!");
 
             }
+
             this.Close();
         }
         private void PhieuXuatKhoForm_Load(object sender, EventArgs e)

@@ -35,6 +35,9 @@ namespace baitaplon
             cmbLocation.SelectedIndexChanged += SearchCriteriaChanged;
             searchTimer.Tick += searchTimer_Tick;
             dataGridViewBooks.SelectionChanged += dataGridViewBooks_SelectionChanged;
+
+            dgvToDoList.SelectionChanged += dgvToDoList_SelectionChanged;
+
         }
         private void SearchCriteriaChanged(object sender, EventArgs e)
         {
@@ -88,17 +91,26 @@ namespace baitaplon
         }
         private void LoadToDoList()
         {
-            string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai, hinhThuc FROM PhieuXuatKho WHERE user_id = @userId";
-
-            SqlParameter[] parameters = new SqlParameter[]
+            try
             {
-                new SqlParameter("@userId", this.userId)
-            };
+                string query = "SELECT maPhieu, book_id, user_id, thoiGianTaoPhieu, thoiGianThucHien, soLuong, trangThai, hinhThuc " +
+                               "FROM PhieuXuatKho " +
+                               "WHERE user_id = @userId ";
+                //AND trangThai = 'Chưa làm'
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@userId", this.userId)
+                };
 
-            DataTable todolistTable = kn.GetDataTable(query, parameters);
-            dgvToDoList.DataSource = todolistTable;
+                DataTable todolistTable = kn.GetDataTable(query, parameters);
+                dgvToDoList.DataSource = todolistTable;
 
-            ToDoListColumnHeaders();
+                ToDoListColumnHeaders();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải danh sách: " + ex.Message);
+            }
         }
 
         //căn chỉnh dgv
@@ -133,7 +145,7 @@ namespace baitaplon
             dgvToDoList.Columns["thoiGianTaoPhieu"].HeaderText = "Lúc Tạo Phiếu";
             dgvToDoList.Columns["thoiGianThucHien"].Visible = false;
             dgvToDoList.Columns["soLuong"].HeaderText = "Số Lượng";
-            dgvToDoList.Columns["trangThai"].Visible = false;
+            dgvToDoList.Columns["trangThai"].HeaderText = "Trạng Thái";
             dgvToDoList.Columns["hinhThuc"].HeaderText = "Hình Thức";
 
             dgvToDoList.ColumnHeadersDefaultCellStyle.Font = new Font(dgvToDoList.Font, FontStyle.Bold);
@@ -141,15 +153,16 @@ namespace baitaplon
             dgvToDoList.AllowUserToResizeColumns = false;
             dgvToDoList.AllowUserToResizeRows = false;
 
-            dgvToDoList.Columns["maPhieu"].Width = 171;
-            dgvToDoList.Columns["book_id"].Width = 171;
-            dgvToDoList.Columns["thoiGianTaoPhieu"].Width = 171;
-            dgvToDoList.Columns["soLuong"].Width = 171;
-            dgvToDoList.Columns["hinhThuc"].Width = 171;
+            dgvToDoList.Columns["maPhieu"].Width = 170;
+            dgvToDoList.Columns["book_id"].Width = 140;
+            dgvToDoList.Columns["thoiGianTaoPhieu"].Width = 170;
+            dgvToDoList.Columns["soLuong"].Width = 110;
+            dgvToDoList.Columns["trangThai"].Width = 120;
+            dgvToDoList.Columns["hinhThuc"].Width = 147;
 
         }
 
-        //Hàm tìm kiếm
+//Hàm tìm kiếm
         private void SearchBooks()
         {
             string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books WHERE 1=1";
@@ -196,11 +209,7 @@ namespace baitaplon
             }
         }
 
-        private void btnLogout_Click_1(object sender, EventArgs e)
-        {
-            loginForm.Show(); 
-            this.Close(); 
-        }
+        
 //Con trỏ của dataDridView
         private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
         {
@@ -220,6 +229,24 @@ namespace baitaplon
 
             }
         }
+        private void dgvToDoList_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvToDoList.SelectedRows.Count > 0)
+            {
+
+                int selectedRowIndex = dgvToDoList.SelectedCells[0].RowIndex;
+
+                DataGridViewRow selectedRow = dgvToDoList.Rows[selectedRowIndex];
+
+                ttMaPhieu.Text = selectedRow.Cells["maPhieu"].Value.ToString();
+                ttMaSach.Text = selectedRow.Cells["book_id"].Value.ToString();
+                dtpThoiGianTao.Text = selectedRow.Cells["thoiGianTaoPhieu"].Value.ToString();
+                ttSoLuong.Text = selectedRow.Cells["soLuong"].Value.ToString();
+                ttHinhThuc.Text = selectedRow.Cells["hinhThuc"].Value.ToString();
+
+            }
+        }
+//Các nút
         private void btnDoiMK_Click(object sender, EventArgs e)
         {
             ChangePassword doiMK = new ChangePassword(this.userId); 
@@ -236,7 +263,6 @@ namespace baitaplon
         {
             loginForm.Show();
         }
-//Các nút
         private void btnUpdate_Click_1(object sender, EventArgs e)
         {
             string email = txtEmail.Text.Trim();
@@ -275,6 +301,75 @@ namespace baitaplon
             {
                 MessageBox.Show("Lỗi khi cập nhật thông tin: " + ex.Message);
             }
+        }
+
+        private void btnThucHien_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn thực hiện thao tác này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                string maPhieu = ttMaPhieu.Text;
+                string maSach = ttMaSach.Text;
+                int soLuong = int.Parse(ttSoLuong.Text);
+                string hinhThuc = ttHinhThuc.Text;
+
+                if (hinhThuc == "Xuất kho")
+                {
+                    try
+                    {
+                        string selectQuery = "SELECT quantityStore, quantityShelf FROM books WHERE book_id = @book_id";
+                        SqlParameter[] selectParams = { new SqlParameter("@book_id", maSach) };
+
+                        DataTable bookData = kn.GetDataTable(selectQuery, selectParams);
+
+                        if (bookData.Rows.Count > 0)
+                        {
+                            int quantityStore = Convert.ToInt32(bookData.Rows[0]["quantityStore"]);
+                            int quantityShelf = Convert.ToInt32(bookData.Rows[0]["quantityShelf"]);
+
+                            if (quantityStore >= soLuong)
+                            {
+                                int newQuantityStore = quantityStore - soLuong;
+                                int newQuantityShelf = quantityShelf + soLuong;
+
+                                string updateBooksQuery = "UPDATE books SET quantityStore = @quantityStore, quantityShelf = @quantityShelf WHERE book_id = @book_id";
+                                SqlParameter[] updateBooksParams = {
+                                    new SqlParameter("@quantityStore", newQuantityStore),
+                                    new SqlParameter("@quantityShelf", newQuantityShelf),
+                                    new SqlParameter("@book_id", maSach)
+                                };
+                                kn.ExecuteQuery(updateBooksQuery, updateBooksParams);
+
+                                string updatePhieuQuery = "UPDATE PhieuXuatKho SET trangThai = 'Đã làm' WHERE maPhieu = @maPhieu";
+                                SqlParameter[] updatePhieuParams = { new SqlParameter("@maPhieu", maPhieu) };
+                                kn.ExecuteQuery(updatePhieuQuery, updatePhieuParams);
+
+                                MessageBox.Show("Thao tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                LoadToDoList();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Số lượng trong kho không đủ để xuất!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Hình thức không hợp lệ để thực hiện thao tác!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+        private void btnLogout_Click_1(object sender, EventArgs e)
+        {
+            loginForm.Show();
+            this.Close();
         }
     }
 }
