@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace baitaplon
 {
     public partial class AdminPage : Form
@@ -12,6 +13,7 @@ namespace baitaplon
         private Connect kn = new Connect();
         private LoginForm loginForm; 
         private string selectedBookId;
+        private string selectedInvoiceId;
 
         public AdminPage(LoginForm form)
         {
@@ -105,6 +107,7 @@ namespace baitaplon
             searchTimer4.Stop();
             SearchDelivery();
         }
+// phương thức tải trang
         private void LoadBooks()
         {
             string query = "SELECT book_id, book_name, category, publishing, price, quantityShelf, quantityStore FROM books";
@@ -388,15 +391,16 @@ namespace baitaplon
             DataTable deliveryTable = kn.GetDataTable(query, parameters3.ToArray());
             dataGridViewDelivery.DataSource = deliveryTable;
         }
-//các trỏ trang    
+//các trỏ của dataDridView
         private void dataGridViewBooks_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridViewBooks.SelectedRows.Count > 0)
             {
-
                 selectedBookId = dataGridViewBooks.SelectedRows[0].Cells["book_id"].Value.ToString();
 
-                DataGridViewRow selectedRow = dataGridViewBooks.SelectedRows[0];
+                int selectedRowIndex = dataGridViewBooks.SelectedCells[0].RowIndex;
+
+                DataGridViewRow selectedRow = dataGridViewBooks.Rows[selectedRowIndex];
 
                 txtTenSach.Text = selectedRow.Cells["book_name"].Value.ToString();
                 txtTheLoai.Text = selectedRow.Cells["category"].Value.ToString();
@@ -411,6 +415,8 @@ namespace baitaplon
         {
             if (dataGridViewInvoices.SelectedCells.Count > 0)
             {
+                selectedInvoiceId = dataGridViewInvoices.SelectedRows[0].Cells["MaHoaDon"].Value.ToString();
+
                 int selectedRowIndex = dataGridViewInvoices.SelectedCells[0].RowIndex;
 
                 DataGridViewRow selectedRow = dataGridViewInvoices.Rows[selectedRowIndex];
@@ -492,7 +498,6 @@ namespace baitaplon
                 return;
             }
 
-            // Hiển thị hộp thoại xác nhận sửa
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn cập nhật thông tin nhân viên này?", "Xác nhận cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -504,13 +509,13 @@ namespace baitaplon
 
                 string query = "UPDATE users SET TenNhanVien = @TenNhanVien, Email = @Email, Phone = @Phone, Address = @Address WHERE user_id = @user_id";
                 List<SqlParameter> parameters = new List<SqlParameter>
-        {
-            new SqlParameter("@user_id", maNV),
-            new SqlParameter("@TenNhanVien", tenNV),
-            new SqlParameter("@Email", email),
-            new SqlParameter("@Phone", phone),
-            new SqlParameter("@Address", address)
-        };
+                {
+                    new SqlParameter("@user_id", maNV),
+                    new SqlParameter("@TenNhanVien", tenNV),
+                    new SqlParameter("@Email", email),
+                    new SqlParameter("@Phone", phone),
+                    new SqlParameter("@Address", address)
+                };
 
                 kn.ExecuteQuery(query, parameters.ToArray());
                 MessageBox.Show("Cập nhật nhân viên thành công!");
@@ -533,18 +538,15 @@ namespace baitaplon
 
             string maNV = txtMaNV.Text;
 
-            // Hiển thị hộp thoại xác nhận để nhập mã nhân viên
             string confirmMaNV = Microsoft.VisualBasic.Interaction.InputBox(
                 "Vui lòng nhập mã nhân viên để xác nhận xóa:", "Xác Nhận Xóa", "");
 
-            // Kiểm tra nếu mã xác nhận khác mã nhân viên đang muốn xóa
             if (confirmMaNV != maNV)
             {
                 MessageBox.Show("Mã nhân viên xác nhận không đúng. Xóa không thành công.");
                 return;
             }
 
-            // Hiển thị hộp thoại xác nhận xóa
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa nhân viên này?", "Xóa Nhân Viên", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
@@ -613,6 +615,52 @@ namespace baitaplon
             loginForm.Show();
         }
 
-       
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            txtName.Clear();
+            txtCategory.Clear();
+            txtPublisher.Clear();
+            txtPrice.Clear();
+            cmbLocation.SelectedIndex = -1;
+        }
+
+        private void btnLamMoi1_Click(object sender, EventArgs e)
+        {
+            txtMaHoaDon.Clear();
+            txtTenKH.Clear();
+            txtTenNhanVien.Clear();
+            txtTongGia.Clear();
+        }
+
+        private void btnLamMoi2_Click(object sender, EventArgs e)
+        {
+            tkMaNV.Clear();
+            tkTenNV.Clear();
+            tkEmailNV.Clear();
+            tkSDTNV.Clear();
+            tkDiaChiNV.Clear();
+        }
+
+        private void btnLamMoi3_Click(object sender, EventArgs e)
+        {
+            tkpMaPhieu.Clear();
+            tkpMaSach.Clear();
+            tkpMaNV.Clear();
+            tkpSoLuong.Clear();
+            cmbTrangThai.SelectedIndex = -1;
+            cmbHinhThuc.SelectedIndex = -1;
+        }
+
+        private void btnXemChiTiet_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedInvoiceId))
+            {
+                MessageBox.Show("Vui lòng chọn một hóa đơn từ danh sách.");
+                return;
+            }
+            InvoiceDetailsForm chiTietHoaDonForm = new InvoiceDetailsForm(selectedInvoiceId);
+            chiTietHoaDonForm.ShowDialog();
+        }
+
     }
 }

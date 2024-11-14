@@ -83,6 +83,12 @@
     <Compile Include="AddBookForm.Designer.cs">
       <DependentUpon>AddBookForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InvoiceDetailsForm.Designer.cs">
+      <DependentUpon>InvoiceDetailsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserPage.cs">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -124,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddBookForm.resx">
       <DependentUpon>AddBookForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InvoiceDetailsForm.resx">
+      <DependentUpon>InvoiceDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserPage.resx">
       <DependentUpon>UserPage.cs</DependentUpon>
