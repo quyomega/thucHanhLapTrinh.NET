@@ -362,7 +362,47 @@ namespace baitaplon
                 }
                 else
                 {
-                    MessageBox.Show("Hình thức không hợp lệ để thực hiện thao tác!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    try
+                    {
+                        string selectQuery = "SELECT quantityStore, quantityShelf FROM books WHERE book_id = @book_id";
+                        SqlParameter[] selectParams = { new SqlParameter("@book_id", maSach) };
+
+                        DataTable bookData = kn.GetDataTable(selectQuery, selectParams);
+
+                        if (bookData.Rows.Count > 0)
+                        {
+                            int quantityStore = Convert.ToInt32(bookData.Rows[0]["quantityStore"]);
+                            int quantityShelf = Convert.ToInt32(bookData.Rows[0]["quantityShelf"]);
+
+                            if (quantityStore >= soLuong)
+                            {
+                                int newQuantityStore = quantityStore + soLuong;
+                                int newQuantityShelf = quantityShelf - soLuong;
+
+                                string updateBooksQuery = "UPDATE books SET quantityStore = @quantityStore, quantityShelf = @quantityShelf WHERE book_id = @book_id";
+                                SqlParameter[] updateBooksParams = {
+                                    new SqlParameter("@quantityStore", newQuantityStore),
+                                    new SqlParameter("@quantityShelf", newQuantityShelf),
+                                    new SqlParameter("@book_id", maSach)
+                                };
+                                kn.ExecuteQuery(updateBooksQuery, updateBooksParams);
+
+                                SqlParameter[] updatePhieuParams = { new SqlParameter("@maPhieu", maPhieu) };
+
+                                MessageBox.Show("Thao tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                LoadToDoList();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Đã vượt quá số lượng trên kệ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
