@@ -196,6 +196,22 @@
             this.label64 = new System.Windows.Forms.Label();
             this.tyMaYeuCau = new System.Windows.Forms.TextBox();
             this.label65 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label66 = new System.Windows.Forms.Label();
+            this.label67 = new System.Windows.Forms.Label();
+            this.label68 = new System.Windows.Forms.Label();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label69 = new System.Windows.Forms.Label();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label70 = new System.Windows.Forms.Label();
+            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+            this.button4 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -217,6 +233,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvRequestBuyBooks)).BeginInit();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -226,6 +244,7 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.cmpTrangThai);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -1900,6 +1919,7 @@
             this.btnXacNhanMua.TabIndex = 17;
             this.btnXacNhanMua.Text = "Xác nhận mua";
             this.btnXacNhanMua.UseVisualStyleBackColor = true;
+            this.btnXacNhanMua.Click += new System.EventHandler(this.btnXacNhanMua_Click);
             // 
             // textBox5
             // 
@@ -1973,6 +1993,174 @@
             this.label65.TabIndex = 19;
             this.label65.Text = "Mã yêu cầu";
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button4);
+            this.tabPage2.Controls.Add(this.groupBox11);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1273, 814);
+            this.tabPage2.TabIndex = 11;
+            this.tabPage2.Text = "Quản lý thu chi";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label66.Location = new System.Drawing.Point(49, 171);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(210, 20);
+            this.label66.TabIndex = 0;
+            this.label66.Text = "Doanh thu đến từ bán sách";
+            // 
+            // label67
+            // 
+            this.label67.AutoSize = true;
+            this.label67.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label67.Location = new System.Drawing.Point(49, 247);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(197, 20);
+            this.label67.TabIndex = 0;
+            this.label67.Text = "Các khoản chi nhập sách";
+            // 
+            // label68
+            // 
+            this.label68.AutoSize = true;
+            this.label68.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label68.Location = new System.Drawing.Point(49, 335);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(166, 20);
+            this.label68.TabIndex = 3;
+            this.label68.Text = "Các chi phí phát sinh";
+            // 
+            // textBox7
+            // 
+            this.textBox7.Enabled = false;
+            this.textBox7.Location = new System.Drawing.Point(307, 164);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(289, 27);
+            this.textBox7.TabIndex = 4;
+            // 
+            // textBox8
+            // 
+            this.textBox8.Enabled = false;
+            this.textBox8.Location = new System.Drawing.Point(307, 240);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(289, 27);
+            this.textBox8.TabIndex = 4;
+            // 
+            // textBox9
+            // 
+            this.textBox9.Enabled = false;
+            this.textBox9.Location = new System.Drawing.Point(307, 328);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(289, 27);
+            this.textBox9.TabIndex = 4;
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.button1.Location = new System.Drawing.Point(618, 328);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(109, 27);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Xem chi tiết";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.dateTimePicker3);
+            this.groupBox11.Controls.Add(this.label70);
+            this.groupBox11.Controls.Add(this.dateTimePicker2);
+            this.groupBox11.Controls.Add(this.label69);
+            this.groupBox11.Controls.Add(this.textBox7);
+            this.groupBox11.Controls.Add(this.button3);
+            this.groupBox11.Controls.Add(this.button2);
+            this.groupBox11.Controls.Add(this.button1);
+            this.groupBox11.Controls.Add(this.label66);
+            this.groupBox11.Controls.Add(this.textBox9);
+            this.groupBox11.Controls.Add(this.textBox8);
+            this.groupBox11.Controls.Add(this.label68);
+            this.groupBox11.Controls.Add(this.label67);
+            this.groupBox11.Location = new System.Drawing.Point(259, 149);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(789, 429);
+            this.groupBox11.TabIndex = 6;
+            this.groupBox11.TabStop = false;
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.button2.Location = new System.Drawing.Point(618, 240);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(109, 27);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Xem chi tiết";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.button3.Location = new System.Drawing.Point(618, 164);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(109, 27);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "Xem chi tiết";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // label69
+            // 
+            this.label69.AutoSize = true;
+            this.label69.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label69.Location = new System.Drawing.Point(49, 61);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(162, 20);
+            this.label69.TabIndex = 6;
+            this.label69.Text = "Các khoản thu chi từ";
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.dateTimePicker2.CustomFormat = "\"dd/MM/yyyy\"";
+            this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker2.Location = new System.Drawing.Point(239, 54);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(188, 27);
+            this.dateTimePicker2.TabIndex = 7;
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label70.Location = new System.Drawing.Point(466, 61);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(36, 20);
+            this.label70.TabIndex = 9;
+            this.label70.Text = "đến";
+            // 
+            // dateTimePicker3
+            // 
+            this.dateTimePicker3.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.dateTimePicker3.CustomFormat = "\"dd/MM/yyyy\"";
+            this.dateTimePicker3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker3.Location = new System.Drawing.Point(539, 54);
+            this.dateTimePicker3.Name = "dateTimePicker3";
+            this.dateTimePicker3.Size = new System.Drawing.Size(188, 27);
+            this.dateTimePicker3.TabIndex = 10;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(1061, 689);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(163, 82);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Xuất hóa đơn";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // AdminPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2014,6 +2202,9 @@
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2187,6 +2378,22 @@
         private System.Windows.Forms.Label label64;
         private System.Windows.Forms.TextBox tyMaYeuCau;
         private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label label67;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

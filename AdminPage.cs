@@ -731,6 +731,9 @@ namespace baitaplon
             chiTietHoaDonForm.ShowDialog();
         }
 
-        
+        private void btnXacNhanMua_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
