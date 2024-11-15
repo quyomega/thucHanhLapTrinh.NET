@@ -192,9 +192,9 @@
             this.label62 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.label63 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.tyMaNhanVien = new System.Windows.Forms.TextBox();
             this.label64 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.tyMaYeuCau = new System.Windows.Forms.TextBox();
             this.label65 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -1651,8 +1651,10 @@
             this.dgvRequestBuyBooks.Name = "dgvRequestBuyBooks";
             this.dgvRequestBuyBooks.RowHeadersWidth = 51;
             this.dgvRequestBuyBooks.RowTemplate.Height = 24;
+            this.dgvRequestBuyBooks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRequestBuyBooks.Size = new System.Drawing.Size(1236, 291);
             this.dgvRequestBuyBooks.TabIndex = 0;
+            this.dgvRequestBuyBooks.SelectionChanged += new System.EventHandler(this.dgvRequestBuyBooks_SelectionChanged);
             // 
             // dtpThoiGianTaoYC
             // 
@@ -1703,7 +1705,7 @@
             // tyTenSach
             // 
             this.tyTenSach.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.tyTenSach.Location = new System.Drawing.Point(235, 148);
+            this.tyTenSach.Location = new System.Drawing.Point(235, 164);
             this.tyTenSach.Name = "tyTenSach";
             this.tyTenSach.Size = new System.Drawing.Size(188, 27);
             this.tyTenSach.TabIndex = 12;
@@ -1742,7 +1744,7 @@
             // 
             this.label48.AutoSize = true;
             this.label48.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label48.Location = new System.Drawing.Point(58, 155);
+            this.label48.Location = new System.Drawing.Point(58, 167);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(78, 20);
             this.label48.TabIndex = 8;
@@ -1750,11 +1752,11 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.textBox7);
+            this.groupBox9.Controls.Add(this.tyMaNhanVien);
             this.groupBox9.Controls.Add(this.tyTenSach);
             this.groupBox9.Controls.Add(this.label64);
             this.groupBox9.Controls.Add(this.dtpThoiGianTaoYC);
-            this.groupBox9.Controls.Add(this.textBox8);
+            this.groupBox9.Controls.Add(this.tyMaYeuCau);
             this.groupBox9.Controls.Add(this.label65);
             this.groupBox9.Controls.Add(this.label48);
             this.groupBox9.Controls.Add(this.label21);
@@ -1892,9 +1894,9 @@
             // 
             // btnXacNhanMua
             // 
-            this.btnXacNhanMua.Location = new System.Drawing.Point(1130, 742);
+            this.btnXacNhanMua.Location = new System.Drawing.Point(1079, 742);
             this.btnXacNhanMua.Name = "btnXacNhanMua";
-            this.btnXacNhanMua.Size = new System.Drawing.Size(124, 62);
+            this.btnXacNhanMua.Size = new System.Drawing.Size(175, 62);
             this.btnXacNhanMua.TabIndex = 17;
             this.btnXacNhanMua.Text = "Xác nhận mua";
             this.btnXacNhanMua.UseVisualStyleBackColor = true;
@@ -1935,13 +1937,13 @@
             this.label63.TabIndex = 17;
             this.label63.Text = "Theo tên nhân viên";
             // 
-            // textBox7
+            // tyMaNhanVien
             // 
-            this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.textBox7.Location = new System.Drawing.Point(235, 102);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(188, 27);
-            this.textBox7.TabIndex = 22;
+            this.tyMaNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.tyMaNhanVien.Location = new System.Drawing.Point(235, 102);
+            this.tyMaNhanVien.Name = "tyMaNhanVien";
+            this.tyMaNhanVien.Size = new System.Drawing.Size(188, 27);
+            this.tyMaNhanVien.TabIndex = 22;
             // 
             // label64
             // 
@@ -1953,13 +1955,13 @@
             this.label64.TabIndex = 21;
             this.label64.Text = "Tên nhân viên";
             // 
-            // textBox8
+            // tyMaYeuCau
             // 
-            this.textBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.textBox8.Location = new System.Drawing.Point(235, 42);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(188, 27);
-            this.textBox8.TabIndex = 20;
+            this.tyMaYeuCau.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.tyMaYeuCau.Location = new System.Drawing.Point(235, 42);
+            this.tyMaYeuCau.Name = "tyMaYeuCau";
+            this.tyMaYeuCau.Size = new System.Drawing.Size(188, 27);
+            this.tyMaYeuCau.TabIndex = 20;
             // 
             // label65
             // 
@@ -2181,9 +2183,9 @@
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox tyMaNhanVien;
         private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox tyMaYeuCau;
         private System.Windows.Forms.Label label65;
     }
 }

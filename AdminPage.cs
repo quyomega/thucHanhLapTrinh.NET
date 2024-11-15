@@ -61,6 +61,7 @@ namespace baitaplon
             dtpTuNgay1.ValueChanged += DeliverySearchCriteriaChanged;
             dtpDenNgay1.ValueChanged += DeliverySearchCriteriaChanged;
             searchTimer4.Tick += searchTimer4_Tick;
+
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -512,6 +513,23 @@ namespace baitaplon
                 txpHinhThuc.Text = selectedRow.Cells["hinhThuc"].Value.ToString();
             }
         }
+        private void dgvRequestBuyBooks_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvRequestBuyBooks.SelectedCells.Count > 0)
+            {
+                int selectedRowIndex = dgvRequestBuyBooks.SelectedCells[0].RowIndex;
+
+                DataGridViewRow selectedRow = dgvRequestBuyBooks.Rows[selectedRowIndex];
+
+                tyMaYeuCau.Text = selectedRow.Cells["request_id"].Value.ToString();
+                tyMaNhanVien.Text = selectedRow.Cells["user_id"].Value.ToString();
+                tyTenSach.Text = selectedRow.Cells["book_name"].Value.ToString();
+                tyTheLoai.Text = selectedRow.Cells["category"].Value.ToString();
+                tyNhaXuatBan.Text = selectedRow.Cells["publishing"].Value.ToString();
+                tySoLuong.Text = selectedRow.Cells["quantity"].Value.ToString();
+                dtpThoiGianTaoYC.Text = selectedRow.Cells["timeRequest"].Value.ToString();
+            }
+        }
 //các nút
         private void btnThemNV_Click(object sender, EventArgs e)
         {
@@ -713,5 +731,6 @@ namespace baitaplon
             chiTietHoaDonForm.ShowDialog();
         }
 
+        
     }
 }
