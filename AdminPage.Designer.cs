@@ -1829,7 +1829,6 @@
             // 
             this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.dateTimePicker1.CustomFormat = "\"dd/MM/yyyy\"";
-            this.dateTimePicker1.Enabled = false;
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(233, 385);
@@ -1863,9 +1862,9 @@
             this.label51.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label51.Location = new System.Drawing.Point(62, 333);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(104, 20);
+            this.label51.Size = new System.Drawing.Size(114, 20);
             this.label51.TabIndex = 7;
-            this.label51.Text = "heo số lượng";
+            this.label51.Text = "Theo số lượng";
             // 
             // textBox2
             // 
