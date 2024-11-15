@@ -434,5 +434,50 @@ namespace baitaplon
             loginForm.Show();
             this.Close();
         }
+
+        private void btnTaoYeuCau_Click(object sender, EventArgs e)
+        {
+            string bookName = tyTenSach.Text;
+            string category = tyTheLoai.Text;
+            string publishing = tyNhaXuatBan.Text;
+            int quantity;
+
+            if (!int.TryParse(tySoLuong.Text, out quantity))
+            {
+                MessageBox.Show("Vui lòng nhập số lượng hợp lệ.");
+                return;
+            }
+
+            DateTime timeRequest = dtpThoiGianTaoYC.Value;
+
+            string query = "INSERT INTO YeuCauMuaSach (book_name, category, publishing, quantity, timeRequest, user_id) " +
+                           "VALUES (@bookName, @category, @publishing, @quantity, @timeRequest, @userId)";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@bookName", bookName),
+        new SqlParameter("@category", category),
+        new SqlParameter("@publishing", publishing),
+        new SqlParameter("@quantity", quantity),
+        new SqlParameter("@timeRequest", timeRequest),  
+        new SqlParameter("@userId", userId) 
+            };
+
+            try
+            {
+                kn.ExecuteQuery(query, parameters);
+
+                MessageBox.Show("Thêm yêu cầu mua sách thành công!");
+                tyTenSach.Clear();
+                tyTheLoai.Clear();
+                tyNhaXuatBan.Clear();
+                tySoLuong.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
+        }
+
     }
 }

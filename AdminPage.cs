@@ -24,6 +24,7 @@ namespace baitaplon
             LoadStaffData();
             LoadDeliveryData();
             SetupEventHandlers();
+            loadfRequestBuyBooks();
         }
 
         private void SetupEventHandlers()
@@ -142,6 +143,13 @@ namespace baitaplon
             dataGridViewDelivery.DataSource = deliveryTable;
             SetDeliveryColumnHeaders();
         }
+        private void loadfRequestBuyBooks()
+        {
+            string query = "SELECT request_id, user_id, book_name, category, publishing, quantity,  timeRequest FROM YeuCauMuaSach";
+            DataTable requestTable = kn.GetDataTable(query);
+            dgvRequestBuyBooks.DataSource = requestTable;
+            SetRequestColumnHeaders();
+        }
 //căn chỉnh dgv
         private void SetBookColumnHeaders()
         {
@@ -236,6 +244,32 @@ namespace baitaplon
             dataGridViewDelivery.Columns["hinhThuc"].Width = 110;
 
         }
+        private void SetRequestColumnHeaders()
+        {
+            dgvRequestBuyBooks.Columns["request_id"].HeaderText = "Mã yêu cầu";
+            dgvRequestBuyBooks.Columns["user_id"].HeaderText = "Mã nhân viên";
+            dgvRequestBuyBooks.Columns["book_name"].HeaderText = "Tên sách";
+            dgvRequestBuyBooks.Columns["category"].HeaderText = "Thể loại";
+            dgvRequestBuyBooks.Columns["publishing"].HeaderText = "Nhà xuất bản";
+            dgvRequestBuyBooks.Columns["quantity"].HeaderText = "Số lượng";
+            dgvRequestBuyBooks.Columns["timeRequest"].HeaderText = "Lúc tạo phiếu";
+
+            dgvRequestBuyBooks.ColumnHeadersDefaultCellStyle.Font = new Font(dgvRequestBuyBooks.Font, FontStyle.Bold);
+            dgvRequestBuyBooks.Columns["timeRequest"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dgvRequestBuyBooks.RowHeadersVisible = false;
+            dgvRequestBuyBooks.AllowUserToResizeColumns = false;
+            dgvRequestBuyBooks.AllowUserToResizeRows = false;
+
+            dgvRequestBuyBooks.Columns["request_id"].Width = 140;
+            dgvRequestBuyBooks.Columns["user_id"].Width = 135;
+            dgvRequestBuyBooks.Columns["book_name"].Width = 123;
+            dgvRequestBuyBooks.Columns["category"].Width = 95;
+            dgvRequestBuyBooks.Columns["publishing"].Width = 140;
+            dgvRequestBuyBooks.Columns["quantity"].Width = 140;
+            dgvRequestBuyBooks.Columns["timeRequest"].Width = 145;
+
+        }
+        
 //Hàm tìm kiếm
         private void SearchBooks()
         {
